@@ -1,0 +1,524 @@
+@font-face { 
+  font-family: DinLight; src: url('fonts/din-light.ttf');
+   } 
+
+hr{
+
+  height:50px;
+  color:red;
+}
+#first{
+
+  color:white;
+  margin-left: -14px;
+  margin-right: -14px;
+  margin-top: 1px;
+
+}
+
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+  color:red;
+  font-family: DinLight;
+  font-size:15px;
+
+
+}
+
+
+.navbar .nav > li > a {
+   
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    color: red;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 17px;
+}
+
+a:hover { 
+  cursor:pointer;
+
+   }
+.navbar .navbar-collapse {
+  text-align: center;
+  background-color: #2F2E2E;
+  color:red;
+
+
+}
+
+
+
+#second{
+  margin: 1px;
+  margin-top: -14px;
+  text-align: center;
+
+  
+  }
+
+#second #logo{
+
+  width:300px;
+  height: 250px;
+  margin-top: 50px;
+  margin-bottom: 0px;
+  display:inline-block;
+}
+
+#third{
+  font-family: DinLight;
+  margin: 1px;
+  margin-top: -40px;
+  text-align: center;
+  
+  }
+
+#fourth{
+  font-family: DinLight;
+
+  margin-top: 50px;
+  text-align: center;
+  
+}
+
+
+
+#fifth{
+  font-family: DinLight;
+  margin: 1px;
+  font-size: 18px;
+  margin-top: -40px;
+
+  
+  }
+
+#studentdiv{
+
+
+display:inline-block;
+margin-left: 435px;
+
+}
+
+#teacherdiv{
+
+
+display:inline-block;
+margin-left: 243px;
+}
+
+
+#sixth{
+  font-family: DinLight;
+  margin: 1px;
+  margin-top: 150px;
+  text-align: center;
+  float:bottom;
+  
+  }
+
+
+  #first >ul >li >a {
+    color:red;
+  }
+
+  .btn-custom {
+  background-color: hsl(360, 2%, 19%) !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#656161", endColorstr="#312f2f");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#656161), to(#312f2f));
+  background-image: -moz-linear-gradient(top, #656161, #312f2f);
+  background-image: -ms-linear-gradient(top, #656161, #312f2f);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #656161), color-stop(100%, #312f2f));
+  background-image: -webkit-linear-gradient(top, #656161, #312f2f);
+  background-image: -o-linear-gradient(top, #656161, #312f2f);
+  background-image: linear-gradient(#656161, #312f2f);
+  border-color: #312f2f #312f2f hsl(360, 2%, 14%);
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.33);
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  width: 1000px;
+  height: 200px;
+  
+
+}
+
+#dashone{
+
+  margin-left: 20px;
+}
+#dashrow{
+
+  margin-top: 20px;
+  margin-left: 5px;
+}
+
+.dashact{
+  text-align: center;
+  opacity:0.8;
+  width:295px;
+  background-color: black;
+  margin:10px;
+  margin-left: 11px;
+  padding:10px;
+  margin-right: 10px;
+  color:white;
+}
+
+#createbtn{
+  
+  float:right;
+  width:200px;
+}
+
+#dashtwo{
+
+  margin-left: 170px;
+}
+
+#activityform{
+  margin: 20px;
+  
+}
+
+
+#moduleform{
+  margin: 20px;
+  
+}
+
+#mod{
+
+text-align: center;
+}
+
+#profileform{
+  margin: 20px;
+
+  
+}
+
+#sessionquest{
+height : 550px;
+margin-left: 70px;
+margin-top:20px;
+border: 1px solid black;
+text-align: center;
+}
+
+
+#sessionfirst{
+
+margin-left:60px;
+
+text-align: center;
+
+}
+
+#questlist{
+    height: auto;
+    max-height: 500px;
+    overflow-x: hidden;
+    padding:0px;
+}
+
+#sessionsec{
+
+  margin-left:60px;
+  margin-top:20px;
+  width:;
+ 
+  text-align: center;
+}
+
+#sessionadmin{
+  border:1px solid black;
+  margin-bottom: 20px;
+  height: 255px;
+}
+
+#sessionresponse{
+  height:275px;
+  
+}
+
+.qbtn{
+   
+  
+  text-align: center;
+  
+  background-color: black;
+  border:1px solid white;
+  color:white;
+}
+
+.qbtn2{
+   
+  width : 60px;
+  text-align: center;
+  margin-left: 10px;
+  background-color: black;
+  border:1px solid white;
+  color:white;
+}
+
+.sqbtn{
+   
+  
+  text-align: center;
+  
+  background-color: black;
+  border:1px solid white;
+  color:white;
+}
+
+
+
+#sessionthird{
+
+
+ height :100%;
+ border-right : 1px solid black;
+
+  }
+
+
+#sessionfourth{
+ height : 100%;
+
+
+  }
+
+#actadmin {
+   width : 100%;
+   margin : 0px;
+   font-size: 13px;
+   padding:10px;
+
+
+  }
+
+.admin{
+
+  color :grey;
+  height : 100%;
+  padding:4px;
+ } 
+
+ #qdisplay {
+  color:grey;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 250px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#qdisplaynum{
+
+ margin-right: 240px;
+}
+
+.questitem{
+  text-align: center;
+  color :grey;
+  height : 100%;
+  padding:0px;
+ } 
+
+ #qviewmain {
+  border:1px solid grey;
+  height: auto;
+  height: 190px;
+  overflow-x: hidden;
+  text-align:left;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+  color:grey;
+  padding:10px;
+ }
+
+ #addquest{
+ height : 100%;
+ padding:0px;
+ border:1px solid black;
+ margin:0px;
+
+  }
+
+  #control{
+ height : 100%;
+ border-top: 1px solid black;
+ border-bottom : 1px solid black;
+
+  }
+
+  #response{
+ height : 100%;
+ border:1px solid black;
+
+  }
+
+  
+
+  #addquestbtn{
+   
+  width : 60px;
+  text-align: center;
+  background-color: black;
+  margin-top:-15px;
+  margin-bottom: 5px;
+  border:1px solid white;
+  color:white;
+}
+
+#addquestion{
+
+  color:grey;
+}
+
+#addqtextarea{
+  padding:0px;
+  width:210px;
+  height: 180px;
+  resize:none;
+}
+
+#respbutton{
+  width : 150px;
+  text-align: center;
+  background-color: black;
+  margin-top:5px;
+  margin-bottom: 0px;
+  border:1px solid white;
+  color:white;
+}
+
+#notibutton{
+  width : 150px;
+  text-align: center;
+  background-color: black;
+  margin-top:5px;
+  margin-bottom: 0px;
+  border:1px solid white;
+  color:white;
+}
+
+#togglestatus{
+  width : 150px;
+  text-align: center;
+  background-color: black;
+  margin-top:20px;
+  margin-bottom: 0px;
+  border:1px solid white;
+  color:white;
+}
+
+#feedbackarea{
+  padding:0px;
+  width:210px;
+  height: 45px;
+  resize:none;
+  margin-top: 20px;
+
+}
+
+#submitfeed{
+  width : 150px;
+  text-align: center;
+  background-color: black;
+  margin-top:0px;
+  margin-bottom: 0px;
+  border:1px solid white;
+  color:white;
+
+}
+
+#ulnoti{
+    height: auto;
+    max-height: 100px;
+    overflow-x: hidden;
+    padding:0px;
+}
+
+#linoti{
+  border-bottom: 1px solid black;
+}
+
+#addrtextarea{
+  border:1px solid grey;
+  width:325px;
+  height: 150px;
+  overflow-x: hidden;
+  margin-top: 10px;
+  margin-bottom: -10px;
+  text-align:left;
+  color:grey;
+  padding:10px;
+
+}
+
+#saverespbtn{
+ width : 100px;
+  text-align: center;
+  background-color: black;
+  margin-top:0px;
+  margin-bottom: 10px;
+  border:1px solid white;
+  color:white;
+}
+
+#attachrespbtn{
+ width : 100px;
+  text-align: center;
+  background-color: black;
+  margin-top:0px;
+  margin-bottom: 0px;
+  border:1px solid white;
+  color:white;
+}
+
+#submitrespbtn{
+ width : 100px;
+  text-align: center;
+  background-color: black;
+  margin-top:0px;
+  margin-bottom: 0px;
+  border:1px solid white;
+  color:white;
+}
+
+#viewfeedbtn{
+  width : 150px;
+  text-align: center;
+  background-color: black;
+  margin-top:0px;
+  margin-bottom: 0px;
+  border:1px solid white;
+  color:white;
+
+}
+
+#resplist{
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    padding:0px;
+}
+
+#peerresplist{
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    padding:0px;
+}
+
+

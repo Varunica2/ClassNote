@@ -1,0 +1,9 @@
+{
+  "name": "ArApp",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+  }
+}

@@ -1,0 +1,43 @@
+<template name="notebook_main">
+    <div>
+      {{> getNoteBooks}}
+    </div>
+    <hr/>
+    <div>
+      {{#each notebookSet}}
+        {{> notebook_template}}
+      {{/each}}
+    </div>
+    <hr/>
+    <div>
+      {{#each studentSet}}
+        {{> student_template}}
+      {{/each}}
+    </div>
+    <hr/>
+    <div>
+      {{#each sectionSet}}
+        {{> section_template}}
+      {{/each}}
+    </div>
+</template>
+
+<template name="user_template">
+  <p><b>Created Date : </b> {{createdDate}} <b>Status : </b>{{status}} <b>Token : </b> {{token}}</p>
+</template>
+
+<template name="getNoteBooks">
+  <button>Get My Notebooks</button>
+</template>
+
+<template name="notebook_template">
+  <p id="{{rawId}}" >ID : {{rawId}} Name : {{name}} </p>
+</template>
+
+<template name="student_template">
+  <p id="{{rawId}}" >ID : {{rawId}} Name : {{name}} </p>
+</template>
+
+<template name="section_template">
+  <p id="{{rawId}}" >ID : {{rawId}} Name : {{name}}</p>
+</template>

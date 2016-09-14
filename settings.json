@@ -1,0 +1,7 @@
+{
+  "galaxy.meteor.com": { 
+     "env": { 
+       "MONGO_URL": "mongodb://aceit:aceit@ds023435.mlab.com:23435/aceit" 
+     } 
+   }
+}
