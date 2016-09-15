@@ -51,12 +51,29 @@
 <template name="sectionGrp_template">
   <p id="{{_id}}" >ID : {{rawId}} Name : {{name}} {{_id}}</p>
   <div style="color:red">
-  {{#each sectionSet _id}}
-    {{> section_template }}
-  {{/each}}
+  <ul>
+    {{#each sectionSet _id}}
+      {{> section_template }}
+    {{/each}}
+  </ul>
   </div>
 </template>
 
 <template name="section_template">
-  <p id="{{_id}}"> {{rawId}} {{name}}</p>
+  <li>
+    <p id="{{_id}}"> {{rawId}} {{name}}</p>
+    <div style="color:blue">
+    <ul>
+      {{#each pageSet _id}}
+        {{> pages_template }}
+      {{/each}}
+    </ul>
+    </div>
+  </li>
+</template>
+
+<template name="pages_template">
+  <li>
+    <p id="{{_id}}"> {{rawId}} {{title}}</p>
+  </li>
 </template>

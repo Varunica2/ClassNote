@@ -99,6 +99,12 @@ Template.section_template.events({
   }
 });
 
+Template.section_template.helpers({
+  pageSet : function (parentIdInput) {
+    return PagesDB.find({parentId : parentIdInput});
+  }
+});
+
 
 function renderCode(){
   var fullUrl = window.location.href;
