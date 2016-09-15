@@ -57,7 +57,7 @@ Template.notebook_template.events({
     //add events
     var code =   Session.get("accessToken");
     Meteor.call('getStudents', code, id);
-    Meteor.call('getNotebookSections', code, id);
+    Meteor.call('getNotebookSectionGroups', code, id);
   },
 });
 
@@ -65,13 +65,17 @@ Template.notebook_template.helpers({
 
 });
 
-Template.section_template.events({
+Template.sectionGrp_template.events({
   'click p'(event, instance) {
     var paragraph = event.currentTarget;
     var id = paragraph.id;
-    //add events
-    var code =   Session.get("accessToken");
-    //Meteor.call('getNotebookSectionPages', code, selfLink);
+    var sections = SectionsDB.find({_id:id}).fetch();
+    if(sections.length == 1){
+      var code =   Session.get("accessToken");
+      Meteor.call('getSectionGroupSections', code, sections[0]["self"]);
+    }else{
+      alert("problem detected");
+    }
   }
 });
 

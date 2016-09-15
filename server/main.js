@@ -41,8 +41,8 @@ Meteor.methods({
       }
     });
   },
-  getNotebookSections:function (code, notebookId) {
-    Meteor.call('API_getNoteBookSection', code, notebookId, function(err, result){
+  getNotebookSectionGroups:function (code, notebookId) {
+    Meteor.call('API_getNoteBookSectionGroups', code, notebookId, function(err, result){
       SectionsDB.remove({});
       if(result["statusCode"] == 200){
         var values = EJSON.parse(result["content"])["value"];
@@ -53,6 +53,11 @@ Meteor.methods({
           SectionsDB.insert({rawId: id, name: name, self: self});
         }
       }
+    });
+  },
+  getSectionGroupSections:function(code, selfLink){
+    Meteor.call('API_getSectionGroupSections', code, selfLink, function(err, result){
+      console.log(result);
     });
   },
   getNotebookSectionPages:function(code, selfLink){

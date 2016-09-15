@@ -81,12 +81,30 @@ Meteor.methods({
       return e;
     }
   },
-  API_getNoteBookSection:function(a_token, notebookId){
+  API_getNoteBookSectionGroups:function(a_token, notebookId){
     var tokenString = "Bearer ".concat(a_token);
-    console.log("--getNoteBookSection-- " + notebookId);
+    console.log("--getNoteBookSectionGroups-- " + notebookId);
     var data = {};
     try {
       var link = "https://www.onenote.com/api/v1.0/me/notes/notebooks/"+notebookId+"/sectionGroups?expand=sections";
+      data = HTTP.get( link, {
+        headers : {
+                   'Authorization': tokenString
+        }
+      });
+      console.log("success");
+      return data;
+    }catch(e){
+      console.log("fail");
+      return e;
+    }
+  },
+  API_getSectionGroupSections:function(a_token, selfLink){
+    var tokenString = "Bearer ".concat(a_token);
+    console.log("--getSectionGroupSections-- " + selfLink);
+    var data = {};
+    try {
+      var link = selfLink+"/sections";
       data = HTTP.get( link, {
         headers : {
                    'Authorization': tokenString

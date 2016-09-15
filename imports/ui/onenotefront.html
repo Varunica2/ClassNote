@@ -4,20 +4,30 @@
     </div>
     <hr/>
     <div>
+      <h4>All notebooks</h4>
       {{#each notebookSet}}
         {{> notebook_template}}
       {{/each}}
     </div>
     <hr/>
     <div>
+      <h4>students in notebook</h4>
       {{#each studentSet}}
         {{> student_template}}
       {{/each}}
     </div>
     <hr/>
     <div>
+      <h4>sections for notebook</h4>
       {{#each sectionSet}}
-        {{> section_template}}
+        {{> sectionGrp_template}}
+      {{/each}}
+    </div>
+    <hr/>
+    <div>
+      <h4>pages in selected section</h4>
+      {{#each pageSet}}
+        {{> page_template}}
       {{/each}}
     </div>
 </template>
@@ -38,6 +48,6 @@
   <p id="{{rawId}}" >ID : {{rawId}} Name : {{name}} </p>
 </template>
 
-<template name="section_template">
-  <p id="{{rawId}}" >ID : {{rawId}} Name : {{name}}</p>
+<template name="sectionGrp_template">
+  <p id="{{_id}}" >ID : {{rawId}} Name : {{name}}</p>
 </template>
