@@ -1,5 +1,5 @@
 import './onenotefront.html';
-import { NotebooksDB, StudentsDB, SectionsDB } from '../api/mongoRelations.js';
+import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB } from '../api/mongoRelations.js';
 
 function guidGenerator() {
     var S4 = function() {
@@ -33,6 +33,9 @@ Template.notebook_main.helpers({
   },
   studentSet() {
     return StudentsDB.find({});
+  },
+  sectionGrpSet() {
+    return SectionsGrpDB.find({});
   },
   sectionSet() {
     return SectionsDB.find({});
@@ -69,7 +72,7 @@ Template.sectionGrp_template.events({
   'click p'(event, instance) {
     var paragraph = event.currentTarget;
     var id = paragraph.id;
-    var sections = SectionsDB.find({_id:id}).fetch();
+    var sections = SectionsGrpDB.find({_id:id}).fetch();
     if(sections.length == 1){
       var code =   Session.get("accessToken");
       Meteor.call('getSectionGroupSections', code, sections[0]["self"]);
@@ -78,6 +81,7 @@ Template.sectionGrp_template.events({
     }
   }
 });
+
 
 function renderCode(){
   var fullUrl = window.location.href;

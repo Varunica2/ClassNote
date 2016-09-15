@@ -19,8 +19,13 @@
     <hr/>
     <div>
       <h4>sections for notebook</h4>
-      {{#each sectionSet}}
+      {{#each sectionGrpSet}}
         {{> sectionGrp_template}}
+        <div style="color:red">
+        {{#each sectionSet}}
+          {{> setion_template}}
+        {{/each}}
+        </div>
       {{/each}}
     </div>
     <hr/>
@@ -50,4 +55,8 @@
 
 <template name="sectionGrp_template">
   <p id="{{_id}}" >ID : {{rawId}} Name : {{name}}</p>
+</template>
+
+<template name="setion_template">
+  <p>section</p>
 </template>
