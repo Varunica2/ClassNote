@@ -55,7 +55,7 @@ Meteor.methods({
       }
     });
   },
-  getSectionGroupSections:function(code, selfLink){
+  getSectionGroupSections:function(code, selfLink, parent_id){
     Meteor.call('API_getSectionGroupSections', code, selfLink, function(err, result){
       if(result["statusCode"] == 200){
         var values = EJSON.parse(result["content"])["value"];
@@ -63,7 +63,7 @@ Meteor.methods({
           var id = values[i]["id"];
           var name = values[i]["name"];
           var self = values[i]["self"];
-          SectionsDB.insert({rawId: id, name: name, self: self});
+          SectionsDB.insert({rawId: id, name: name, self: self, parentId : parent_id});
         }
       }
     });

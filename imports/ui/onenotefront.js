@@ -36,9 +36,6 @@ Template.notebook_main.helpers({
   },
   sectionGrpSet() {
     return SectionsGrpDB.find({});
-  },
-  sectionSet() {
-    return SectionsDB.find({});
   }
 });
 
@@ -75,10 +72,16 @@ Template.sectionGrp_template.events({
     var sections = SectionsGrpDB.find({_id:id}).fetch();
     if(sections.length == 1){
       var code =   Session.get("accessToken");
-      Meteor.call('getSectionGroupSections', code, sections[0]["self"]);
+      Meteor.call('getSectionGroupSections', code, sections[0]["self"], sections[0]["_id"]);
     }else{
       alert("problem detected");
     }
+  }
+});
+
+Template.sectionGrp_template.helpers({
+  sectionSet : function (parentIdInput) {
+    return SectionsDB.find({parentId : parentIdInput});
   }
 });
 
