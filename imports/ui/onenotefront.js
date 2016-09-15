@@ -1,5 +1,5 @@
 import './onenotefront.html';
-import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB } from '../api/mongoRelations.js';
+import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB, PagesDB } from '../api/mongoRelations.js';
 
 function guidGenerator() {
     var S4 = function() {
@@ -69,10 +69,10 @@ Template.sectionGrp_template.events({
   'click p'(event, instance) {
     var paragraph = event.currentTarget;
     var id = paragraph.id;
-    var sections = SectionsGrpDB.find({_id:id}).fetch();
+    var sectionsGrp = SectionsGrpDB.find({_id:id}).fetch();
     if(sections.length == 1){
       var code =   Session.get("accessToken");
-      Meteor.call('getSectionGroupSections', code, sections[0]["self"], sections[0]["_id"]);
+      Meteor.call('getSectionGroupSections', code, sectionsGrp[0]["self"], sectionsGrp[0]["_id"]);
     }else{
       alert("problem detected");
     }
@@ -82,6 +82,20 @@ Template.sectionGrp_template.events({
 Template.sectionGrp_template.helpers({
   sectionSet : function (parentIdInput) {
     return SectionsDB.find({parentId : parentIdInput});
+  }
+});
+
+Template.section_template.events({
+  'click p'(event, instance) {
+    var paragraph = event.currentTarget;
+    var id = paragraph.id;
+    var sections = SectionsDB.find({_id:id}).fetch();
+    if(sections.length == 1){
+      var code =   Session.get("accessToken");
+      Meteor.call('getNotebookSectionPages', code, sections[0]["self"], sections[0]["_id"]);
+    }else{
+      alert("problem detected");
+    }
   }
 });
 

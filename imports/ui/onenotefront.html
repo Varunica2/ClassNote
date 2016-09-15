@@ -52,11 +52,11 @@
   <p id="{{_id}}" >ID : {{rawId}} Name : {{name}} {{_id}}</p>
   <div style="color:red">
   {{#each sectionSet _id}}
-    {{> setion_template }}
+    {{> section_template }}
   {{/each}}
   </div>
 </template>
 
-<template name="setion_template">
-  <p>{{_id}} {{name}}</p>
+<template name="section_template">
+  <p id="{{_id}}"> {{rawId}} {{name}}</p>
 </template>
