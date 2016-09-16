@@ -130,6 +130,25 @@ Template.pageContent_template.helpers({
   }
 });
 
+Template.pageContent_template.events({
+  'click button'(event, instance) {
+    var button = event.currentTarget;
+    var id = button.id;
+    var pageContent = PagesContentDB.find({_id:id}).fetch();
+    if(pageContent.length == 1){
+      var code =   Session.get("accessToken");
+      var content = [{
+        'target': '#commentArea',
+        'action': 'append',
+        'content': '<p>A new paragraph at the bottom of the container #commentArea</p>'
+      }];
+      Meteor.call('patchPageContent', code, pageContent[0]["pageId"], JSON.stringify(content));
+    }else{
+      alert("problem detected");
+    }
+  }
+});
+
 
 
 function renderCode(){

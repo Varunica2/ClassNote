@@ -153,14 +153,14 @@ Meteor.methods({
       return e;
     }
   },
-  API_updateScoreAndComments:function(a_token, pageLink, contentUpdate){
+  API_updateScoreAndComments:function(a_token, pageId, contentUpdate){
     var tokenString = "Bearer ".concat(a_token);
-    console.log("--updateScore-- " + pageLink);
+    console.log("--updateScore-- " + pageId);
     var data = {};
     try {
       //notes/pages/id/content
-      var link = pageLink+"/content";
-      data = HTTP.call("POST", link, {
+      var link = "https://www.onenote.com/api/v1.0/me/notes/pages/"+pageId+"/content";
+      data = HTTP.call("PATCH", link, {
         headers : {
                    'Authorization': tokenString,
                    'Content-Type':'application/json'

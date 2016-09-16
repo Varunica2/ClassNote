@@ -84,8 +84,16 @@ Meteor.methods({
   getPageContent:function(code, pageId, selfLink, parent_id){
     Meteor.call('API_getNoteBookSectionPageContent', code, selfLink, function(err, result){
       if(result["statusCode"] == 200){
+        PagesContentDB.remove({});
         var contentIn = result["content"];
         PagesContentDB.insert({content : contentIn, parentId : parent_id, pageId : pageId})
+      }
+    });
+  },
+  patchPageContent:function(code, pageId, contentIn){
+    Meteor.call('API_updateScoreAndComments', code, pageId, contentIn, function(err, result){
+      if(result["statusCode"] == 200){
+
       }
     });
   }
