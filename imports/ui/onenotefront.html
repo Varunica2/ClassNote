@@ -30,6 +30,10 @@
         {{> page_template}}
       {{/each}}
     </div>
+    <hr/>
+    <div style="position:relative">
+      {{> pageContent_template}}
+    </div>
 </template>
 
 <template name="user_template">
@@ -76,4 +80,13 @@
   <li>
     <p id="{{_id}}"> {{rawId}} {{title}}</p>
   </li>
+</template>
+
+<template name="pageContent_template">
+  <div>
+    {{#each page}}
+    <p>Selected page {{_id}}</p>
+    <div>{{{content}}}</div>
+    {{/each}}
+  </div>
 </template>

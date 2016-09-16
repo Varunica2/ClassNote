@@ -4,6 +4,7 @@ export const StudentsDB = new Mongo.Collection('students');
 export const SectionsGrpDB = new Mongo.Collection('nb_sectionGrps');
 export const SectionsDB = new Mongo.Collection('nb_sections');
 export const PagesDB = new Mongo.Collection('nb_pages');
+export const PagesContentDB = new Mongo.Collection('nb_page_content');
 
 if (Meteor.isServer) {
   Meteor.publish('notebooks', function notebooksPublication() {
@@ -21,10 +22,14 @@ if (Meteor.isServer) {
   Meteor.publish('nb_pages', function pagesPublication() {
       return PagesDB.find();
   });
+  Meteor.publish('nb_page_content', function pagesContentPublication() {
+      return PagesContentDB.find();
+  });
 }else{
   Meteor.subscribe('notebooks');
   Meteor.subscribe('students');
   Meteor.subscribe('nb_sectionGrps');
   Meteor.subscribe('nb_sections');
   Meteor.subscribe('nb_pages');
+  Meteor.subscribe('nb_page_content');
 }

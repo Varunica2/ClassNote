@@ -4,7 +4,7 @@ import '../imports/api/activityList.js';
 
 import './api/onenote_api.js';
 import { Session } from 'meteor/session';
-import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB, PagesDB } from '../imports/api/mongoRelations.js';
+import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB, PagesDB, PagesContentDB } from '../imports/api/mongoRelations.js';
 import { EJSON } from 'meteor/ejson'
 
 Meteor.startup(() => {
@@ -78,6 +78,14 @@ Meteor.methods({
           var self = values[i]["self"];
           PagesDB.insert({rawId: id, title: title, self: self, parentId : parent_id});
         }
+      }
+    });
+  },
+  getPageContent:function(code, pageId, selfLink, parent_id){
+    Meteor.call('API_getNoteBookSectionPageContent', code, selfLink, function(err, result){
+      if(result["statusCode"] == 200){
+        var contentIn = result["content"];
+        PagesContentDB.insert({content : contentIn, parentId : parent_id, pageId : pageId})
       }
     });
   }

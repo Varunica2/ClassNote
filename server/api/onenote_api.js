@@ -140,7 +140,7 @@ Meteor.methods({
     console.log("--getNoteBookSectionPageContent-- " + pageLink);
     var data = {};
     try {
-      var link = selfLink+"?preAuthenticated=true";
+      var link = pageLink+"/content?preAuthenticated=true";
       data = HTTP.get( link, {
         headers : {
                    'Authorization': tokenString

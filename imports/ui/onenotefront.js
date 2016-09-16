@@ -1,5 +1,5 @@
 import './onenotefront.html';
-import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB, PagesDB } from '../api/mongoRelations.js';
+import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB, PagesDB, PagesContentDB } from '../api/mongoRelations.js';
 
 function guidGenerator() {
     var S4 = function() {
@@ -52,6 +52,7 @@ Template.getNoteBooks.helpers({
 
 Template.notebook_template.events({
   'click p'(event, instance) {
+    event.stopPropagation();
     var paragraph = event.currentTarget;
     var id = paragraph.id;
     //add events
@@ -67,10 +68,11 @@ Template.notebook_template.helpers({
 
 Template.sectionGrp_template.events({
   'click p'(event, instance) {
+    event.stopPropagation();
     var paragraph = event.currentTarget;
     var id = paragraph.id;
     var sectionsGrp = SectionsGrpDB.find({_id:id}).fetch();
-    if(sections.length == 1){
+    if(sectionsGrp.length == 1){
       var code =   Session.get("accessToken");
       Meteor.call('getSectionGroupSections', code, sectionsGrp[0]["self"], sectionsGrp[0]["_id"]);
     }else{
@@ -87,6 +89,7 @@ Template.sectionGrp_template.helpers({
 
 Template.section_template.events({
   'click p'(event, instance) {
+    event.stopPropagation();
     var paragraph = event.currentTarget;
     var id = paragraph.id;
     var sections = SectionsDB.find({_id:id}).fetch();
@@ -104,6 +107,29 @@ Template.section_template.helpers({
     return PagesDB.find({parentId : parentIdInput});
   }
 });
+
+
+Template.pages_template.events({
+  'click p'(event, instance) {
+      event.stopPropagation();
+      var paragraph = event.currentTarget;
+      var id = paragraph.id;
+      var sections = PagesDB.find({_id:id}).fetch();
+      if(sections.length == 1){
+        var code =   Session.get("accessToken");
+        Meteor.call('getPageContent', code, sections[0]["rawId"], sections[0]["self"], sections[0]["_id"]);
+      }else{
+        alert("problem detected");
+      }
+  }
+});
+
+Template.pageContent_template.helpers({
+  page : function(){
+    return PagesContentDB.find({});
+  }
+});
+
 
 
 function renderCode(){
