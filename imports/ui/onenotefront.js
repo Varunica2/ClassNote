@@ -9,6 +9,9 @@ function guidGenerator() {
 }
 
 Meteor.startup(() => {
+});
+
+Template.notebook_main.onCreated(function bodyOnCreated() {
   var fullUrl = window.location.href;
   var uid = guidGenerator();
   renderCode();
@@ -21,10 +24,6 @@ Meteor.startup(() => {
       }
     }
   });
-});
-
-Template.body.onCreated(function bodyOnCreated() {
-
 });
 
 Template.notebook_main.helpers({
