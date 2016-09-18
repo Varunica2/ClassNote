@@ -1,6 +1,7 @@
 <template name="notebook_main">
     <div>
       {{> getNoteBooks}}
+      {{> createNoteBook}}
     </div>
     <hr/>
     <div>
@@ -11,7 +12,7 @@
     </div>
     <hr/>
     <div>
-      <h4>students in notebook</h4>
+      <h4>users in notebook</h4>
       {{#each studentSet}}
         {{> student_template}}
       {{/each}}
@@ -40,12 +41,19 @@
   <p><b>Created Date : </b> {{createdDate}} <b>Status : </b>{{status}} <b>Token : </b> {{token}}</p>
 </template>
 
+<template name="createNoteBook">
+  <button>Create Class NoteBook</button>
+</template>
+
 <template name="getNoteBooks">
   <button>Get My Notebooks</button>
 </template>
 
 <template name="notebook_template">
-  <p id="{{rawId}}" >ID : {{rawId}} Name : {{name}} </p>
+  <div>
+    <span class="e_notebook" >ID : {{rawId}} Name : {{name}} </span>
+    <a class="e_insertSectionGrps" style="color:blue; font-size:9px;">insert section Group</a>
+  </div>
 </template>
 
 <template name="student_template">

@@ -15,13 +15,13 @@ Meteor.methods({
   getNoteBooks:function (code) {
     Meteor.call('API_getNoteBooks', code, function(err, result){
       NotebooksDB.remove({});
-      if(result["statusCode"] == 200)
-      {
+      if(result["statusCode"] == 200){
         var values = EJSON.parse(result["content"])["value"];
         for(i = 0; i < values.length; i++){
           var id = values[i]["id"];
           var name = values[i]["name"];
-          NotebooksDB.insert({rawId: id, name: name});
+          var self = values[i]["self"];
+          NotebooksDB.insert({rawId: id, name: name, self : self});
         }
       }
     });
@@ -93,8 +93,54 @@ Meteor.methods({
   patchPageContent:function(code, pageId, contentIn){
     Meteor.call('API_updateScoreAndComments', code, pageId, contentIn, function(err, result){
       if(result["statusCode"] == 200){
-
       }
     });
+  },
+  createNewNoteBook:function(code){
+    var notebook = new Object();
+    notebook.name = "NewNoteBookCreated_01";
+
+    var teachers =[];
+    var teacher = {};
+    teacher.id = "a0125514@u.nus.edu";
+    teacher.principalType ="Person";
+    teachers.push(teacher);
+    notebook.teachers = teachers;
+
+    var students =[];
+    var stud = {};
+    stud.id = "a0127275@u.nus.edu";
+    stud.principalType ="Person";
+    students.push(stud);
+    notebook.students = students;
+
+    var sectionGrp = [];
+    sectionGrp.push("Homework");
+    sectionGrp.push("Assignment");
+    notebook.studentSections = sectionGrp;
+
+    notebook.hasTeacherOnlySectionGroup = true;
+
+    console.log(JSON.stringify(notebook));
+    var notebookInfo = JSON.stringify(notebook);
+    var toSendMail = false;
+
+    Meteor.call('API_createNotebook', code, notebookInfo, toSendMail, function(err, result){
+      if(result["statusCode"] == 200){
+      }
+    });
+
+  },
+  createSectionGrp:function(code, notebook_id){
+    var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
+    if(notebook.length == 1){
+      var contentIn = {
+        'name': 'My Section Group Name'
+      };
+      Meteor.call('API_createNewSectionGrp', code, JSON.stringify(contentIn), notebook[0]["self"], function(err, result){
+        if(result["statusCode"] == 200){
+        }
+      });
+    }
   }
 });

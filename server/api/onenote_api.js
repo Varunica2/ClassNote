@@ -1,4 +1,3 @@
-
 import { Meteor } from 'meteor/meteor'
 import { HTTP } from 'meteor/http';
 
@@ -60,6 +59,7 @@ Meteor.methods({
       return data;
     }catch(e){
       console.log("fail");
+      console.log(e);
       return e;
     }
   },
@@ -68,16 +68,18 @@ Meteor.methods({
     console.log("--getNoteBookStudents-- " + notebookId);
     var data = {};
     try {
-      var link = "https://www.onenote.com/api/v1.0/me/notes/notebooks/"+notebookId+"/permissions";
+      var link = "https://www.onenote.com/api/v1.0/me/notes/classNotebooks/"+notebookId+"/permissions";
       data = HTTP.get( link, {
         headers : {
                    'Authorization': tokenString
         }
       });
+      console.log(data);
       console.log("success");
       return data;
     }catch(e){
       console.log("fail");
+      console.log(e);
       return e;
     }
   },
@@ -96,6 +98,7 @@ Meteor.methods({
       return data;
     }catch(e){
       console.log("fail");
+      console.log(e);
       return e;
     }
   },
@@ -114,6 +117,7 @@ Meteor.methods({
       return data;
     }catch(e){
       console.log("fail");
+      console.log(e);
       return e;
     }
   },
@@ -132,6 +136,7 @@ Meteor.methods({
       return data;
     }catch(e){
       console.log("fail");
+      console.log(e);
       return e;
     }
   },
@@ -150,6 +155,7 @@ Meteor.methods({
       return data;
     }catch(e){
       console.log("fail");
+      console.log(e);
       return e;
     }
   },
@@ -171,15 +177,23 @@ Meteor.methods({
       return data;
     }catch(e){
       console.log("fail");
+      console.log(e);
       return e;
     }
   },
-  API_createNotebook:function(a_token, notebookObj){
+  API_createNotebook:function(a_token, notebookObj, toSendMail){
     var tokenString = "Bearer ".concat(a_token);
     console.log("--createNotebook--");
     var data = {};
     try {
+
       var link = "https://www.onenote.com/api/v1.0/me/notes/classNotebooks";
+      if(toSendMail) {
+        link = link.concat("?sendemail=true");
+      }else{
+        link = link.concat("?sendemail=false");
+      }
+
       data = HTTP.call("POST", link, {
         headers : {
                    'Authorization': tokenString,
@@ -191,6 +205,28 @@ Meteor.methods({
       return data;
     }catch(e){
       console.log("fail");
+      console.log(e);
+      return e;
+    }
+  },
+  API_createNewSectionGrp:function(a_token, contentIn, link){
+    var tokenString = "Bearer ".concat(a_token);
+    console.log("--createSectionGrp in notebook --" + link);
+    var data = {};
+    try {
+      link = link.concat("/sectionGroups")
+      data = HTTP.call("POST", link, {
+      headers : {
+                 'Authorization': tokenString,
+                 'Content-Type':'application/json'
+               },
+               content : contentIn
+      });
+      console.log("success");
+      return data;
+    }catch(e){
+      console.log("fail");
+      console.log(e);
       return e;
     }
   },

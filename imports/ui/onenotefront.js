@@ -38,6 +38,14 @@ Template.notebook_main.helpers({
   }
 });
 
+Template.createNoteBook.events({
+  'click button'(event, instance) {
+    var code =   Session.get("accessToken");
+    Meteor.call('createNewNoteBook', code, function(){
+    });
+  },
+});
+
 Template.getNoteBooks.events({
   'click button'(event, instance) {
     var code =   Session.get("accessToken");
@@ -50,15 +58,20 @@ Template.getNoteBooks.helpers({
 });
 
 Template.notebook_template.events({
-  'click p'(event, instance) {
+  'click .e_notebook'(event, instance) {
     event.stopPropagation();
-    var paragraph = event.currentTarget;
-    var id = paragraph.id;
-    //add events
     var code =   Session.get("accessToken");
-    Meteor.call('getStudents', code, id);
-    Meteor.call('getNotebookSectionGroups', code, id);
+    var notebook = NotebooksDB.find({_id : this._id}).fetch();
+    if(notebook.length == 1){
+      Meteor.call('getStudents', code, notebook[0]["rawId"]);
+      Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"]);
+    }
   },
+  'click .e_insertSectionGrps'(event, instance){
+    event.stopPropagation();
+    var code =   Session.get("accessToken");
+    Meteor.call('createSectionGrp', code, this._id);
+  }
 });
 
 Template.notebook_template.helpers({
