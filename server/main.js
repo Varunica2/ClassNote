@@ -12,6 +12,13 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
+  getNoteBookInformation(code, notebookDB_id){
+    var notebook = NotebooksDB.find({_id : notebookDB_id}).fetch();
+    if(notebook.length == 1){
+      Meteor.call('getStudents', code, notebook[0]["rawId"]);
+      Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"]);
+    }
+  },
   getNoteBooks:function (code) {
     Meteor.call('API_getNoteBooks', code, function(err, result){
       NotebooksDB.remove({});
@@ -55,46 +62,58 @@ Meteor.methods({
       }
     });
   },
-  getSectionGroupSections:function(code, selfLink, parent_id){
-    Meteor.call('API_getSectionGroupSections', code, selfLink, function(err, result){
-      if(result["statusCode"] == 200){
-        var values = EJSON.parse(result["content"])["value"];
-        for(i = 0; i < values.length; i++){
-          var id = values[i]["id"];
-          var name = values[i]["name"];
-          var self = values[i]["self"];
-          SectionsDB.insert({rawId: id, name: name, self: self, parentId : parent_id});
+  getSectionGroupSections:function(code, SectionsGrpDB_id){
+    var sectionsGrp = SectionsGrpDB.find({_id:SectionsGrpDB_id}).fetch();
+    if(sectionsGrp.length == 1){
+      Meteor.call('API_getSectionGroupSections', code, sectionsGrp[0]["self"], function(err, result){
+        if(result["statusCode"] == 200){
+          var values = EJSON.parse(result["content"])["value"];
+          for(i = 0; i < values.length; i++){
+            var id = values[i]["id"];
+            var name = values[i]["name"];
+            var self = values[i]["self"];
+            SectionsDB.insert({rawId: id, name: name, self: self, parentId : SectionsGrpDB_id});
+          }
         }
-      }
-    });
+      });
+    }
   },
-  getNotebookSectionPages:function(code, selfLink, parent_id){
-    Meteor.call('API_getNoteBookSectionPages', code, selfLink, function(err, result){
-      if(result["statusCode"] == 200){
-        var values = EJSON.parse(result["content"])["value"];
-        for(i = 0; i < values.length; i++){
-          var id = values[i]["id"];
-          var title = values[i]["title"];
-          var self = values[i]["self"];
-          PagesDB.insert({rawId: id, title: title, self: self, parentId : parent_id});
+  getNotebookSectionPages:function(code, sectionDB_id){
+    var sections = SectionsDB.find({_id:sectionDB_id}).fetch();
+    if(sections.length == 1){
+       Meteor.call('API_getNoteBookSectionPages', code, sections[0]["self"], function(err, result){
+         if(result["statusCode"] == 200){
+           var values = EJSON.parse(result["content"])["value"];
+           for(i = 0; i < values.length; i++){
+             var id = values[i]["id"];
+             var title = values[i]["title"];
+             var self = values[i]["self"];
+             PagesDB.insert({rawId: id, title: title, self: self, parentId : sectionDB_id});
+           }
+         }
+       });
+    }
+  },
+  getPageContent:function(code, pageDB_id){
+    var page = PagesDB.find({_id:pageDB_id}).fetch();
+    if(page.length == 1){
+      Meteor.call('API_getNoteBookSectionPageContent', code, page[0]["self"], function(err, result){
+        if(result["statusCode"] == 200){
+          PagesContentDB.remove({});
+          var contentIn = result["content"];
+          PagesContentDB.insert({content : contentIn, parentId : pageDB_id, pageId : page[0]["rawId"]})
         }
-      }
-    });
+      });
+    }
   },
-  getPageContent:function(code, pageId, selfLink, parent_id){
-    Meteor.call('API_getNoteBookSectionPageContent', code, selfLink, function(err, result){
-      if(result["statusCode"] == 200){
-        PagesContentDB.remove({});
-        var contentIn = result["content"];
-        PagesContentDB.insert({content : contentIn, parentId : parent_id, pageId : pageId})
-      }
-    });
-  },
-  patchPageContent:function(code, pageId, contentIn){
-    Meteor.call('API_updateScoreAndComments', code, pageId, contentIn, function(err, result){
-      if(result["statusCode"] == 200){
-      }
-    });
+  patchPageContent:function(code, pageDB_id, contentIn){
+    var pageContent = PagesContentDB.find({_id:pageDB_id}).fetch();
+    if(pageContent.length == 1){
+      Meteor.call('API_updateScoreAndComments', code, pageContent[0]["pageId"], contentIn, function(err, result){
+        if(result["statusCode"] == 200){
+        }
+      });
+    }
   },
   createNewNoteBook:function(code){
     var notebook = new Object();

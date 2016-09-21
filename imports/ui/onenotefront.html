@@ -61,7 +61,7 @@
 </template>
 
 <template name="sectionGrp_template">
-  <p id="{{_id}}" >ID : {{rawId}} Name : {{name}} {{_id}}</p>
+  <span class="e_sectionGrp">ID : {{rawId}} Name : {{name}} {{_id}}</span>
   <div style="color:red">
   <ul>
     {{#each sectionSet _id}}
@@ -73,7 +73,7 @@
 
 <template name="section_template">
   <li>
-    <p id="{{_id}}"> {{rawId}} {{name}}</p>
+    <span class="e_section"> {{rawId}} {{name}}</span>
     <div style="color:blue">
     <ul>
       {{#each pageSet _id}}

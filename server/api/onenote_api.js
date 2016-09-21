@@ -74,7 +74,6 @@ Meteor.methods({
                    'Authorization': tokenString
         }
       });
-      console.log(data);
       console.log("success");
       return data;
     }catch(e){

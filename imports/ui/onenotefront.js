@@ -61,11 +61,7 @@ Template.notebook_template.events({
   'click .e_notebook'(event, instance) {
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    var notebook = NotebooksDB.find({_id : this._id}).fetch();
-    if(notebook.length == 1){
-      Meteor.call('getStudents', code, notebook[0]["rawId"]);
-      Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"]);
-    }
+    Meteor.call('getNoteBookInformation', code, this._id);
   },
   'click .e_insertSectionGrps'(event, instance){
     event.stopPropagation();
@@ -79,17 +75,10 @@ Template.notebook_template.helpers({
 });
 
 Template.sectionGrp_template.events({
-  'click p'(event, instance) {
+  'click .e_sectionGrp'(event, instance) {
     event.stopPropagation();
-    var paragraph = event.currentTarget;
-    var id = paragraph.id;
-    var sectionsGrp = SectionsGrpDB.find({_id:id}).fetch();
-    if(sectionsGrp.length == 1){
-      var code =   Session.get("accessToken");
-      Meteor.call('getSectionGroupSections', code, sectionsGrp[0]["self"], sectionsGrp[0]["_id"]);
-    }else{
-      alert("problem detected");
-    }
+    var code =   Session.get("accessToken");
+    Meteor.call('getSectionGroupSections', code, this._id);
   }
 });
 
@@ -100,17 +89,10 @@ Template.sectionGrp_template.helpers({
 });
 
 Template.section_template.events({
-  'click p'(event, instance) {
+  'click .e_section'(event, instance) {
     event.stopPropagation();
-    var paragraph = event.currentTarget;
-    var id = paragraph.id;
-    var sections = SectionsDB.find({_id:id}).fetch();
-    if(sections.length == 1){
-      var code =   Session.get("accessToken");
-      Meteor.call('getNotebookSectionPages', code, sections[0]["self"], sections[0]["_id"]);
-    }else{
-      alert("problem detected");
-    }
+    var code =   Session.get("accessToken");
+    Meteor.call('getNotebookSectionPages', code, this._id);
   }
 });
 
@@ -124,15 +106,8 @@ Template.section_template.helpers({
 Template.pages_template.events({
   'click p'(event, instance) {
       event.stopPropagation();
-      var paragraph = event.currentTarget;
-      var id = paragraph.id;
-      var sections = PagesDB.find({_id:id}).fetch();
-      if(sections.length == 1){
-        var code =   Session.get("accessToken");
-        Meteor.call('getPageContent', code, sections[0]["rawId"], sections[0]["self"], sections[0]["_id"]);
-      }else{
-        alert("problem detected");
-      }
+      var code =   Session.get("accessToken");
+      Meteor.call('getPageContent', code, this._id);
   }
 });
 
@@ -144,20 +119,13 @@ Template.pageContent_template.helpers({
 
 Template.pageContent_template.events({
   'click button'(event, instance) {
-    var button = event.currentTarget;
-    var id = button.id;
-    var pageContent = PagesContentDB.find({_id:id}).fetch();
-    if(pageContent.length == 1){
-      var code =   Session.get("accessToken");
-      var content = [{
-        'target': '#commentArea',
-        'action': 'append',
-        'content': '<p>A new paragraph at the bottom of the container #commentArea</p>'
-      }];
-      Meteor.call('patchPageContent', code, pageContent[0]["pageId"], JSON.stringify(content));
-    }else{
-      alert("problem detected");
-    }
+    var code =   Session.get("accessToken");
+    var content = [{
+      'target': '#commentArea',
+      'action': 'append',
+      'content': '<p>A new paragraph at the bottom of the container #commentArea</p>'
+    }];
+    Meteor.call('patchPageContent', code, this._id, JSON.stringify(content));
   }
 });
 
