@@ -151,6 +151,7 @@ Meteor.methods({
         }
       });
       console.log("success");
+      console.log(data);
       return data;
     }catch(e){
       console.log("fail");
@@ -245,6 +246,28 @@ Meteor.methods({
       console.log("success");
       return data;
     }catch(e){
+      console.log("fail");
+      return e;
+    }
+  },
+  API_sendPageToSection : function(a_token, sectionGrp_link, pageContent){
+    var tokenString = "Bearer ".concat(a_token);
+    console.log("--sending page to--" + sectionGrp_link);
+    var data = {};
+    try {
+      var link = sectionGrp_link + "/pages";
+      console.log(link);
+      data = HTTP.call("POST", link, {
+        headers : {
+                   'Authorization': tokenString,
+                   'Content-Type':'application/xhtml+xml'
+        },
+        content : pageContent
+      });
+      console.log("success");
+      return data;
+    }catch(e){
+      console.log(e);
       console.log("fail");
       return e;
     }

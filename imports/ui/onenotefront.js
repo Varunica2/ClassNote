@@ -67,6 +67,11 @@ Template.notebook_template.events({
     event.stopPropagation();
     var code =   Session.get("accessToken");
     Meteor.call('createSectionGrp', code, this._id);
+  },
+  'click .e_sendPages'(event, instance){
+    event.stopPropagation();
+    var code =   Session.get("accessToken");
+    Meteor.call('sendPageToStudents', code, this._id);
   }
 });
 
