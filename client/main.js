@@ -679,19 +679,27 @@ Template.teachersession.events({
    var qid = target.id;
    qid = qid.slice(1);
    var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
-   activity = Session.get('aID')
+   activity = Session.get('aID');
+   teacher = Session.get('userID');
+   var qninfo =[];
 
    if(deployedquestions.find({aID:activity}).fetch() == ''){
 
-   var quests =[currentq];
+     var quests =[currentq];
 
-   deployedquestions.insert({
-        teacherID : Session.get('userID'),
-        aID : activity,
-        deployed : quests,
-        time : new Date(),
+     deployedquestions.insert({
+          teacherID : teacher,
+          aID : activity,
+          deployed : quests,
+          time : new Date(),
+     });
 
-   });
+     qninfo.push(teacher);
+     qninfo.push(aID);
+     qninfo.push(deployed);
+     qninfo.push(time);
+
+     alert("Question has been deployed");
    }
 
    else{
@@ -700,6 +708,12 @@ Template.teachersession.events({
     currentdeployed.push(currentq);
     deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
 
+    qninfo.push(teacherID);
+    qninfo.push(activity);
+    qninfo.push(currentq);
+    qninfo.push(time);
+
+    alert("Question has been deployed");
 
    }
 
