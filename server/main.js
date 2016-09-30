@@ -120,7 +120,7 @@ Meteor.methods({
       });
     }
   },
-  createNewNoteBook:function(code){
+  /*createNewNoteBook:function(code){
     var notebook = new Object();
     notebook.name = "NewNoteBookCreated_01";
 
@@ -154,7 +154,46 @@ Meteor.methods({
       }
     });
 
+  }, */
+  createNewNoteBook:function(code, nb_name, teacherID, studentsList){
+    var notebook = new Object();
+    notebook.name = nb_name;
+
+    var teachers =[];
+    var teacher = {};
+    teacher.id = teacherID;
+    teacher.principalType ="Person";
+    teachers.push(teacher);
+    notebook.teachers = teachers;
+
+    var students =[];
+    var stud = {};
+    for (i=0 ; i<studentsList.size -1; i++){
+      stud.id = studentsList.get(i);
+      stud.principalType ="Person";
+      students.push(stud);
+      notebook.students = students;
+  
+    }
+    
+    var sectionGrp = [];
+    sectionGrp.push("Homework");
+    sectionGrp.push("Assignment");
+    notebook.studentSections = sectionGrp;
+
+    notebook.hasTeacherOnlySectionGroup = true;
+
+    console.log(JSON.stringify(notebook));
+    var notebookInfo = JSON.stringify(notebook);
+    var toSendMail = false;
+
+    Meteor.call('API_createNotebook', code, notebookInfo, toSendMail, function(err, result){
+      if(result["statusCode"] == 200){
+      }
+    });
+
   },
+
   createSectionGrp:function(code, notebook_id){
     var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
     if(notebook.length == 1){

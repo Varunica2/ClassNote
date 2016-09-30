@@ -9,6 +9,7 @@ import { EJSON } from 'meteor/ejson'
 
 import '../imports/ui/onenotefront.js'
 import '../imports/api/activityList.js';
+import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB, PagesDB, PagesContentDB } from '../imports/api/mongoRelations.js';
 import './main.html';
 
 //default session
@@ -25,7 +26,9 @@ Session.setDefaultPersistent('actstatus','inactive');
 
 //default session end
 
-
+//currently hardcoded for one-way authentication. 
+// Required to be changed to automated retrieval of token in 2-way authentication
+Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyIsImtpZCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzUyMTkzNzAsIm5iZiI6MTQ3NTIxOTM3MCwiZXhwIjoxNDc1MjIzMjcwLCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImdpdmVuX25hbWUiOiJWYXJ1bmljYSIsImlwYWRkciI6IjEzNy4xMzIuMjI4LjM3IiwibmFtZSI6IlZhcnVuaWNhIiwib2lkIjoiYmUzZGI2M2ItMTVhOC00ZjI4LTk5YjAtNGNiYWYyMWNkMzc0Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtNTIyMjgiLCJwdWlkIjoiMTAwM0JGRkQ4RUI0MTA2NiIsInNjcCI6Ik5vdGVzLkNyZWF0ZSBOb3Rlcy5SZWFkIE5vdGVzLlJlYWQuQWxsIE5vdGVzLlJlYWRXcml0ZSBOb3Rlcy5SZWFkV3JpdGUuQWxsIE5vdGVzLlJlYWRXcml0ZS5DcmVhdGVkQnlBcHAiLCJzdWIiOiJFbFlZMThtNGVUcUNpZjBoZ2hOT2g1el9sbUhWWWtRVG5ieHhBWjVFR2FVIiwidGlkIjoiNWJhNWVmNWUtMzEwOS00ZTc3LTg1YmQtY2ZlYjBkMzQ3ZTgyIiwidW5pcXVlX25hbWUiOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ1cG4iOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ2ZXIiOiIxLjAifQ.iounNDSTwXKHzE9raGrk8-LvVzUomjxfdM19b9Y1DEgDi-3iczVR4qO-_gWlTPVGU2j70s57RYvKbbmSKAaGUiCzp60vC2apaEYaoDAI9r6497t2eQPdsPZoTap2McHndNU8PVlHqAJcc85h4l1VblM7yP_uBFQuLuL6XK6IwqjKC5gVZoGlSDiKTp4rUnjQyRjrcfZDKaDuL_qVBq8oRBw5VuhLYsifvD2dKYq8N0sCmwkupOAJZNaVJkyttj-nzDJfjCJd9ZQnqIASGNJp4AgaFF_g-Aad-hSzjwfLAFcjAgxU5xdnjebQjUv87mrAulajY6s7C_sahe8OjQxI8g");
 
 //Router Info
 
@@ -64,10 +67,10 @@ Router.route('/session',{
   name:'session'
 });
 
-Router.route('/onenoteraw',{
+Router.route('/notebooks',{
 
   template : "notebook_main",
-  name:'onenoteraw'
+  name:'notebooks'
 });
 
 
@@ -122,6 +125,7 @@ Template.dashboard.helpers({
 
    	}
    }
+
  },
 
    list : function(){
@@ -134,21 +138,73 @@ Template.dashboard.helpers({
 
        var smod = studentModules.findOne({studentID:Session.get('userID')}).codes;
        return activityList.find({module: {$in: smod},status : 'active'},{ sort: { time: -1 } });
-
-
-
-
+  
   },
 
    isteacher: function(){
     if(Session.get('userType')=='teacher'){
-
       return true;
     }
-   },
+   }
+/*
+    load_OneNote : function() {
+    
+      var code = Session.get("accessToken");
+      //getNotebooks
+      Meteor.call('getNoteBooks', code, function(){});
+
+      //notebook_template
+      var cursor = NotebooksDB.find();
+      console.log(cursor);
+      
+      // Execute the each command, triggers for each document
+      cursor.each(function(err, item) {
+        
+        console.log("entered");
+        // If the item is null then the cursor is exhausted/empty and closed - may remove later
+        if(item == null) {
+          alert("no notebooks available!");
+        }
+      
+        else {
 
 
+          var notebook = NotebooksDB.find({_id : this._id}).fetch();
+          if(notebook.length == 1){
+          Meteor.call('getStudents', code, notebook[0]["rawId"]);
+          Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"]);
+          }
 
+          var sectionsGrp = SectionsGrpDB.find({_id: this._id}).fetch();
+          if(sectionsGrp.length == 1){
+            var code =   Session.get("accessToken");
+            Meteor.call('getSectionGroupSections', code, sectionsGrp[0]["self"], sectionsGrp[0]["_id"]);
+          }else{
+            alert("problem detected");
+          }
+          
+
+          //Meteor.call('createSectionGrp', code, this._id); - work on creating
+
+          var sections = SectionsDB.find({_id: this._id}).fetch();
+          if(sections.length == 1){
+            Meteor.call('getNotebookSectionPages', code, sections[0]["self"], sections[0]["_id"]);
+          }else{
+            alert("problem detected");
+          }
+
+          var sections = PagesDB.find({_id: this._id}).fetch();
+          if(sections.length == 1){
+            var code =   Session.get("accessToken");
+            Meteor.call('getPageContent', code, sections[0]["rawId"], sections[0]["self"], sections[0]["_id"]);
+          }else{
+            alert("problem detected");
+          }
+
+        }
+      });       
+    }
+*/
 });
 
 
@@ -234,10 +290,7 @@ Template.navigation.helpers({
     return notifications.find({studentID:Session.get('userID')},{ sort: { time: -1 } });
    }
 
-
-
-
-
+    
 });
 
 Template.navigation.events({
@@ -424,15 +477,24 @@ Template.addmodule.events({
    const target = event.target;
    var modname = target.modulename.value;
    var modcode = target.modulecode.value;
+   var nb_name = modcode + " - " + modname;
+   var teacherID = Session.get("userID");
    var studentlist = target.studentlist.value;
    var array = studentlist.split('\n');
+
+   var code =   Session.get("accessToken");
+    
+    Meteor.call('createNewNoteBook', code, nb_name, teacherID, array, function(){
+    });
 
    teacherModules.insert({
         module : modname,
         code : modcode,
         userID : Session.get('userID'),
+      //  notebook: notebookName;
         studentID : studentlist,
         time : new Date(),
+
    });
 
    var z;
@@ -459,7 +521,8 @@ Template.addmodule.events({
 
 
    }
- }
+  }
+
 
    alert("Module has been created!");
    Router.go('/dashboard');
