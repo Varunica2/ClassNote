@@ -173,9 +173,9 @@ Meteor.methods({
       stud.principalType ="Person";
       students.push(stud);
       notebook.students = students;
-  
+
     }
-    
+
     var sectionGrp = [];
     sectionGrp.push("Homework");
     sectionGrp.push("Assignment");
@@ -193,12 +193,11 @@ Meteor.methods({
     });
 
   },
-
-  createSectionGrp:function(code, notebook_id){
+  createSectionGrp:function(code, notebook_id, sectionName){
     var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
     if(notebook.length == 1){
       var contentIn = {
-        'name': 'My Section Group Name'
+        'name': sectionName
       };
       Meteor.call('API_createNewSectionGrp', code, JSON.stringify(contentIn), notebook[0]["self"], function(err, result){
         if(result["statusCode"] == 200){
@@ -230,6 +229,21 @@ Meteor.methods({
               if(result["statusCode"] == 200){
               }
             });
+          }
+        });
+      });
+    }
+  },
+  createSectionInStudents:function(code,notebook_id,sectionName){
+    var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
+    if(notebook.length == 1){
+      var contentIn = {
+        'name': sectionName
+      };
+      var sectionsToSend = SectionsGrpDB.find({notebook_id : notebook_id});
+      sectionsToSend.forEach(function (sectionGrp) {
+        Meteor.call('API_createSectionInStudent', code, sectionGrp.self, JSON.stringify(contentIn), function(err, result){
+          if(result["statusCode"] == 200){
           }
         });
       });

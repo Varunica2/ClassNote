@@ -271,5 +271,27 @@ Meteor.methods({
       console.log("fail");
       return e;
     }
+  },
+  API_createSectionInStudent : function (a_token, sectionGrp_link, sectionContent) {
+    var tokenString = "Bearer ".concat(a_token);
+    console.log("--creating section in--" + sectionGrp_link);
+    var data = {};
+    try {
+      var link = sectionGrp_link + "/sections";
+      console.log(link);
+      data = HTTP.call("POST", link, {
+        headers : {
+                   'Authorization': tokenString,
+                   'Content-Type':'application/json'
+        },
+        content : sectionContent
+      });
+      console.log("success");
+      return data;
+    }catch(e){
+      console.log(e);
+      console.log("fail");
+      return e;
+    }
   }
 });

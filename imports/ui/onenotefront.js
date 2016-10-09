@@ -71,12 +71,17 @@ Template.notebook_template.events({
   'click .e_insertSectionGrps'(event, instance){
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('createSectionGrp', code, this._id);
+    Meteor.call('createSectionGrp', code, this._id,'in-class assignment');
   },
   'click .e_sendPages'(event, instance){
     event.stopPropagation();
     var code =   Session.get("accessToken");
     Meteor.call('sendPageToStudents', code, this._id);
+  },
+  'click .e_insertStudentSections'(event, instance){
+    event.stopPropagation();
+    var code =   Session.get("accessToken");
+    Meteor.call('createSectionInStudents', code, this._id, 'in-class assignment');
   }
 });
 
@@ -142,18 +147,18 @@ Template.pageContent_template.events({
 
 
 function renderCode(){
-  
-  //currently hardcoded for one-way authentication. 
+
+  //currently hardcoded for one-way authentication.
   // Required to be changed to automated retrieval of token in 2-way authentication
-  var code = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyIsImtpZCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzUyMTkzNzAsIm5iZiI6MTQ3NTIxOTM3MCwiZXhwIjoxNDc1MjIzMjcwLCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImdpdmVuX25hbWUiOiJWYXJ1bmljYSIsImlwYWRkciI6IjEzNy4xMzIuMjI4LjM3IiwibmFtZSI6IlZhcnVuaWNhIiwib2lkIjoiYmUzZGI2M2ItMTVhOC00ZjI4LTk5YjAtNGNiYWYyMWNkMzc0Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtNTIyMjgiLCJwdWlkIjoiMTAwM0JGRkQ4RUI0MTA2NiIsInNjcCI6Ik5vdGVzLkNyZWF0ZSBOb3Rlcy5SZWFkIE5vdGVzLlJlYWQuQWxsIE5vdGVzLlJlYWRXcml0ZSBOb3Rlcy5SZWFkV3JpdGUuQWxsIE5vdGVzLlJlYWRXcml0ZS5DcmVhdGVkQnlBcHAiLCJzdWIiOiJFbFlZMThtNGVUcUNpZjBoZ2hOT2g1el9sbUhWWWtRVG5ieHhBWjVFR2FVIiwidGlkIjoiNWJhNWVmNWUtMzEwOS00ZTc3LTg1YmQtY2ZlYjBkMzQ3ZTgyIiwidW5pcXVlX25hbWUiOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ1cG4iOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ2ZXIiOiIxLjAifQ.iounNDSTwXKHzE9raGrk8-LvVzUomjxfdM19b9Y1DEgDi-3iczVR4qO-_gWlTPVGU2j70s57RYvKbbmSKAaGUiCzp60vC2apaEYaoDAI9r6497t2eQPdsPZoTap2McHndNU8PVlHqAJcc85h4l1VblM7yP_uBFQuLuL6XK6IwqjKC5gVZoGlSDiKTp4rUnjQyRjrcfZDKaDuL_qVBq8oRBw5VuhLYsifvD2dKYq8N0sCmwkupOAJZNaVJkyttj-nzDJfjCJd9ZQnqIASGNJp4AgaFF_g-Aad-hSzjwfLAFcjAgxU5xdnjebQjUv87mrAulajY6s7C_sahe8OjQxI8g";
+  var code = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyIsImtpZCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzYwMTA3OTEsIm5iZiI6MTQ3NjAxMDc5MSwiZXhwIjoxNDc2MDE0NjkxLCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiQ2hhbiIsImdpdmVuX25hbWUiOiJZdWFuIFNoYW4iLCJpcGFkZHIiOiIxMzcuMTMyLjI1NC4yMjYiLCJuYW1lIjoiQ2hhbiBZdWFuIFNoYW4iLCJvaWQiOiJlNjBhMDU2Ny05ODc5LTQwNjMtOGU0Mi1iZGE2OGY0YTUwNmYiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtNzY5MzIzMjMyLTE1NTg3MDE4NzMtMTMxNzA1OTQ5NS04NzY1IiwicHVpZCI6IjEwMDNCRkZEOEIzMzk4RkMiLCJzY3AiOiJOb3Rlcy5DcmVhdGUgTm90ZXMuUmVhZCBOb3Rlcy5SZWFkLkFsbCBOb3Rlcy5SZWFkV3JpdGUgTm90ZXMuUmVhZFdyaXRlLkFsbCBOb3Rlcy5SZWFkV3JpdGUuQ3JlYXRlZEJ5QXBwIiwic3ViIjoiVXhjbTN4N2RrX3A3UlFndGJOMXQ5N3hjU0NRcnEtUlo3VmIybGNBRzFEayIsInRpZCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsInVuaXF1ZV9uYW1lIjoiYTAxMjU1MTRAdS5udXMuZWR1IiwidXBuIjoiYTAxMjU1MTRAdS5udXMuZWR1IiwidmVyIjoiMS4wIn0.C-nofc9h4qh3xPZlkVnqxfkfWXWp-j81d4soeO0m6pM3iTIutG0MpRPCBDHkkmtjJvMduYx9fUIDTxBH7MtG-V48O2-VYy0uVARPQrvhW6zuNRx2ZOZuEalqZXCqiRMpP9hP03kbVGKdQyIcOWqfrPf96OFl3HEGEbvjGfGHBG6_bCc0ZeDTjeopwO1cnOl0WGn5q0LZ6PepW4equJfVTz872lWtAbXT7oH8G-Ztx68Q9_i5iGuq-E6_XHuQrgaUUvHQnf3b1kH_OX-9RuIiGEf_xjs3XbYnUpvXb7hxK9qF6ENHpNa5dANaC9A2rmBdnUdisj8N7hyn00zecPR5nQ";
   Session.set("accessToken",code);
-  
+
   /*
   var fullUrl = window.location.href;
   var n = fullUrl.indexOf("#");
   var arr = fullUrl.substring(n).split("&");
   var code = arr[0].substring(arr[0].indexOf("=") + 1);
- 
+
   if(n >0){
     n = n+1;
     var arr = fullUrl.substring(n).split("&");
