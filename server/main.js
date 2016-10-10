@@ -205,17 +205,16 @@ Meteor.methods({
       });
     }
   },
-  sendPageToStudents:function(code, notebook_id, questions){
-    console.log(questions.length);
+  sendPageToStudents:function(code, notebook_id, pageObject){
     var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
     if(notebook.length == 1){
       var pageContent = "<html> \
         <head> \
-          <title>Test</title> \
+          <title>"+pageObject.name+"</title> \
         </head> \
         <body>";
-        for (i = 0; i < questions.length; i++) {
-          pageContent += addQuestion(questions[i].index, questions[i].question);
+        for (i = 0; i < pageObject.questions.length; i++) {
+          pageContent += addQuestion(pageObject.questions[i].index, pageObject.questions[i].text);
           pageContent +="<br/>";
         }
       pageContent +="\
