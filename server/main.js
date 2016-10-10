@@ -260,7 +260,7 @@ function addQuestion(index, questionContent){
       <td><h3>Question "+index+"</h3></td> \
     </tr> \
     <tr> \
-      <td>Question "+questionContent+"</td> \
+      <td>"+questionContent+"</td> \
     </tr> \
     <tr>\
       <td style=\"text-align:left\">\
