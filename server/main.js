@@ -205,19 +205,20 @@ Meteor.methods({
       });
     }
   },
-  sendPageToStudents:function(code, notebook_id){
+  sendPageToStudents:function(code, notebook_id, questions){
+    console.log(questions.length);
     var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
     if(notebook.length == 1){
-      var pageContent = "<?xml version='1.0' encoding='utf-8' ?> \
-      <html> \
+      var pageContent = "<html> \
         <head> \
-          <title>Again</title> \
+          <title>Test</title> \
         </head> \
-        <body data-absolute-enabled='true'> \
-        <div style='position:absolute;width:280px;top:120px;left:68px'> \
-          <table width='100%' border='2'><tr><td>Hello hello</td></tr> \
-          <tr><td><div id='commentArea'>Placeholder for comments</div><</td></tr><table> \
-        </div> \
+        <body>";
+        for (i = 0; i < questions.length; i++) {
+          pageContent += addQuestion(questions[i].index, questions[i].question);
+          pageContent +="<br/>";
+        }
+      pageContent +="\
       </body> \
       </html>";
       var sectionsToSend = SectionsGrpDB.find({notebook_id : notebook_id});
@@ -253,13 +254,26 @@ Meteor.methods({
 
 function addQuestion(index, questionContent){
   var val = "";
-  val+= "<table width='100%' border='2'>";
-  val+= "<tr>";
-  val+= "<td><h3>Question "+index+"</h3><td>";
-  val+= "</tr>";
-  val+= "<tr>";
-  val+= "<td>"+questionContent+"<td>";
-  val+= "</tr>";
-  val+= "</table>"
+  val+="\
+  <table style=\"width:750px\">\
+    <tr> \
+      <td><h3>Question "+index+"</h3></td> \
+    </tr> \
+    <tr> \
+      <td>Question "+questionContent+"</td> \
+    </tr> \
+    <tr>\
+      <td style=\"text-align:left\">\
+        <table border=\"2\" style=\"width:750px\">\
+          <tr>\
+            <td style=\"background-color:#baffc9\">Please answer in the box below: </td>\
+          </tr>\
+          <tr>\
+            <td><div><br/><br/><br/></div></td>\
+          </tr>\
+        </table>\
+      </td> \
+    </tr> \
+  </table>";
   return val;
 }
