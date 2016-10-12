@@ -107,7 +107,7 @@ Meteor.methods({
     var data = {};
     try {
       var link = selfLink+"/sections";
-      data = HTTP.get( link, {
+      data =  HTTP.get( link, {
         headers : {
                    'Authorization': tokenString
         }
@@ -285,6 +285,49 @@ Meteor.methods({
                    'Content-Type':'application/json'
         },
         content : sectionContent
+      });
+      console.log("success");
+      return data;
+    }catch(e){
+      console.log(e);
+      console.log("fail");
+      return e;
+    }
+  },
+  API_addStudentToNotebook : function(a_token, notebook_link, student){
+    var tokenString = "Bearer ".concat(a_token);
+    console.log("--Adding student to --" + notebook_link);
+    var data = {};
+    try {
+      var link = notebook_link + "/students";
+      console.log(link);
+      data = HTTP.call("POST", link, {
+        headers : {
+                   'Authorization' : tokenString,
+                   'Content-Type': 'application/json'
+        },
+        content : student
+      });
+      console.log("success");
+      return data;
+    }catch(e){
+      console.log(e);
+      console.log("fail");
+      return e;
+    }
+  },
+  API_deleteStudentFromNotebook : function(a_token, notebook_id, student_id){
+    var tokenString = "Bearer ".concat(a_token);
+    console.log("--Deleting student --" + student_id);
+    var data = {};
+    try {
+      var link = "https://www.onenote.com/api/v1.0/me/notes/classNotebooks/" + notebook_id + "/students/" + student_id;
+      console.log(link);
+      data = HTTP.call("DELETE", link, {
+        headers : {
+                   'Authorization' : tokenString,
+                   'Content-Type': 'application/json'
+        }
       });
       console.log("success");
       return data;

@@ -248,6 +248,28 @@ Meteor.methods({
         });
       });
     }
+  },
+  addStudent : function(code, notebook_id, studentId){
+    var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
+    if(notebook.length == 1){
+      var student = {
+        "id": studentId,
+        "principalType": "Person"
+      };
+      Meteor.call('API_addStudentToNotebook', code, notebook[0].self, JSON.stringify(student), function(err, result){
+      });
+    }
+  },
+  deleteStudent : function(code, studentId){
+    var student = StudentsDB.find({_id : studentId}).fetch();
+    if(student.length == 1){
+      var notebook = NotebooksDB.find({_id : student[0].notebook_id}).fetch();
+      if(notebook.length == 1){
+        var studentUserId = student[0].userId.substring(student[0].userId.lastIndexOf("|") + 1);
+        Meteor.call('API_deleteStudentFromNotebook', code, notebook[0].rawId, studentUserId, function(err, result){
+        });
+      }
+    }
   }
 });
 

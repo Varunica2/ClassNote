@@ -56,11 +56,15 @@
     <a class="e_insertSectionGrps" style="color:blue; font-size:9px;">insert section Group</a>
     <a class="e_sendPages" style="color:blue; font-size:9px;">send pages to students</a>
     <a class="e_insertStudentSections" style="color:blue; font-size:9px;">Send section to all students</a>
+    <a class="e_addStudent" style="color:blue; font-size:9px;">insert student into notebook</a>
   </div>
 </template>
 
 <template name="student_template">
-  <p id="{{rawId}}" >ID : {{rawId}} Name : {{name}} </p>
+  <div>
+    <span class="e_student">id="{{rawId}}" >ID : {{rawId}} Name : {{name}}</span>
+    <a class="e_deleteStudet" style="color:blue; font-size:9px;">delete student</a>
+  </div>
 </template>
 
 <template name="sectionGrp_template">
