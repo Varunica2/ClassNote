@@ -297,11 +297,14 @@ Meteor.methods({
       return e;
     }
   },
-  API_addStudentToNotebook : function(a_token, notebook_link, student){
+  API_addStudentToNotebook : function(a_token, notebook_link, notebook_rawId, student){
     var tokenString = "Bearer ".concat(a_token);
     console.log("--Adding student to --" + notebook_link);
+
     var data = {};
+    var studentString = JSON.stringify(student);
     try {
+
       var link = notebook_link + "/students";
       console.log(link);
       data = HTTP.call("POST", link, {
@@ -309,8 +312,25 @@ Meteor.methods({
                    'Authorization' : tokenString,
                    'Content-Type': 'application/json'
         },
-        content : student
+        content : studentString
       });
+
+      var pLink = "https://www.onenote.com/api/v1.0/me/notes/notebooks/" + notebook_rawId + "/permissions";
+      var pTemp ={
+        "userRole" : "Contributor",
+        "userId" : student.id
+      };
+      var pTempS = JSON.stringify(pTemp);
+      var temp = HTTP.call("POST", pLink, {
+        headers : {
+                   'Authorization' : tokenString,
+                   'Content-Type': 'application/json'
+        },
+        content : pTempS
+      });
+
+      console.log(temp);
+
       console.log("success");
       return data;
     }catch(e){

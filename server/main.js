@@ -259,7 +259,7 @@ Meteor.methods({
         "id": studentId,
         "principalType": "Person"
       };
-      Meteor.call('API_addStudentToNotebook', code, notebook[0].self, JSON.stringify(student), function(err, result){
+      Meteor.call('API_addStudentToNotebook', code, notebook[0].self, notebook[0].rawId, student, function(err, result){
       });
     }
   },
