@@ -120,12 +120,16 @@ Meteor.methods({
       return e;
     }
   },
-  API_getNoteBookSectionPages:function(a_token, selfLink){
+  API_getNoteBookSectionPages:function(a_token, selfLink, specificPage){
     var tokenString = "Bearer ".concat(a_token);
     console.log("--getNoteBookSectionPages-- " + selfLink);
     var data = {};
     try {
+
       var link = selfLink+"/pages";
+      if(specificPage != ""){
+        link= link+"?filter=title eq '"+specificPage+"'";
+      }
       data = HTTP.get( link, {
         headers : {
                    'Authorization': tokenString
@@ -144,14 +148,13 @@ Meteor.methods({
     console.log("--getNoteBookSectionPageContent-- " + pageLink);
     var data = {};
     try {
-      var link = pageLink+"/content?preAuthenticated=true";
+      var link = pageLink+"/content?preAuthenticated=true&includeIDs=true";
       data = HTTP.get( link, {
         headers : {
                    'Authorization': tokenString
         }
       });
       console.log("success");
-      console.log(data);
       return data;
     }catch(e){
       console.log("fail");

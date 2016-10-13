@@ -86,14 +86,17 @@ Meteor.methods({
   getNotebookSectionPages:function(code, sectionDB_id){
     var sections = SectionsDB.find({_id:sectionDB_id}).fetch();
     if(sections.length == 1){
-       Meteor.call('API_getNoteBookSectionPages', code, sections[0]["self"], function(err, result){
+       Meteor.call('API_getNoteBookSectionPages', code, sections[0]["self"], "", function(err, result){
          if(result["statusCode"] == 200){
            var values = EJSON.parse(result["content"])["value"];
            for(i = 0; i < values.length; i++){
              var id = values[i]["id"];
              var title = values[i]["title"];
              var self = values[i]["self"];
-             PagesDB.insert({rawId: id, title: title, self: self, parentId : sectionDB_id});
+             var page = PagesDB.find({rawId : id}).fetch();
+             if(page.length == 0){
+               PagesDB.insert({rawId: id, title: title, self: self, parentId : sectionDB_id});
+             }
            }
          }
        });
@@ -205,7 +208,7 @@ Meteor.methods({
       });
     }
   },
-  sendPageToStudents:function(code, notebook_id, pageObject){
+  sendPageToStudents:function(code, notebook_id, pageObject, sectionName){
     var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
     if(notebook.length == 1){
       var pageContent = "<html> \
@@ -224,7 +227,7 @@ Meteor.methods({
       sectionsToSend.forEach(function (sectionGrp) {
         var studentSection = SectionsDB.find({parentId : sectionGrp._id});
         studentSection.forEach(function (section) {
-          if(section.name == 'Homework'){
+          if(section.name == sectionName){
             Meteor.call('API_sendPageToSection', code, section.self, pageContent, function(err, result){
               if(result["statusCode"] == 200){
               }
@@ -270,6 +273,82 @@ Meteor.methods({
         });
       }
     }
+  },
+  getStudentsQuestions:function(code, notebook_id, sectionName, pageName){
+    console.log(notebook_id+" "+ sectionName);
+    var sections = SectionsDB.find({notebook_id : notebook_id, name : sectionName}).fetch();
+    var tempStud = [];
+    sections.forEach(function (section) {
+      Meteor.call('API_getNoteBookSectionPages', code, section.self, pageName, function(err, result){
+        if(result["statusCode"] == 200){
+          var values = EJSON.parse(result["content"])["value"];
+          for(i = 0; i < values.length; i++){
+            var id = values[i]["id"];
+            var title = values[i]["title"];
+            var self = values[i]["self"];
+            var page = PagesDB.find({rawId : id}).fetch();
+
+            var stud = {};
+
+            if(page.length == 0){
+              stud.pageId = PagesDB.insert({rawId: id, title: title, self : self, parentId : section.rawId});
+            }else{
+              stud.pageId = page[0]._id;
+            }
+            stud.parentId = section.parentId;
+            tempStud.push(stud);
+          }
+        }
+      });
+
+    });
+
+    //process the links returned
+    for (i = 0; i < tempStud.length; i ++) {
+      console.log(tempStud[i].pageId);
+      var page = PagesDB.find({_id : tempStud[i].pageId}).fetch();
+      if(page.length > 0){
+        Meteor.call('API_getNoteBookSectionPageContent', code, page[0]["self"], function(err, result){
+          if(result["statusCode"] == 200){
+            var contentIn = result["content"];
+            var questions = parseContent(contentIn);
+            tempStud[i].questions = questions;
+          }
+        });
+      }
+    }
+
+    //process the tempStud
+    var masterQuestion = {};
+    var studList = [];
+    var numOfQuestions = 0;
+    var questionSet = [];
+
+    if(tempStud.length > 0){
+      numOfQuestions = tempStud[0].questions.length - 1;
+    }
+
+    for (i = 0; i < tempStud.length; i ++) {
+      var s = SectionsGrpDB.find({_id : tempStud[i].parentId}).fetch();
+      if(s.length > 0){
+        studList.push(s[0].name);
+      }
+    }
+
+    for(q = 1; q < numOfQuestions + 1; q++) {
+      var questionHolder = [];
+      for (i = 0; i < tempStud.length; i ++) {
+        questionHolder.push(tempStud[i].questions[q]);
+      }
+      questionSet.push(questionHolder);
+    }
+
+    masterQuestion.numberOfQuestions = numOfQuestions;
+    masterQuestion.studentList = studList;
+    masterQuestion.questionSet = questionSet;
+
+    console.log(masterQuestion);
+    return masterQuestion;
   }
 });
 
@@ -290,11 +369,71 @@ function addQuestion(index, questionContent){
             <td style=\"background-color:#baffc9\">Please answer in the box below: </td>\
           </tr>\
           <tr>\
-            <td><div><br/><br/><br/></div></td>\
+            <td><div style=\"background-color:#FFFFFF\" data-id=\"p_q"+index+"\"><pre>  </pre><br/><br/><br/></div></td>\
           </tr>\
         </table>\
       </td> \
     </tr> \
   </table>";
   return val;
+}
+
+function parseContent(contentIn) {
+  console.log(contentIn);
+  var counter = 1;
+  var threshold = 5;
+  var isProcessing = true;
+  var front = contentIn;
+  var back = "";
+  var middle = "";
+  var question = [];
+
+  while(isProcessing){
+    var stringToFind  = "<div data-id=\"p_q"+counter+"\"";
+    var index = front.indexOf(stringToFind);
+    if(index != -1){
+      back = front.substring(index);
+      var endIndex = back.indexOf("</div>");
+      if(endIndex != -1){
+        middle = back.substring(0,endIndex+6);
+        var str = getStringInHtml(middle);
+        question[counter] = str;
+      }else{
+        threshold = threshold - 1;
+      }
+    }else{
+      threshold = threshold - 1;
+    }
+
+    counter = counter + 1;
+    // kill loop if missing more then threshold number of question
+    if(threshold <= 0){
+      isProcessing = false;
+    }
+
+  }
+  return question;
+}
+
+function getStringInHtml(questionHtml) {
+  var isProcessing = true;
+  var fullString = "";
+  var curr = questionHtml;
+  while(isProcessing) {
+    var openAnchor = curr.indexOf("<");
+    var closeAnchor = curr.indexOf(">");
+    if(openAnchor != -1 && closeAnchor != -1){
+        var front = curr.substring(0,openAnchor);
+        curr = curr.substring(closeAnchor+1);
+        fullString = fullString + " "+ front;
+    }else if(openAnchor == -1 && closeAnchor == -1){
+      if(curr.length > 0){
+        fullString =  fullString + curr;
+      }
+      isProcessing = false;
+    }else{
+      isProcessing = false;
+    }
+  }
+  return fullString.trim();
 }
