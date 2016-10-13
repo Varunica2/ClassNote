@@ -1,187 +1,275 @@
 
 
 <template name="home">
-<div class="container-fluid" id="first" >
-      <nav class="navbar navbar-default" role="navigation" style="background-color:white">
+
+  <div class="container-fluid" id="first">
+      <nav class="navbar navbar-default" role="navigation" style="background-color: black">
         <!-- Brand and toggle get grouped for better mobile display -->
-
-
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse" >
+          <ul class="nav navbar-nav navbar-left">
+            <li ><a style="color:purple; margin-left: 20px;" id="homebtn" ><strong>ClassNote</strong></a></li>
+          </ul>
           <ul class="nav navbar-nav" >
-            <li ><a href="#" style="color:white" >HOME</a></li>
-            <li><a href="#" style="color:white">ABOUT US</a></li>
-          <li><a href="#" style="color:white">CONTACT</a></li>
-     
-            
+            <li ><a href="#" style="color:purple" >HOME</a></li>
+            <li><a href="#" style="color:purple">ABOUT US</a></li>
+            <li><a href="#" style="color:purple">CONTACT</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </nav>
 
-   </div>
-
-
-
- <div class= "row" id="second">
-
+  <div class= "row" id="second">
     <div class ="col-md-12">
-
-
-    <img src ="images/logo.png" id="logo" class="img-responsive"> 
-
- 
- </div>  
-</div>
-  
-  <div class= "row" id="third">
-
-    <div class ="col-md-12">
-
-
-  <!--  <h2> <b> A</b>ctive <b>C</b>ollaborative <b>E</b>nvironment for <b>i</b>n-class <b>T</b>eaching </h2> -->
-
- 
- </div>  
-</div>  
-
-
+     <!--<img src ="images/ClassNote logo.png" id="logo" class="img-responsive"> -->
+   </div>  
+  </div>
     
-  <div class= "row" id="fourth">
+    <div class= "row" id="third">
 
-    <div class ="col-md-12">
+    </div>  
+      
+    <div class= "row" id="fourth">
+      <div class ="col-md-12">
+        <h1 style="font-style: Helvetica">CLASSNOTE</h1>
+      </div>
+      <div class ="col-md-12">
+        <button class = "btn btn-primary .btn-custom" id = "Login"> ClassNote Login </button> 
+       </div> 
 
-    <button class = ".btn-custom" id = "Login"> ClassNote Login </button> 
+  </div>  
 
- 
- </div> 
+   
+   <div class= "row" id="sixth">
 
- 
-</div>  
+      <div class ="col-md-12">
 
- 
- <div class= "row" id="sixth">
+      <h4> ClassNote is designed to facilitate in-class collaboration learning through various activities, quizzes and discussions. </h4>
 
-    <div class ="col-md-12">
-
-
-    <h4> School of Computing - National University of Singapore </h4>
-
- 
- </div>  
-</div>  
-
-<hr>
+      <h4 style="font-color:white"> Product of School of Computing - National University of Singapore </h4>
+   
+      </div>  
+  </div>  
+  </div>
+  <hr>
 
 </template>
 
 <template name ="navigation">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+      <!-- Brand and toggle get grouped for better mobile display -->
 
-<div class="container-fluid" id="first" >
-      <nav class="navbar navbar-default" role="navigation" style="background-color:white">
-        <!-- Brand and toggle get grouped for better mobile display -->
+      <!-- top nav bar -->
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <!--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"> -->
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top" style="background-color: black;">
 
+      <div class="container-fluid">
+          <div class="navbar-header">
+             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top" id="home"></a>
+          </div>
+      
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-left">
+            <li ><a href="dashboard" style="color:purple" id="homebtn" ><strong>ClassNote</strong></a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse" >
-          <ul class="nav navbar-nav" >
-            <li ><a style="color:white" id="homebtn" >ClassNote</a></li>
+            
             <li class ="dropdown">
-              <a style="color:white" id = "noti" data-toggle="dropdown" class="dropdown-toggle">Notifications <sup style = "color:red"> {{unseen}} </sup></a>
               
-              <ol role="menu" class="dropdown-menu" style="color:black" id = "ulnoti">
-              {{#each getNoti}}
-              <li id = "linoti"> {{message}} </li>
-              {{/each}}
-
+              <a style="color:purple" id = "noti" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i> <sup style = "color:white"> {{unseen}} </sup></a>
+              
+              <ol role="menu" class="dropdown-menu" style="color:grey" id = "ulnoti">
+                {{#each getNoti}}
+                <li id = "linoti"> {{message}} </li>
+                {{/each}}
               </ol>
 
             </li>
-          <li><a href="#" style="color:white" > {{currentTime}}</a></li>
-          
-          <li class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle" style="color:white">Profile</a>
-                <ul role="menu" class="dropdown-menu" style="color:black;text-align:center">
-                    <li>User : {{getUser}}</li>
-                    <li>ID : {{getID}}</li>
-                    <li>Modules : {{#if isModule}}  
-                      {{#each getModules}} 
-                      {{#if teach}}
-                      {{code}}
-                      {{else}}
-                      {{codes}}
-                      {{/if}}
-                      {{/each}} 
-                      {{else}} Null 
-                      {{/if}} </li>
-                      {{#if teach}}
-                     <li class="divider"></li>
-                     <li><a id = "createModule">  Edit / Create Module </a></li> 
-                    {{/if}}
-                </ul>
+           <!-- <li><a href="#" style="color:white" > {{currentTime}}</a></li> -->
+            <li class="dropdown">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:purple"><i class="fa fa-plus"></i><b class="caret" style="color:purple"></b> </a>
+            
+              <ul class="dropdown-menu"> 
+                  {{#if teach}}
+                  <li><a id = "createModule">  Edit / Create Module </a></li> 
+                  <li class="divider"></li>
+                  <li><a href="actcreate"> Create Activity </a></li> 
+                  {{/if}}
+              </ul>
+            
             </li>
 
-            <li><a href="notebooks" style="color:white" > Notebooks </a></li>
 
+            <li class="dropdown">
 
-          <li><a style="color:white" id = "out" >SignOut</a></li>
-     
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:purple"><i class="fa fa-user"></i><b class="caret" style="color:purple"></b> {{getUser}}</a>
             
+              <ul class="dropdown-menu"> 
+          <!--  <li class="dropdown">
+              <a data-toggle="dropdown" class="dropdown-toggle" style="color:white"><i class="fa fa-user fa-lg"></i> {{username}} <i class="fa fa-caret-down"></i></a>
+              <ul role="menu" class="dropdown-menu" style="color:black;text-align:left">
+              -->
+                <li style="color: grey; margin-left: 20px;">User    : {{getUser}}</li>
+                <li style="color: grey; margin-left: 20px;">ID      : {{getID}}</li><br />
+                <li style="color: grey; margin-left: 20px;">Modules : {{#if isModule}}  
+                  {{#each getModules}} 
+                  {{#if teach}}
+                  <a class ="modlist">{{code}} {{>module}}</a>
+                  {{/if}}
+                  {{/each}} 
+                  {{else}} Null 
+                  {{/if}} </li>
+                  <li class="divider"></li>
+                  <li><a id = "out" >SignOut</a></li>
+                </ul>
+            
+              </li>
+              
           </ul>
-        </div><!-- /.navbar-collapse -->
-      </nav>
 
-   </div>
+        </div>
+        </div>
+
+    </nav><!-- /.navbar-collapse -->
+
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse col-md-3">
+          <ul class="nav navbar-nav side-nav" style="background-color: black;">
+            <li class="active">
+              <a href="dashboard" style="color:white"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+            </li>
+              <li>
+              <a href="notebooks" style="color:white"><i class="fa fa-fw fa-book"></i> Notebooks</a>
+            </li>
+            <li>
+              <a style="color:white"><i class="fa fa-fw fa-bar-chart-o"></i> Responses </a>
+            </li>
+          </ul>
+
+        </div> 
+
+        <div class="col-md-2">
+          
+        </div>
+
 
   </template>
+
 <template name ="dashboard">
 
- 
   {{>navigation}}
 
- <div class = "row">
- <div class = "col-md-5" id="dashone">
-
-  Welcome {{username}}, 
-  {{dashboard}}
-
-
- </div>
-
- <div class = "col-md-5" id ="dashtwo">
-  
-  {{#if isteacher}}
-  {{>create}}
-  {{/if}}
- </div>
-
-</div>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Sortable - Portlets</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  body {
+    min-width: 520px;
+  }
+  .column {
+    width: 170px;
+    float: left;
+    padding-bottom: 100px;
+  }
+  .portlet {
+    margin: 0 1em 1em 0;
+    padding: 0.3em;
+  }
+  .portlet-header {
+    padding: 0.2em 0.3em;
+    margin-bottom: 0.5em;
+    position: relative;
+  }
+  .portlet-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -8px;
+  }
+  .portlet-content {
+    padding: 0.4em;
+  }
+  .portlet-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 50px;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( ".column" ).sortable({
+      connectWith: ".column",
+      handle: ".portlet-header",
+      cancel: ".portlet-toggle",
+      placeholder: "portlet-placeholder ui-corner-all"
+    });
  
- <div class = "row" id ="dashrow">
-
-
-{{#if isteacher}}
- {{#each list}}
- {{>actbox}}
- {{/each}}
-{{else}} 
-{{#each stulist}}
- {{>actbox}}
- {{/each}}
- {{/if}}
-
+    $( ".portlet" )
+      .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
+      .find( ".portlet-header" )
+        .addClass( "ui-widget-header ui-corner-all" )
+        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
  
+    $( ".portlet-toggle" ).on( "click", function() {
+      var icon = $( this );
+      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+      icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
+    });
+  } );
+  </script>
+</head>
 
+     <div class = "row">
+       <div class = "col-md-5" id="dashone">
 
+        Welcome {{username}} 
+        {{dashboard}}
 
-  </div>
+       </div>
 
+     <div class = "col-md-5" id ="dashtwo">
+      
+      {{#if isteacher}}
+      {{>create}}
+      {{/if}}
+
+     </div>
+
+    </div>
+     
+     <div class = "row" id ="dashrow">
+     <div class="col-md-offset-2">
+      {{#if isteacher}}
+       {{#each list}}
+       {{>actbox}}
+       {{/each}}
+      {{else}} 
+      {{#each stulist}}
+       {{>actbox}}
+       {{/each}}
+       {{/if}}
+       </div>
+      </div>
 
 </template>
 
 
 <template name = "actbox">
 
-    <div class ="col-md-3 dashact">
+    <div class ="col-md-2 dashact">
       <p> {{name}} </p>
       <p> {{module}} </p>
       <p> {{activity}} </p>
@@ -193,8 +281,6 @@
  </template> 
 
  <template name = "create">
-
- <button id = "createbtn" > Create Activity </button>
  </template>
 
 
@@ -203,47 +289,44 @@
   {{setCounter}}
   {{>navigation}}
 
-<form id ="activityform">
-  <fieldset class="form-group">
-    <label for="Module Name">Module Name</label>
-    <input type="text" class="form-control" name="modulename" placeholder="Eg Machine Lerning, Design Lab...">
-    
-  </fieldset>
-   <fieldset class="form-group">
-    <label for="Module Code">Module Code</label>
-    <input type="text" class="form-control" name="modulecode" placeholder="Eg CS45, CS12...">
-    
-  </fieldset>
-   <fieldset class="form-group">
-    <label for="Activity Name">Activity Name / Code </label>
-    <input type="text" class="form-control" name="activityname" placeholder="Eg A1, A2...">
-  
-  </fieldset>
+  <body>
+
+    <form id ="activityform" class="col-md-3">
+
+      <fieldset class="form-group">
+        <label for="Module Name">Module Name</label>
+        <input type="text" class="form-control" name="modulename" placeholder="Eg Machine Lerning, Design Lab...">
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label for="Module Code">Module Code</label>
+        <input type="text" class="form-control" name="modulecode" placeholder="Eg CS45, CS12...">
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label for="Activity Name">Activity Name / Code </label>
+        <input type="text" class="form-control" name="activityname" placeholder="Eg A1, A2...">
+      </fieldset>
 
 
-   <fieldset class="form-group">
-    
+      <fieldset class="form-group">
+        <a id="addquestion">Add Question</a> 
+      </fieldset>
 
-    <a id="addquestion">Add Question</a> 
-    
-  </fieldset>
-   
+      {{#each count}}
 
+      {{>addquestion}}
 
-  {{#each count}}
+      {{/each}}
 
-  {{>addquestion}}
+      <button type="submit" class="btn btn-primary">Create</button>
 
-  {{/each}}
-  
+    </form>
 
-
-   
-
-  <button type="submit" class="btn btn-primary">Create</button>
-</form>
+  </body>
 
 </template>
+
 
 <template name = "addquestion">
   <a id="remove">Remove Question</a> 
@@ -259,7 +342,7 @@
 
   {{>navigation}} 
 
- <div class = "row" id ="modulelist">
+<!-- <div class = "row" id ="modulelist">
   <div class = "col-md-12">
 
     <p> Here is the list of your modules : </p>
@@ -267,8 +350,8 @@
   {{>module}}
   {{/each}}
 
-</div>
-</div>
+</div> 
+</div> -->
 
   <form id ="moduleform">
   <fieldset class="form-group">
@@ -296,38 +379,29 @@
 
 <template name = "module">
 
- <div class = "row" id = "mod">
-  <div clas = "col-md-12">
- <a class ="modlist"> <p> {{module}} : {{code}} - View Student List </p> </a>
-</div>
-</div>
+  <div id = "mod">
+    <a class ="modlist"> <p> {{module}} </p> </a>
+  </div>
+
 </template>
 
 
 <template name = "studentlist">
 
-  <div class = "row">
-    <div class ="col-md-12">
+  {{>navigation}}
+
+  <div class = "row" id="studentlist">
 
       <h3> Here is the list of students </h3>
 
+      <div class = "list-group">
+        {{#each getStudentList}}
+        <p class = "list-group-item"> {{this}} </p >
+        {{/each}}
+      </div>
+
     </div>
-  </div>
 
-    <div class = "row">
-    <div class ="col-md-12">
-
-
-  <div class = "list-group">
-{{#each getStudentList}}
-
-<p class = "list-group-item"> {{this}} </p >
-
-{{/each}}
-
-</div>
-</div>
-  </div>
 </template>
 
 <template name = "session">
@@ -340,264 +414,256 @@
     {{/if}}
 </template>
 
+
 <template name = "studentsession">
-  
-
-<div class = "row" id = "sessionfirst">
-    <div class = "col-md-3">
-  {{aid}} Activity Session Page 
-  </div>
-  </div>
-  <div class = "row">
-
-    <div id = "sessionquest" class = "col-md-3">
-
-      <div class = "row" >
-      <h4> Questions </h4>
+  <div class="col-md-offset-3">
+    <div class = "row" id = "sessionfirst">
+        <div class = "col-md-3">
+      {{aid}} Activity Session Page 
       </div>
-
+      </div>
       <div class = "row">
 
-      <div class = "list-group" id ="questlist">
-           {{#each sqlist}}
-          
-           <div class ="list-group-item questitem" >
-            <p id = "qdisplaynum"> {{@index}} </p>
-            <p id ="qdisplay"> {{this}}  </p> 
-            <p>
+        <div id = "sessionquest" class = "col-md-3">
 
-             <button id = "v{{@index}}" class = "sqbtn"> View and Respond </button>  
-            
-            
-            </p>
-            </div>
+          <div class = "row" >
+          <h4> Questions </h4>
+          </div>
 
-           {{/each}}
-          
-           
+          <div class = "row">
 
-      </div>
-      </div>
-    </div>
+          <div class = "list-group" id ="questlist">
+               {{#each sqlist}}
+              
+               <div class ="list-group-item questitem" >
+                <p id = "qdisplaynum"> {{@index}} </p>
+                <p id ="qdisplay"> {{this}}  </p> 
+                <p>
 
-    <div class = "col-md-7" id = "sessionsec">
+                 <button id = "v{{@index}}" class = "sqbtn"> View and Respond </button>  
+                
+                
+                </p>
+                </div>
 
-     <div class = "row" id="sessionadmin">
+               {{/each}}
+              
+               
 
-      <div class = "col-md-6" id= "sessionthird">
-      <h4> Question View </h4>
-     
-     <div id ="qviewmain">
+          </div>
+          </div>
+        </div>
 
-      <p> {{qviewmain}}
-       </p> 
-     </div>
-    
+        <div class = "col-md-7" id = "sessionsec">
 
-     </div>
-     
-      <div class = "col-md-6" id = "sessionfourth">
-      <h4> Write Response </h4>
-         <form id = "respform">
-       <fieldset class="form-group">
-    
-       <textarea rows ="8" cols = "60em" id ="addrtextarea" name="responseadd" > Type response here...
-       </textarea>
-  
-       </fieldset>
-       
-       <button id="saverespbtn">Save</button>
-       <button id="attachrespbtn">Attach File</button>
-       <button type="submit"  id="submitrespbtn" >Submit</button>
-      </form>
+         <div class = "row" id="sessionadmin">
 
+          <div class = "col-md-6" id= "sessionthird">
+          <h4> Question View </h4>
+         
+         <div id ="qviewmain">
+
+          <p> {{qviewmain}}
+           </p> 
+         </div>
+        
+
+         </div>
+         
+          <div class = "col-md-6" id = "sessionfourth">
+          <h4> Write Response </h4>
+             <form id = "respform">
+           <fieldset class="form-group">
+        
+           <textarea rows ="8" cols = "60em" id ="addrtextarea" name="responseadd" > Type response here...
+           </textarea>
       
-     </div>
-   </div>
-
-     <div class = "row" id ="sessionresponse">
-      <div class = "col-md-8" id="addquest">
-        <h4> Peer Responses </h4>
-
-        <div class = "list-group" id ="peerresplist">
-           {{#each prlist}}
-          
-           <div class ="list-group-item questitem" >
-            <p id = "rdisplaynum"> <b> {{studentID}} </b></p>
-            <p id ="rdisplay"> {{response}}  </p> 
+           </fieldset>
            
-            </div>
+           <button id="saverespbtn">Save</button>
+           <button id="attachrespbtn">Attach File</button>
+           <button type="submit"  id="submitrespbtn" >Submit</button>
+          </form>
 
-           {{/each}}
+          
+         </div>
+       </div>
+
+         <div class = "row" id ="sessionresponse">
+          <div class = "col-md-8" id="addquest">
+            <h4> Peer Responses </h4>
+
+            <div class = "list-group" id ="peerresplist">
+               {{#each prlist}}
+              
+               <div class ="list-group-item questitem" >
+                <p id = "rdisplaynum"> <b> {{studentID}} </b></p>
+                <p id ="rdisplay"> {{response}}  </p> 
+               
+                </div>
+
+               {{/each}}
+          </div>
+          
+         
+          </div>
+         <div class = "col-md-4" id="response">
+          <h4> Activity Admin </h4>
+          <div class = "list-group" id = "actadmin">
+
+            <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
+            <p class = "list-group-item admin">  Activity Name : {{getmodcode}} - {{getactcode}} </p>
+
+            <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
+
+            <p class = "list-group-item admin"> Start Time - </p>
+            <p class = "list-group-item admin"> No. of Questions - {{getactqnum}} </p>
+            <p class = "list-group-item admin"> Questions Responded- </p>
+          </div>
+          <button type="submit"  id="viewfeedbtn">View Feedback</button>
+         </div>
+         </div>
+       </div>
       </div>
-      
-     
       </div>
-     <div class = "col-md-4" id="response">
-      <h4> Activity Admin </h4>
-      <div class = "list-group" id = "actadmin">
-
-        <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
-        <p class = "list-group-item admin">  Activity Name : {{getmodcode}} - {{getactcode}} </p>
-
-        <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
-
-        <p class = "list-group-item admin"> Start Time - </p>
-        <p class = "list-group-item admin"> No. of Questions - {{getactqnum}} </p>
-        <p class = "list-group-item admin"> Questions Responded- </p>
-      </div>
-      <button type="submit"  id="viewfeedbtn">View Feedback</button>
-     </div>
-     </div>
-   </div>
-  </div>
-
-  
-
   </template>
 
 
-
-
-
-
 <template name = "teachersession">
-  
-  <div class = "row" id = "sessionfirst">
-    <div class = "col-md-3">
-  {{aid}} Activity Session Page 
-  </div>
-  </div>
-  <div class = "row">
-
-    <div id = "sessionquest" class = "col-md-3">
-
-      <div class = "row" >
-      <h4> Questions </h4>
+  <div class="col-md-offset-2">
+        
+      <div class = "row" id = "sessionfirst">
+        <div class = "col-md-12" style="text-align: center; font-size: 28px; color: purple">
+        <strong>{{aid}} Activity Session Page </strong>
+        </div>
       </div>
-
       <div class = "row">
 
-      <div class = "list-group" id ="questlist">
-           {{#each qlist}}
+        <div id = "sessionquest" class = "col-md-3">
+
+          <div class = "row" >
+          <h4> Questions </h4>
+          </div>
+
+          <div class = "row">
+
+          <div class = "list-group" id ="questlist">
+               {{#each qlist}}
+              
+               <div class ="list-group-item questitem" >
+                <p id = "qdisplaynum"> {{@index}} </p>
+                <p id ="qdisplay"> {{this}}  </p> 
+                <p>
+
+                 <button id = "v{{@index}}" class = "qbtn"> View Question </button>  
+                <button id = "d{{@index}}" class = "qbtn2"> Deploy </button>  
+                
+                </p>
+                </div>
+
+               {{/each}}
+              
+          </div>
+          </div>
+        </div>
+
+        <div class = "col-md-7" id = "sessionsec">
+
+         <div class = "row" id="sessionadmin">
+
+          <div class = "col-md-6" id= "sessionthird">
+          <h4> Question View </h4>
+         
+         <div id ="qviewmain" style="background-color: white;">
+
+          <p> {{qviewmain}}
+           </p> 
+         </div>
+        
+
+         </div>
+         
+          <div class = "col-md-6" id = "sessionfourth">
+          <h4> Activity Admin </h4>
+            <div class = "list-group" id = "actadmin">
+
+            <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
+            <p class = "list-group-item admin">  Activity Name : {{getmodcode}} - {{getactcode}} </p>
+
+            <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
+            <p class = "list-group-item admin"> Active Students -  </p>
+
+            <p class = "list-group-item admin"> Start Time - </p>
+            <p class = "list-group-item admin"> No. of Questions - {{getactqnum}} </p>
+            <p class = "list-group-item admin"> Questions Deployed - </p>
+          </div>
+
           
-           <div class ="list-group-item questitem" >
-            <p id = "qdisplaynum"> {{@index}} </p>
-            <p id ="qdisplay"> {{this}}  </p> 
-            <p>
+         </div>
+       </div>
 
-             <button id = "v{{@index}}" class = "qbtn"> View Question </button>  
-            <button id = "d{{@index}}" class = "qbtn2"> Deploy </button>  
-            
-            </p>
-            </div>
-
-           {{/each}}
+         <div class = "row" id ="sessionresponse">
+          <div class = "col-md-4" id="addquest">
+            <h4> Add Question </h4>
           
-           
-
-      </div>
-      </div>
-    </div>
-
-    <div class = "col-md-7" id = "sessionsec">
-
-     <div class = "row" id="sessionadmin">
-
-      <div class = "col-md-6" id= "sessionthird">
-      <h4> Question View </h4>
-     
-     <div id ="qviewmain">
-
-      <p> {{qviewmain}}
-       </p> 
-     </div>
-    
-
-     </div>
-     
-      <div class = "col-md-6" id = "sessionfourth">
-      <h4> Activity Admin </h4>
-        <div class = "list-group" id = "actadmin">
-
-        <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
-        <p class = "list-group-item admin">  Activity Name : {{getmodcode}} - {{getactcode}} </p>
-
-        <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
-        <p class = "list-group-item admin"> Active Students -  </p>
-
-        <p class = "list-group-item admin"> Start Time - </p>
-        <p class = "list-group-item admin"> No. of Questions - {{getactqnum}} </p>
-        <p class = "list-group-item admin"> Questions Deployed - </p>
-      </div>
-
+          <form id = "addqform">
+           <fieldset class="form-group">
+        
+           <textarea rows ="8" cols = "60em" id ="addqtextarea" name="addition" placeholder="Add question here..."></textarea>
       
-     </div>
-   </div>
-
-     <div class = "row" id ="sessionresponse">
-      <div class = "col-md-4" id="addquest">
-        <h4> Add Question </h4>
-      
-      <form id = "addqform">
-       <fieldset class="form-group">
-    
-       <textarea rows ="8" cols = "60em" id ="addqtextarea" name="addition" > Add question here... 
-       </textarea>
-  
-       </fieldset>
-       
-       <button type="submit"  id="addquestbtn">Add</button>
-      </form>
-
-      </div>
-     <div class = "col-md-4" id="control">
-      <h4> Activity Control </h4>
-      <div class = "row">
-       <button id="togglestatus">{{activitystatus}}</button>
-      </div>
-      <div class = "row"> 
-       <button  id="notibutton">Push Notification</button>
-      </div>
-      <div class = "row"> 
-       <button id="respbutton">Response Analysis</button>
-      </div>
-
-      <div class = "row">
-         <form id = "feedback">
-       <fieldset class="form-group">
-    
-       <textarea rows ="8" cols = "60em" id ="feedbackarea" name="feedback " > Give group feedback.. 
-       </textarea>
-  
-       </fieldset>
-       
-       <button type="submit"  id="submitfeed">Submit Feedback</button>
-      </form>
-      </div>
-     </div>
-     <div class = "col-md-4" id="response">
-      <h4> Responses </h4>
-      <div class = "list-group" id ="resplist">
-           {{#each rlist}}
-          
-           <div class ="list-group-item questitem" >
-            <p id = "rdisplaynum"> <b> {{studentID}} </b></p>
-            <p id ="rdisplay"> {{response}}  </p> 
+           </fieldset>
            
-            </div>
+           <button type="submit"  id="addquestbtn">Add</button>
+          </form>
 
-           {{/each}}
+          </div>
+         <div class = "col-md-4" id="control">
+          <h4> Activity Control </h4>
+          <div class = "row">
+           <button id="togglestatus">{{activitystatus}}</button>
+          </div>
+          <div class = "row"> 
+           <button  id="notibutton">Push Notification</button>
+          </div>
+          <div class = "row"> 
+           <button id="respbutton">Response Analysis</button>
+          </div>
+
+          <div class = "row">
+             <form id = "feedback">
+           <fieldset class="form-group">
+        
+           <textarea rows ="8" cols = "60em" id ="feedbackarea" name="feedback " placeholder="Give group feedback..."></textarea>
+      
+           </fieldset>
+           
+           <button type="submit"  id="submitfeed">Submit Feedback</button>
+          </form>
+          </div>
+         </div>
+         <div class = "col-md-4" id="response">
+          <h4> Responses </h4>
+          <div class = "list-group" id ="resplist">
+               {{#each rlist}}
+              
+               <div class ="list-group-item questitem" >
+                <p id = "rdisplaynum"> <b> {{studentID}} </b></p>
+                <p id ="rdisplay"> {{response}}  </p> 
+               
+                </div>
+
+               {{/each}}
+          </div>
+         </div>
+         </div>
+       </div>
       </div>
-     </div>
-     </div>
-   </div>
-  </div>
-
-
+      </div>
 
 </template>
 
 <template name = "questionlist" >
   
-  </template>
+</template>
+
+

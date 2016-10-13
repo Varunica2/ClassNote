@@ -33,21 +33,23 @@ Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlliUkFR
 //Router Info
 
 Router.route('/dashboard',{
-	template:'dashboard',
-	name:'dash'
+  template:'dashboard',
+  name:'dash'
 });
 
 Router.route('/',{
 
-	template:'home',
+  template:'home',
   name:'home'
 });
+
 
 Router.route('/actcreate',{
 
   template : "actcreate",
   name:'create'
 });
+
 
 Router.route('/addmodule',{
 
@@ -114,23 +116,23 @@ Template.dashboard.helpers({
     var user = Session.get('userID');
 
     if(user != ''){
-   	if((user == 't0914194') || (user =='dcsbw') || (user ='A0117057')){
+    if((user == 't0914194') || (user =='dcsbw') || (user ='A0117057')){
 
       Session.setPersistent('userType','teacher');
 
-   	}
+    }
 
-   	else{
+    else{
         Session.setPersistent('userType','student');
 
-   	}
+    }
    }
 
  },
 
    list : function(){
 
-   		return activityList.find({ userID : Session.get('userID')},{ sort: { time: -1 } });
+      return activityList.find({ userID : Session.get('userID')},{ sort: { time: -1 } });
 
    },
 
@@ -294,8 +296,7 @@ Template.navigation.helpers({
 });
 
 Template.navigation.events({
-   'click #first #out' : function(){
-
+   'click #out' : function(){
 
    Router.go('/');
    logout();
@@ -324,6 +325,10 @@ Template.navigation.events({
 
    },
 
+   'click #createbtn' : function(){
+
+    Router.go('/actcreate');
+  },
 
 
    'click #first #homebtn' : function(){
