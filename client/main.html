@@ -56,6 +56,7 @@
 
 <template name ="navigation">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!--<script src="./jquery-ui.js" type="javascript"></script>-->
       <!-- Brand and toggle get grouped for better mobile display -->
 
       <!-- top nav bar -->
@@ -76,14 +77,14 @@
       
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-left">
-            <li ><a href="dashboard" style="color:purple" id="homebtn" ><strong>ClassNote</strong></a></li>
+            <li ><a href="dashboard" style="color:#B93B8F" id="homebtn" ><strong>ClassNote</strong></a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
 
             
             <li class ="dropdown">
               
-              <a style="color:purple" id = "noti" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i> <sup style = "color:white"> {{unseen}} </sup></a>
+              <a style="color:#B93B8F" id = "noti" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i> <sup style = "color:white"> {{unseen}} </sup></a>
               
               <ol role="menu" class="dropdown-menu" style="color:grey" id = "ulnoti">
                 {{#each getNoti}}
@@ -95,11 +96,11 @@
            <!-- <li><a href="#" style="color:white" > {{currentTime}}</a></li> -->
             <li class="dropdown">
 
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:purple"><i class="fa fa-plus"></i><b class="caret" style="color:purple"></b> </a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#B93B8F"><i class="fa fa-plus"></i><b class="caret" style="color:#B93B8F"></b> </a>
             
               <ul class="dropdown-menu"> 
                   {{#if teach}}
-                  <li><a id = "createModule">  Edit / Create Module </a></li> 
+                  <li><a id = "createModule">  Create Module </a></li> 
                   <li class="divider"></li>
                   <li><a href="actcreate"> Create Activity </a></li> 
                   {{/if}}
@@ -110,7 +111,7 @@
 
             <li class="dropdown">
 
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:purple"><i class="fa fa-user"></i><b class="caret" style="color:purple"></b> {{getUser}}</a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#B93B8F"><i class="fa fa-user"></i><b class="caret" style="color:#B93B8F"></b> {{getUser}}</a>
             
               <ul class="dropdown-menu"> 
           <!--  <li class="dropdown">
@@ -167,71 +168,6 @@
 
   {{>navigation}}
 
-  <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery UI Sortable - Portlets</title>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <style>
-  body {
-    min-width: 520px;
-  }
-  .column {
-    width: 170px;
-    float: left;
-    padding-bottom: 100px;
-  }
-  .portlet {
-    margin: 0 1em 1em 0;
-    padding: 0.3em;
-  }
-  .portlet-header {
-    padding: 0.2em 0.3em;
-    margin-bottom: 0.5em;
-    position: relative;
-  }
-  .portlet-toggle {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    margin-top: -8px;
-  }
-  .portlet-content {
-    padding: 0.4em;
-  }
-  .portlet-placeholder {
-    border: 1px dotted black;
-    margin: 0 1em 1em 0;
-    height: 50px;
-  }
-  </style>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( ".column" ).sortable({
-      connectWith: ".column",
-      handle: ".portlet-header",
-      cancel: ".portlet-toggle",
-      placeholder: "portlet-placeholder ui-corner-all"
-    });
- 
-    $( ".portlet" )
-      .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
-      .find( ".portlet-header" )
-        .addClass( "ui-widget-header ui-corner-all" )
-        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
- 
-    $( ".portlet-toggle" ).on( "click", function() {
-      var icon = $( this );
-      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
-      icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
-    });
-  } );
-  </script>
-</head>
-
      <div class = "row">
        <div class = "col-md-5" id="dashone">
 
@@ -240,48 +176,75 @@
 
        </div>
 
-     <div class = "col-md-5" id ="dashtwo">
-      
-      {{#if isteacher}}
-      {{>create}}
-      {{/if}}
+    </div>    
+  
+    <div id ="dashrow">
+      <div class="col-md-offset-2 container" style="margin-top: 100px;">
+        {{#if isteacher}}
+          <ul class="nav nav-tabs">
+          {{#each modList}}
+            {{#if checkIndex @index}}
+              {{>insertActiveTab}}
+            {{else}}
+              {{>insertTab}}
+            {{/if}}
+          {{/each}}
+          </ul>
+        {{/if}}
 
-     </div>
+        {{#if isteacher}}
+          {{#each mod in modList}}
+            <div id="{{mod.code}}" class="modDiv" style="display: none">
+              {{#let rowIndex=@index}}
+                {{#each listItem in list}}
+                  {{#if checkIfSame mod.code listItem.module rowIndex}}
+                    <div class="col-md-2 dashact">
+                      <p> {{listItem.name}} </p>
+                      <p> {{listItem.module}} </p>
+                      <p> {{listItem.activity}} </p>
+                      <p> {{listItem.status}} </p>
+                      <!--<p> {{listItem.extra}} </p>-->
+                      <p id="aid" style="display: none;">{{listItem.aID}}</p>
+                      <a id = "viewact"> View Activity </a>
+                    </div>
+                  {{/if}}
+                {{/each}}
+              {{/let}}
+            </div>
+          {{/each}}
+        {{/if}}
+      </div>
 
     </div>
-     
-     <div class = "row" id ="dashrow">
-     <div class="col-md-offset-2">
-      {{#if isteacher}}
-       {{#each list}}
-       {{>actbox}}
-       {{/each}}
-      {{else}} 
-      {{#each stulist}}
-       {{>actbox}}
-       {{/each}}
-       {{/if}}
-       </div>
-      </div>
+
+    <!--<script>
+      $( function() {
+        $( ".modDiv" ).sortable();
+      });
+    </script>-->
 
 </template>
 
+<template name="insertTab">
+  <li><a data-toggle="tab" href="{{code}}">{{code}}</a></li>
+</template>
+
+<template name="insertActiveTab">
+  <li class="active"><a data-toggle="tab" href="{{code}}">{{code}}</a></li>
+</template>
 
 <template name = "actbox">
 
-    <div class ="col-md-2 dashact">
-      <p> {{name}} </p>
-      <p> {{module}} </p>
-      <p> {{activity}} </p>
-      <p> {{status}} </p>
-      <p> {{extra}} </p>
-      <a id = "viewact"> View Activity </a>       
-    </div>
+  <div class="col-md-2 dashact">
+    <p> {{name}} </p>
+    <p> {{module}} </p>
+    <p> {{activity}} </p>
+    <p> {{status}} </p>
+    <p> {{extra}} </p>
+    <a id = "viewact"> View Activity </a>
+  </div>
 
- </template> 
-
- <template name = "create">
- </template>
+</template>
 
 
 <template name = "actcreate">

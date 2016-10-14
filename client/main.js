@@ -30,6 +30,11 @@ Session.setDefaultPersistent('actstatus','inactive');
 // Required to be changed to automated retrieval of token in 2-way authentication
 Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyIsImtpZCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzUyMTkzNzAsIm5iZiI6MTQ3NTIxOTM3MCwiZXhwIjoxNDc1MjIzMjcwLCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImdpdmVuX25hbWUiOiJWYXJ1bmljYSIsImlwYWRkciI6IjEzNy4xMzIuMjI4LjM3IiwibmFtZSI6IlZhcnVuaWNhIiwib2lkIjoiYmUzZGI2M2ItMTVhOC00ZjI4LTk5YjAtNGNiYWYyMWNkMzc0Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtNTIyMjgiLCJwdWlkIjoiMTAwM0JGRkQ4RUI0MTA2NiIsInNjcCI6Ik5vdGVzLkNyZWF0ZSBOb3Rlcy5SZWFkIE5vdGVzLlJlYWQuQWxsIE5vdGVzLlJlYWRXcml0ZSBOb3Rlcy5SZWFkV3JpdGUuQWxsIE5vdGVzLlJlYWRXcml0ZS5DcmVhdGVkQnlBcHAiLCJzdWIiOiJFbFlZMThtNGVUcUNpZjBoZ2hOT2g1el9sbUhWWWtRVG5ieHhBWjVFR2FVIiwidGlkIjoiNWJhNWVmNWUtMzEwOS00ZTc3LTg1YmQtY2ZlYjBkMzQ3ZTgyIiwidW5pcXVlX25hbWUiOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ1cG4iOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ2ZXIiOiIxLjAifQ.iounNDSTwXKHzE9raGrk8-LvVzUomjxfdM19b9Y1DEgDi-3iczVR4qO-_gWlTPVGU2j70s57RYvKbbmSKAaGUiCzp60vC2apaEYaoDAI9r6497t2eQPdsPZoTap2McHndNU8PVlHqAJcc85h4l1VblM7yP_uBFQuLuL6XK6IwqjKC5gVZoGlSDiKTp4rUnjQyRjrcfZDKaDuL_qVBq8oRBw5VuhLYsifvD2dKYq8N0sCmwkupOAJZNaVJkyttj-nzDJfjCJd9ZQnqIASGNJp4AgaFF_g-Aad-hSzjwfLAFcjAgxU5xdnjebQjUv87mrAulajY6s7C_sahe8OjQxI8g");
 
+//Global Variable
+var currentPanelId = 0;
+
+var prevOpen = "";
+
 //Router Info
 
 Router.route('/dashboard',{
@@ -95,11 +100,13 @@ Template.home.events({
 
 
 //template home events end
-
-
-
-//Independent functions
-
+Template.dashboard.events({
+  'click #viewact': function(e){
+    //console.log(e.currentTarget.parentNode.childNodes;
+    Session.setPersistent('aID',e.currentTarget.parentNode.childNodes[11].innerHTML);
+    Router.go('/session');
+  }
+})
 
 
 Template.dashboard.helpers({
@@ -130,8 +137,11 @@ Template.dashboard.helpers({
 
  },
 
-   list : function(){
+ modList: function() {
+    return teacherModules.find({userID : Session.get('userID')});
+ },
 
+   list : function(){
       return activityList.find({ userID : Session.get('userID')},{ sort: { time: -1 } });
 
    },
@@ -147,7 +157,21 @@ Template.dashboard.helpers({
     if(Session.get('userType')=='teacher'){
       return true;
     }
-   }
+   },
+
+   checkIndex: function (index) {
+    return index == 0 ? true : false;
+  },
+
+  checkIfSame: function(modCode, activityCode, index) {
+    if (index === 0) {
+      $("#" + modCode).css("display", "block");
+      prevOpen = "#" + modCode;
+    }
+    return modCode === activityCode;
+  }
+
+
 /*
     load_OneNote : function() {
     
@@ -208,6 +232,34 @@ Template.dashboard.helpers({
     }
 */
 });
+
+Template.insertTab.events({
+  'click a': function(event) {
+    if (prevOpen === "") {
+      prevOpen = "#" + event.currentTarget.innerHTML;
+    } else {
+      $(prevOpen).css("display", "none");
+      prevOpen = "#" + event.currentTarget.innerHTML;
+    }
+
+    $("#" + event.currentTarget.innerHTML).css("display", "block");
+  }
+});
+
+Template.insertActiveTab.events({
+  'click a': function(event) {
+    if (prevOpen === "") {
+      prevOpen = "#" + event.currentTarget.innerHTML;
+    } else {
+      $(prevOpen).css("display", "none");
+      prevOpen = "#" + event.currentTarget.innerHTML;
+    }
+
+    $("#" + event.currentTarget.innerHTML).css("display", "block");
+  }
+});
+
+
 
 
 Template.navigation.helpers({
@@ -347,16 +399,6 @@ Template.navigation.events({
 //
 
 
-Template.create.events({
-  'click #createbtn' : function(){
-
-    Router.go('/actcreate');
-  },
-
-
-});
-
-
 
 
 Template.actcreate.helpers({
@@ -487,6 +529,13 @@ Template.addmodule.events({
    var studentlist = target.studentlist.value;
    var array = studentlist.split('\n');
 
+   if (currentPanelId = 4){
+    currentPanelId = 1;
+   }
+   else {
+    currentPanelId += 1;
+   }
+
    var code =   Session.get("accessToken");
     
     Meteor.call('createNewNoteBook', code, nb_name, teacherID, array, function(){
@@ -500,6 +549,11 @@ Template.addmodule.events({
         studentID : studentlist,
         time : new Date(),
 
+   });
+
+   panelDisplay.insert({
+      code: modcode,
+      panelid: currentPanelId,
    });
 
    var z;
