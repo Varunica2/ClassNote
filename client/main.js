@@ -524,7 +524,7 @@ Template.addmodule.events({
    const target = event.target;
    var modname = target.modulename.value;
    var modcode = target.modulecode.value;
-   var nb_name = modcode + " - " + modname;
+   var nb_name = modcode;
    var teacherID = Session.get("userID");
    var studentlist = target.studentlist.value;
    var array = studentlist.split('\n');
@@ -734,18 +734,20 @@ Template.teachersession.events({
   'click .qbtn2' : function(event){
 
    event.preventDefault();
+   var code = Session.get("accessToken");
    const target = event.target;
    var qid = target.id;
    qid = qid.slice(1);
-   var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
    activity = Session.get('aID');
    teacher = Session.get('userID');
-   var qninfo =[];
-
-   if(deployedquestions.find({aID:activity}).fetch() == ''){
+   var deployedSet = deployedquestions.find({aID:activity}).fetch();
+   var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
+   var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
+   const pageObject = new PageObject("currentActivity");
+  
+   if(deployedSet == ''){
 
      var quests =[currentq];
-
      deployedquestions.insert({
           teacherID : teacher,
           aID : activity,
@@ -753,28 +755,66 @@ Template.teachersession.events({
           time : new Date(),
      });
 
-     qninfo.push(teacher);
-     qninfo.push(aID);
-     qninfo.push(deployed);
-     qninfo.push(time);
+     alert("Question has been deployed");
+   }
+
+   else{
+   
+    var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
+    var id = deployedquestions.findOne({aID:activity})._id;
+    currentdeployed.push(currentq);
+    deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
+  
+    alert("Question has been deployed");
+
+   }
+
+   pageObject.addQuestion(qid,currentq);
+   Meteor.call('sendPageToStudents', code, notebookID, pageObject);
+
+
+  },
+
+  'click .deployall' : function(event){
+
+   event.preventDefault();
+   var code = Session.get("accessToken");
+   const target = event.target;
+   var qid = target.id;
+   qid = qid.slice(1);
+   activity = Session.get('aID');
+   teacher = Session.get('userID');
+   var deployedSet = deployedquestions.find({aID:activity}).fetch();
+   var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
+   var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
+   const pageObject = new PageObject("currentActivity");
+  
+   if(deployedSet == ''){
+    
+     var quests =[currentq];
+     deployedquestions.insert({
+          teacherID : teacher,
+          aID : activity,
+          deployed : quests,
+          time : new Date(),
+     });
 
      alert("Question has been deployed");
    }
 
    else{
+   
     var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
     var id = deployedquestions.findOne({aID:activity})._id;
     currentdeployed.push(currentq);
     deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
-
-    qninfo.push(teacherID);
-    qninfo.push(activity);
-    qninfo.push(currentq);
-    qninfo.push(time);
-
+  
     alert("Question has been deployed");
 
    }
+
+   pageObject.addQuestion(qid,currentq);
+   Meteor.call('sendPageToStudents', code, notebookID, pageObject);
 
 
   },
@@ -1008,6 +1048,26 @@ function Populate_UserId() {
 
 //function end
 
+function QuestionObject(questionIndex, questionText) {
+    this.index = questionIndex;
+    this.text = questionText;
+}
+
+class PageObject {
+  constructor(pageName) {
+    this.name = pageName;
+    this.questions = [];
+  }
+
+  addQuestion(questionIndex, questionText) {
+    this.questions.push(new QuestionObject(questionIndex,questionText));
+  }
+
+  getQuestions(){
+     return this.questions;
+  }
+}
+
 
 
 
@@ -1028,5 +1088,4 @@ function logout(){
 
 //Independent functions end
 
-console.log("Developer : Siddhartha Arora");
-console.log("Linkedin : in.linkedin/in/sidirk");
+console.log("Welcome to ClassNote");
