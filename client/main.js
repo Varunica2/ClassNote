@@ -627,15 +627,21 @@ Template.editmodule.events({
    var nb_name = modulecode;
    var newstudentlist = target.newstudentlist.value;
    var array = newstudentlist.split('\n');
-   var id = teacherModules.findOne({code:modulecode})._id;
+   var modid = teacherModules.findOne({code:modulecode})._id;
+   var actids = [activityList.find({module:modulecode})._id];
+//   console.log(actids);
 
    var code =   Session.get("accessToken");
     /*
       editing to existing notebooks goes here
     */
-   teacherModules.update({_id:id}, { $set: {code:newmodcode, module:newmodname, studentID:newstudentlist }}); 
-
-
+   teacherModules.update({_id:modid}, { $set: {code:newmodcode, module:newmodname, studentID:newstudentlist }}); 
+  /* 
+   for(i=0 ; i<actids.length ; i++){
+    activityList.update({id:actids[i]}, { $set: {code:newmodcode, name:newmodname}});
+    console.log(actids[i]);
+   };
+  */
    alert("Module has been edited!");
    Router.go('/dashboard');
   }
@@ -647,7 +653,10 @@ Template.module.events({
 'click .modlist': function(e){
 
   Session.setPersistent('modID',this._id);
-  Router.go('/studentlist');
+  Router.go('/editmodule');
+  /*
+    enter code to auto populate fields of the form upon module clicked
+  */
 }
 
 });

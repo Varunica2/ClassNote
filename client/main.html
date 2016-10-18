@@ -102,8 +102,6 @@
                   {{#if teach}}
                   <li><a id = "createModule">  Create Module </a></li> 
                   <li class="divider"></li>
-                  <li><a id = "editModule">  Edit Module </a></li> 
-                  <li class="divider"></li>
                   <li><a href="actcreate"> Create Activity </a></li> 
                   {{/if}}
               </ul>
@@ -362,7 +360,7 @@
   </div>
 
     <fieldset class="form-group">
-      <label for="Module Code">Please enter code of the module you wish to edit:</label>
+      <label for="Old Module Code">Please enter code of the module you wish to edit:</label>
       <input type="text" class="form-control" name="modulecode" placeholder={{code}}>
     </fieldset>
 
@@ -385,6 +383,7 @@
 
 
     <button type="submit" class="btn btn-warning">Edit Module</button>
+    <button type="submit" class="btn btn-danger">Delete Module</button>
 
   </form>
   
