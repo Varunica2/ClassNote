@@ -102,6 +102,8 @@
                   {{#if teach}}
                   <li><a id = "createModule">  Create Module </a></li> 
                   <li class="divider"></li>
+                  <li><a id = "editModule">  Edit Module </a></li> 
+                  <li class="divider"></li>
                   <li><a href="actcreate"> Create Activity </a></li> 
                   {{/if}}
               </ul>
@@ -316,16 +318,18 @@
 </div> 
 </div> -->
 
+
   <form id ="moduleform">
+
+  <fieldset class="form-group">
+    <label for="Module Code">Module Code</label>
+    <input type="text" class="form-control" name="modulecode" placeholder="Eg CS45, CS12...">
+  </fieldset>
+
   <fieldset class="form-group">
     <label for="Module Name">Module Name</label>
     <input type="text" class="form-control" name="modulename" placeholder="Eg Machine Lerning, Design Lab...">
-    
   </fieldset>
-   <fieldset class="form-group">
-    <label for="Module Code">Module Code</label>
-    <input type="text" class="form-control" name="modulecode" placeholder="Eg CS45, CS12...">
-   </fieldset>
   
   <fieldset class="form-group">
     <label for="Append">List of Students</label>
@@ -338,6 +342,53 @@
 
 
 </template>  
+
+<template name = "editmodule">
+
+  {{>navigation}}
+
+  <form id ="moduleform">
+
+  <div id="modlistDropdown" class="modlistDropdown" style="margin-top: 5%; padding-bottom: 3%;">
+
+    <div class="btn-group btn-group-sm">
+      <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle modselect" aria-haspopup="true" aria-expanded="true" style="color: white">Please select module<span class="caret"></span></button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        {{#each getModuleList}}
+          <li><a href="#">{{code}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+    <fieldset class="form-group">
+      <label for="Module Code">Please enter code of the module you wish to edit:</label>
+      <input type="text" class="form-control" name="modulecode" placeholder={{code}}>
+    </fieldset>
+
+    <fieldset class="form-group">
+      <label for="Module Code">New Module Code</label>
+      <input type="text" class="form-control" name="newmodulecode" placeholder={{code}}>
+     </fieldset>
+
+
+    <fieldset class="form-group">
+      <label for="Module Name">New Module Name</label>
+      <input type="text" class="form-control" name="newmodulename" placeholder={{module}}>
+    </fieldset>
+   
+    
+    <fieldset class="form-group">
+      <label for="Append">New List of Students</label>
+      <textarea class="form-control" name="newstudentlist" rows="3">{{students}}</textarea>
+    </fieldset>
+
+
+    <button type="submit" class="btn btn-warning">Edit Module</button>
+
+  </form>
+  
+</template>
 
 
 <template name = "module">

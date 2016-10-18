@@ -16,7 +16,7 @@ if (Meteor.isServer) {
       return studentModules.find();
   });
   Meteor.publish('teacherModules', function teacherModulesPublication() {
-      return teacherModules.find();
+      return teacherModules.find({});
   });
   Meteor.publish('activityList', function activityListPublication() {
       return activityList.find();

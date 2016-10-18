@@ -62,6 +62,12 @@ Router.route('/addmodule',{
   name:'addmodule'
 });
 
+Router.route('/editmodule',{
+
+  template : "editmodule",
+  name:'editmodule'
+});
+
 Router.route('/studentlist',{
 
   template : "studentlist",
@@ -377,6 +383,14 @@ Template.navigation.events({
 
    },
 
+  'click #editModule' : function(){
+
+
+   Router.go('/editmodule');
+
+
+   },
+
    'click #createbtn' : function(){
 
     Router.go('/actcreate');
@@ -450,6 +464,7 @@ Template.actcreate.events({
    var code = target.modulecode.value;
    var append = [];
    var x;
+   var deployed = false;
 
    for(x=0;x<count.length;x++){
      var uid = count[x].uniqid;
@@ -470,7 +485,8 @@ Template.actcreate.events({
    questions.insert({
         aID : code + activity,
         quest : append,
-        time : new Date()
+        time : new Date(),
+        deployState : deployed
 
   });
 
@@ -545,7 +561,7 @@ Template.addmodule.events({
         module : modname,
         code : modcode,
         userID : Session.get('userID'),
-      //  notebook: notebookName;
+      //  notebook: notebookName,
         studentID : studentlist,
         time : new Date(),
 
@@ -589,6 +605,42 @@ Template.addmodule.events({
 
 }
 });
+
+Template.editmodule.helpers({
+
+ getModuleList:function(){
+
+  return teacherModules.find({userID:Session.get('userID')});
+ }
+
+});
+
+Template.editmodule.events({
+
+'submit #moduleform'(event){
+
+   event.preventDefault();
+   const target = event.target;
+   var modulecode = target.modulecode.value;
+   var newmodname = target.newmodulename.value;
+   var newmodcode = target.newmodulecode.value;
+   var nb_name = modulecode;
+   var newstudentlist = target.newstudentlist.value;
+   var array = newstudentlist.split('\n');
+   var id = teacherModules.findOne({code:modulecode})._id;
+
+   var code =   Session.get("accessToken");
+    /*
+      editing to existing notebooks goes here
+    */
+   teacherModules.update({_id:id}, { $set: {code:newmodcode, module:newmodname, studentID:newstudentlist }}); 
+
+
+   alert("Module has been edited!");
+   Router.go('/dashboard');
+  }
+});
+
 
 Template.module.events({
 
@@ -745,6 +797,7 @@ Template.teachersession.events({
    var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
    const pageObject = new PageObject("currentActivity");
   
+
    if(deployedSet == ''){
 
      var quests =[currentq];
@@ -770,7 +823,8 @@ Template.teachersession.events({
    }
 
    pageObject.addQuestion(qid,currentq);
-   Meteor.call('sendPageToStudents', code, notebookID, pageObject);
+   Meteor.call('sendPageToStudents', code, nbID, pageObject);
+   questions.update({_id:id }, { $set: {deployState: true }});
 
 
   },
@@ -785,19 +839,26 @@ Template.teachersession.events({
    activity = Session.get('aID');
    teacher = Session.get('userID');
    var deployedSet = deployedquestions.find({aID:activity}).fetch();
-   var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
+   var currentqlist = questions.find({'aID':Session.get('aID'), deployState:false}).fetch();
    var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
    const pageObject = new PageObject("currentActivity");
   
    if(deployedSet == ''){
-    
-     var quests =[currentq];
-     deployedquestions.insert({
-          teacherID : teacher,
-          aID : activity,
-          deployed : quests,
-          time : new Date(),
-     });
+
+     for (i=0 ; i<currentqlist.length ; i++) {
+
+        deployedquestions.insert({
+        teacherID : teacher,
+        aID : activity,
+        deployed : currentqlist[i],
+        time : new Date(),
+        });
+
+        pageObject.addQuestion(qid,currentqlist[i]);
+        questions.update({_id:id, aID: activity }, { $set: {deployState: true }});
+
+     }
+     
 
      alert("Question has been deployed");
    }
@@ -806,17 +867,21 @@ Template.teachersession.events({
    
     var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
     var id = deployedquestions.findOne({aID:activity})._id;
-    currentdeployed.push(currentq);
-    deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
+    
+    for (i=0 ; i<currentqlist.length ; i++) {
+      
+      pageObject.addQuestion(qid,i);
+      deployedquestions.update({_id:id }, { $set: {deployed: currentqlist[i] }});
+      questions.update({_id:id, aID: activity }, { $set: {deployState: true }});
+    } 
   
     alert("Question has been deployed");
 
    }
 
-   pageObject.addQuestion(qid,currentq);
-   Meteor.call('sendPageToStudents', code, notebookID, pageObject);
-
-
+   Meteor.call('sendPageToStudents', code, nbID, pageObject);
+   
+   
   },
 
   'submit #addqform' : function(e){

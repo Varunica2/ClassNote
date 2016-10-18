@@ -764,5 +764,13 @@ ul.alert-dropdown {
     background-repeat: no-repeat;
 }
 
+.btn-group{
+  background-color: #3B3B3B;
+  border-radius: 15%;
+}
+
+.btn-default{
+  background-color: #3B3B3B;
+}
 
 
