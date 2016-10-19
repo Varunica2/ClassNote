@@ -9,6 +9,7 @@ function guidGenerator() {
 }
 
 Meteor.startup(() => {
+  Session.set("cUser","myself");
 });
 
 Template.notebook_main.onCreated(function bodyOnCreated() {
@@ -53,8 +54,10 @@ Template.createNoteBook.events({
 
 Template.getNoteBooks.events({
   'click button'(event, instance) {
+    var cUser = Session.get("cUser");
     var code =   Session.get("accessToken");
-    Meteor.call('getNoteBooks', code, function(){
+    Meteor.call('getNoteBooks', code, cUser, function(err, result){
+
     });
   },
 });
@@ -66,12 +69,13 @@ Template.notebook_template.events({
   'click .e_notebook'(event, instance) {
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('getNoteBookInformation', code, this._id);
+    var cUser = Session.get("cUser");
+    Meteor.call('getNoteBookInformation', code, this._id, cUser);
   },
   'click .e_insertSectionGrps'(event, instance){
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('createSectionGrp', code, this._id,'in-class assignment');
+    Meteor.call('createSectionGrp', code, this._id,'Temp section');
   },
   'click .e_sendPages'(event, instance){
     event.stopPropagation();
@@ -95,7 +99,16 @@ Template.notebook_template.events({
   'click .e_getStudentQuestions'(event, instance) {
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('getStudentsQuestions', code, this._id, 'in-class assignment','Testing Activity 17', function(err, result){
+    var cUser = Session.get("cUser");
+    Meteor.call('getStudentsQuestions', code, this._id, 'in-class assignment','Testing Activity 16', cUser, function(err, result){
+      console.log(result);
+    });
+  },
+  'click .e_insertNewSectionInCollabSpace'(event, instance) {
+    event.stopPropagation();
+    var code =   Session.get("accessToken");
+    var activityName = "week2InClass";
+    Meteor.call('addNewCollaborativeActivity', code, this._id, activityName, function(err, result){
       console.log(result);
     });
   }
@@ -120,13 +133,14 @@ Template.sectionGrp_template.events({
   'click .e_sectionGrp'(event, instance) {
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('getSectionGroupSections', code, this._id);
+    var cUser = Session.get("cUser");
+    Meteor.call('getSectionGroupSections', code, this._id, cUser);
   }
 });
 
 Template.sectionGrp_template.helpers({
   sectionSet : function (parentIdInput) {
-    return SectionsDB.find({parentId : parentIdInput});
+    return SectionsDB.find({sectionGrp_id : parentIdInput});
   }
 });
 
@@ -134,13 +148,30 @@ Template.section_template.events({
   'click .e_section'(event, instance) {
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('getNotebookSectionPages', code, this._id);
+    var cUser = Session.get("cUser");
+    Meteor.call('getNotebookSectionPages', code, this._id, cUser);
+  },
+  'click .e_initGroupActivity'(event, instance) {
+    event.stopPropagation();
+    var code =   Session.get("accessToken");
+    var cUser = Session.get("cUser");
+    Meteor.call('initGroupActivity', code, this._id, cUser, function(err, result){
+      console.log(result);
+    });
+  },
+  'click .e_pushQuestion'(event, instance) {
+    event.stopPropagation();
+    var code =   Session.get("accessToken");
+    var questionObjet = new QuestionObject("1","What is next?");
+    Meteor.call('pushQuestionToCollab', code, this._id, questionObjet, function(err, result){
+      console.log(result);
+    });
   }
 });
 
 Template.section_template.helpers({
   pageSet : function (parentIdInput) {
-    return PagesDB.find({parentId : parentIdInput});
+    return PagesDB.find({section_id : parentIdInput});
   }
 });
 

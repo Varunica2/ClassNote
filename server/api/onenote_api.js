@@ -281,7 +281,6 @@ Meteor.methods({
     var data = {};
     try {
       var link = sectionGrp_link + "/sections";
-      console.log(link);
       data = HTTP.call("POST", link, {
         headers : {
                    'Authorization': tokenString,
@@ -292,7 +291,6 @@ Meteor.methods({
       console.log("success");
       return data;
     }catch(e){
-      console.log(e);
       console.log("fail");
       return e;
     }
@@ -328,9 +326,6 @@ Meteor.methods({
         },
         content : pTempS
       });
-
-      console.log(temp);
-
       console.log("success");
       return data;
     }catch(e){

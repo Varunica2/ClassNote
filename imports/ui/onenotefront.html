@@ -61,7 +61,8 @@
     <a class="e_sendPages" style="color:blue; font-size:9px;">send pages to students</a>
     <a class="e_insertStudentSections" style="color:blue; font-size:9px;">Send section to all students</a>
     <a class="e_addStudent" style="color:blue; font-size:9px;">insert student into notebook</a>
-    <a class="e_getStudentQuestions" style="color:Green; font-size:18px;">get student questions</a>
+    <a class="e_getStudentQuestions" style="color:Green; font-size:9px;">get student questions</a>
+    <a class="e_insertNewSectionInCollabSpace" style="color:purple; font-size:9px;">Start new collab activity</a>
   </div>
 </template>
 
@@ -83,6 +84,8 @@
 <template name="section_template">
   <li>
     <span class="e_section"> {{rawId}} {{name}}</span>
+    <a class="e_initGroupActivity" style="color:purple; font-size:9px;">init group activity</a>
+    <a class="e_pushQuestion" style="color:purple; font-size:9px;">push activity</a>
     <div style="color:blue">
     <ul>
       {{#each pageSet _id}}

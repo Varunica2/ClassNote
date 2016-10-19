@@ -3,7 +3,6 @@ import { Mongo } from 'meteor/mongo';
 import '../imports/api/activityList.js';
 
 import './api/onenote_api.js';
-import { Session } from 'meteor/session';
 import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB, PagesDB, PagesContentDB } from '../imports/api/mongoRelations.js';
 import { EJSON } from 'meteor/ejson'
 
@@ -12,30 +11,43 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-  getNoteBookInformation(code, notebookDB_id){
+  getNoteBookInformation(code, notebookDB_id, cUser){
     var notebook = NotebooksDB.find({_id : notebookDB_id}).fetch();
     if(notebook.length == 1){
-      Meteor.call('getStudents', code, notebook[0]["rawId"], notebookDB_id);
-      Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"], notebookDB_id);
+
+      StudentsDB.remove({owner : cUser});
+      SectionsGrpDB.remove({owner : cUser});
+      SectionsDB.remove({owner : cUser});
+      PagesDB.remove({owner : cUser});
+      PagesContentDB.remove({owner : cUser});
+
+      Meteor.call('getStudents', code, notebook[0]["rawId"], notebookDB_id, cUser);
+      Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"], notebookDB_id, cUser);
     }
   },
-  getNoteBooks:function (code) {
+  getNoteBooks:function (code, cUser) {
+
+    NotebooksDB.remove({owner : cUser});
+    StudentsDB.remove({owner : cUser});
+    SectionsGrpDB.remove({owner : cUser});
+    SectionsDB.remove({owner : cUser});
+    PagesDB.remove({owner : cUser});
+    PagesContentDB.remove({owner : cUser});
+
     Meteor.call('API_getNoteBooks', code, function(err, result){
-      NotebooksDB.remove({});
       if(result["statusCode"] == 200){
         var values = EJSON.parse(result["content"])["value"];
         for(i = 0; i < values.length; i++){
           var id = values[i]["id"];
           var name = values[i]["name"];
           var self = values[i]["self"];
-          NotebooksDB.insert({rawId: id, name: name, self : self});
+          NotebooksDB.insert({rawId: id, name: name, self : self, owner : cUser});
         }
       }
     });
   },
-  getStudents:function (code, notebookId, notebookDB_id) {
+  getStudents:function (code, notebookId, notebookDB_id, cUser) {
     Meteor.call('API_getStudents', code, notebookId, function(err, result){
-      StudentsDB.remove({});
       if(result["statusCode"] == 200){
         var values = EJSON.parse(result["content"])["value"];
         for(i = 0; i < values.length; i++){
@@ -43,14 +55,13 @@ Meteor.methods({
           var name = values[i]["name"];
           var userId = values[i]["userId"];
           var self = values[i]["self"];
-          StudentsDB.insert({rawId: id, name: name, userId: userId, self: self, notebook_id : notebookDB_id});
+          StudentsDB.insert({rawId: id, name: name, userId: userId, self: self, notebook_id : notebookDB_id, owner : cUser});
         }
       }
     });
   },
-  getNotebookSectionGroups:function (code, notebookId, notebookDB_id) {
+  getNotebookSectionGroups:function (code, notebookId, notebookDB_id, cUser) {
     Meteor.call('API_getNoteBookSectionGroups', code, notebookId, function(err, result){
-      SectionsGrpDB.remove({});
       if(result["statusCode"] == 200){
         var values = EJSON.parse(result["content"])["value"];
         var arr = [];
@@ -58,19 +69,23 @@ Meteor.methods({
           var id = values[i]["id"];
           var name = values[i]["name"];
           var self = values[i]["self"];
-          var sectionDB_id = SectionsGrpDB.insert({rawId: id, name: name, self: self, notebook_id : notebookDB_id});
+          var sectionDB_id = SectionsGrpDB.insert({rawId: id, name: name, self: self, notebook_id : notebookDB_id, owner : cUser});
           arr.push(sectionDB_id);
         }
         for(i = 0; i < values.length; i++){
-            Meteor.call('getSectionGroupSections', code, arr[i]);
+            Meteor.call('getSectionGroupSections', code, arr[i], cUser);
         }
+        console.log("==== done ===");
 
       }
     });
   },
-  getSectionGroupSections:function(code, SectionsGrpDB_id){
+  getSectionGroupSections:function(code, SectionsGrpDB_id, cUser){
     var sectionsGrp = SectionsGrpDB.find({_id:SectionsGrpDB_id}).fetch();
     if(sectionsGrp.length == 1){
+      //remove all existing sections for sectionGrp in mongo
+      SectionsDB.remove({sectionGrp_id : SectionsGrpDB_id});
+
       var result = Meteor.call('API_getSectionGroupSections', code, sectionsGrp[0]["self"]);
       if(result["statusCode"] == 200){
         var values = EJSON.parse(result["content"])["value"];
@@ -78,28 +93,28 @@ Meteor.methods({
           var id = values[ii]["id"];
           var name = values[ii]["name"];
           var self = values[ii]["self"];
-          SectionsDB.insert({rawId: id, name: name, self: self, parentId : SectionsGrpDB_id, notebook_id : sectionsGrp[0]["notebook_id"]});
+          SectionsDB.insert({rawId: id, name: name, self: self, notebook_id : sectionsGrp[0]["notebook_id"], sectionGrp_id : sectionsGrp[0]["_id"], owner : cUser});
         }
       }
     }
   },
-  getNotebookSectionPages:function(code, sectionDB_id){
+  getNotebookSectionPages:function(code, sectionDB_id, cUser){
+    console.log(sectionDB_id);
+    console.log("get section page");
     var sections = SectionsDB.find({_id:sectionDB_id}).fetch();
     if(sections.length == 1){
-       Meteor.call('API_getNoteBookSectionPages', code, sections[0]["self"], "", function(err, result){
-         if(result["statusCode"] == 200){
-           var values = EJSON.parse(result["content"])["value"];
-           for(i = 0; i < values.length; i++){
-             var id = values[i]["id"];
-             var title = values[i]["title"];
-             var self = values[i]["self"];
-             var page = PagesDB.find({rawId : id}).fetch();
-             if(page.length == 0){
-               PagesDB.insert({rawId: id, title: title, self: self, parentId : sectionDB_id});
-             }
-           }
+      PagesDB.remove({section_id : sectionDB_id});
+      Meteor.call('API_getNoteBookSectionPages', code, sections[0]["self"], "", function(err, result){
+       if(result["statusCode"] == 200){
+         var values = EJSON.parse(result["content"])["value"];
+         for(i = 0; i < values.length; i++){
+           var id = values[i]["id"];
+           var title = values[i]["title"];
+           var self = values[i]["self"];
+           PagesDB.insert({rawId: id, title: title, self: self, notebook_id : sections[0]["notebook_id"]  ,sectionGrp_id : sections[0]["sectionGrp_id"], section_id : sectionDB_id});
          }
-       });
+       }
+      });
     }
   },
   getPageContent:function(code, pageDB_id){
@@ -225,7 +240,7 @@ Meteor.methods({
       </html>";
       var sectionsToSend = SectionsGrpDB.find({notebook_id : notebook_id});
       sectionsToSend.forEach(function (sectionGrp) {
-        var studentSection = SectionsDB.find({parentId : sectionGrp._id});
+        var studentSection = SectionsDB.find({sectionGrp_id : sectionGrp._id});
         studentSection.forEach(function (section) {
           if(section.name == sectionName){
             Meteor.call('API_sendPageToSection', code, section.self, pageContent, function(err, result){
@@ -274,7 +289,7 @@ Meteor.methods({
       }
     }
   },
-  getStudentsQuestions:function(code, notebook_id, sectionName, pageName){
+  getStudentsQuestions:function(code, notebook_id, sectionName, pageName, cUser){
     console.log(notebook_id+" "+ sectionName);
     var sections = SectionsDB.find({notebook_id : notebook_id, name : sectionName}).fetch();
     var tempStud = [];
@@ -291,11 +306,11 @@ Meteor.methods({
             var stud = {};
 
             if(page.length == 0){
-              stud.pageId = PagesDB.insert({rawId: id, title: title, self : self, parentId : section.rawId});
+              stud.pageId = PagesDB.insert({rawId: id, title: title, self : self, notebook_id : section.notebook_id  ,sectionGrp_id : section.sectionGrp_id, section_id : section.rawId});
             }else{
               stud.pageId = page[0]._id;
             }
-            stud.parentId = section.parentId;
+            stud.parentId = section.sectionGrp_id;
             tempStud.push(stud);
           }
         }
@@ -349,6 +364,73 @@ Meteor.methods({
 
     console.log(masterQuestion);
     return masterQuestion;
+  },
+  initGroupActivity : function (code, sectionDB_id, cUser){
+    console.log("init grp");
+    var sections = SectionsDB.find({_id:sectionDB_id}).fetch();
+    if(sections.length == 1){
+
+      PagesDB.remove({section_id : sectionDB_id});
+      Meteor.call('getNotebookSectionPages', code, sectionDB_id , cUser);
+      var pages = PagesDB.find({section_id : sectionDB_id}).fetch();
+
+      for (pCount = 0; pCount<pages.length; pCount++){
+        var content = [{
+          'target' : 'body',
+          'action' : 'prepend',
+          'position' : 'before',
+          'content' : '<p>Content area zone</p>'
+        }];
+        Meteor.call('API_updateScoreAndComments', code, pages[pCount]['rawId'], JSON.stringify(content), function(err, result){
+          if(result["statusCode"] == 200){
+          }
+        });
+      }
+    }
+  },
+  pushQuestionToCollab : function (code, sectionDB_id, questionObject){
+    var sections = SectionsDB.find({_id:sectionDB_id}).fetch();
+    if(sections.length == 1){
+      var pages = PagesDB.find({section_id : sectionDB_id}).fetch();
+      for (pCount = 0; pCount<pages.length; pCount++){
+        console.log(pages[pCount]);
+        var contentIn = addQuestion(questionObject.index, questionObject.text);
+        var content = [{
+          'target' : 'body',
+          'action' : 'append',
+          'position' : 'after',
+          'content' : contentIn
+        }];
+        Meteor.call('API_updateScoreAndComments', code, pages[pCount]['rawId'], JSON.stringify(content), function(err, result){
+          if(result["statusCode"] == 200){
+          }
+        });
+      }
+    }
+  },
+  addNewCollaborativeActivity : function (code, notebook_id, activityName){
+    var collabName = "_Collaboration Space";
+    var sectionGrp  = SectionsGrpDB.find({notebook_id : notebook_id, name : collabName}).fetch();
+    if(sectionGrp.length > 0){
+      var contentIn = {
+        'name': activityName
+      };
+      Meteor.call('API_createSectionInStudent', code, sectionGrp[0]["self"], JSON.stringify(contentIn), function(err, result){
+        if(result["statusCode"] == 201){
+          var id = result["data"]["id"];
+          var name = result["data"]["name"];
+          var self = result["data"]["self"];
+          SectionsDB.insert({rawId: id, name: name, self: self, notebook_id : notebook_id, sectionGrp_id : sectionGrp[0]["_id"]});
+        }else {
+          if(result["response"]["statusCode"] == 409) {
+            console.log("already exist");
+          }else{
+            console.log("unable to determine error");
+            console.log(result);
+          }
+        }
+      });
+    }
   }
 });
 

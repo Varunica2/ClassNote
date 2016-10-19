@@ -26,10 +26,9 @@ Session.setDefaultPersistent('actstatus','inactive');
 
 //default session end
 
-//currently hardcoded for one-way authentication. 
+//currently hardcoded for one-way authentication.
 // Required to be changed to automated retrieval of token in 2-way authentication
-Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyIsImtpZCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzUyMTkzNzAsIm5iZiI6MTQ3NTIxOTM3MCwiZXhwIjoxNDc1MjIzMjcwLCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImdpdmVuX25hbWUiOiJWYXJ1bmljYSIsImlwYWRkciI6IjEzNy4xMzIuMjI4LjM3IiwibmFtZSI6IlZhcnVuaWNhIiwib2lkIjoiYmUzZGI2M2ItMTVhOC00ZjI4LTk5YjAtNGNiYWYyMWNkMzc0Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtNTIyMjgiLCJwdWlkIjoiMTAwM0JGRkQ4RUI0MTA2NiIsInNjcCI6Ik5vdGVzLkNyZWF0ZSBOb3Rlcy5SZWFkIE5vdGVzLlJlYWQuQWxsIE5vdGVzLlJlYWRXcml0ZSBOb3Rlcy5SZWFkV3JpdGUuQWxsIE5vdGVzLlJlYWRXcml0ZS5DcmVhdGVkQnlBcHAiLCJzdWIiOiJFbFlZMThtNGVUcUNpZjBoZ2hOT2g1el9sbUhWWWtRVG5ieHhBWjVFR2FVIiwidGlkIjoiNWJhNWVmNWUtMzEwOS00ZTc3LTg1YmQtY2ZlYjBkMzQ3ZTgyIiwidW5pcXVlX25hbWUiOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ1cG4iOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ2ZXIiOiIxLjAifQ.iounNDSTwXKHzE9raGrk8-LvVzUomjxfdM19b9Y1DEgDi-3iczVR4qO-_gWlTPVGU2j70s57RYvKbbmSKAaGUiCzp60vC2apaEYaoDAI9r6497t2eQPdsPZoTap2McHndNU8PVlHqAJcc85h4l1VblM7yP_uBFQuLuL6XK6IwqjKC5gVZoGlSDiKTp4rUnjQyRjrcfZDKaDuL_qVBq8oRBw5VuhLYsifvD2dKYq8N0sCmwkupOAJZNaVJkyttj-nzDJfjCJd9ZQnqIASGNJp4AgaFF_g-Aad-hSzjwfLAFcjAgxU5xdnjebQjUv87mrAulajY6s7C_sahe8OjQxI8g");
-
+Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyIsImtpZCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzY4NjQxMDUsIm5iZiI6MTQ3Njg2NDEwNSwiZXhwIjoxNDc2ODY4MDA1LCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiQ2hhbiIsImdpdmVuX25hbWUiOiJZdWFuIFNoYW4iLCJpcGFkZHIiOiIxMzcuMTMyLjIzNy4xMTkiLCJuYW1lIjoiQ2hhbiBZdWFuIFNoYW4iLCJvaWQiOiJlNjBhMDU2Ny05ODc5LTQwNjMtOGU0Mi1iZGE2OGY0YTUwNmYiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtNzY5MzIzMjMyLTE1NTg3MDE4NzMtMTMxNzA1OTQ5NS04NzY1IiwicHVpZCI6IjEwMDNCRkZEOEIzMzk4RkMiLCJzY3AiOiJOb3Rlcy5DcmVhdGUgTm90ZXMuUmVhZCBOb3Rlcy5SZWFkLkFsbCBOb3Rlcy5SZWFkV3JpdGUgTm90ZXMuUmVhZFdyaXRlLkFsbCBOb3Rlcy5SZWFkV3JpdGUuQ3JlYXRlZEJ5QXBwIiwic3ViIjoiVXhjbTN4N2RrX3A3UlFndGJOMXQ5N3hjU0NRcnEtUlo3VmIybGNBRzFEayIsInRpZCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsInVuaXF1ZV9uYW1lIjoiYTAxMjU1MTRAdS5udXMuZWR1IiwidXBuIjoiYTAxMjU1MTRAdS5udXMuZWR1IiwidmVyIjoiMS4wIn0.jN3aVcl_1hKpERv56LWlMCgREmbBrCa-oMnhxS4IzN_yE3XxJqhADxgtp8MfS_E2gIpAoP7rIapX5pjlVi9U__dppcHm6GWbSjzCKk3bni9Z2phBO-F7zYuoChKq4Uf3W50fOZ8mRaxNqnlC0Dx1vSo8BUPRT8110gTc_YEmaUfMW8_bCEtYSAVaIwAFjmuen0ZPwzm7_HTn7ZDOgBD5Kf7dYYMWRP3UmOSaCEL22yuPdHL-6quzG8NhA_ktGPplYESA8ge8RtJ6lTq_nq4-4KFz-ij2dk2qq4TBJp4G9uh2hC7n7GrdUG5C9EOiqOPrUhzxliIAYELQQVkYgbkaxA");
 //Global Variable
 var currentPanelId = 0;
 
@@ -156,7 +155,7 @@ Template.dashboard.helpers({
 
        var smod = studentModules.findOne({studentID:Session.get('userID')}).codes;
        return activityList.find({module: {$in: smod},status : 'active'},{ sort: { time: -1 } });
-  
+
   },
 
    isteacher: function(){
@@ -180,7 +179,7 @@ Template.dashboard.helpers({
 
 /*
     load_OneNote : function() {
-    
+
       var code = Session.get("accessToken");
       //getNotebooks
       Meteor.call('getNoteBooks', code, function(){});
@@ -188,16 +187,16 @@ Template.dashboard.helpers({
       //notebook_template
       var cursor = NotebooksDB.find();
       console.log(cursor);
-      
+
       // Execute the each command, triggers for each document
       cursor.each(function(err, item) {
-        
+
         console.log("entered");
         // If the item is null then the cursor is exhausted/empty and closed - may remove later
         if(item == null) {
           alert("no notebooks available!");
         }
-      
+
         else {
 
 
@@ -214,7 +213,7 @@ Template.dashboard.helpers({
           }else{
             alert("problem detected");
           }
-          
+
 
           //Meteor.call('createSectionGrp', code, this._id); - work on creating
 
@@ -234,7 +233,7 @@ Template.dashboard.helpers({
           }
 
         }
-      });       
+      });
     }
 */
 });
@@ -350,7 +349,7 @@ Template.navigation.helpers({
     return notifications.find({studentID:Session.get('userID')},{ sort: { time: -1 } });
    }
 
-    
+
 });
 
 Template.navigation.events({
@@ -545,7 +544,7 @@ Template.addmodule.events({
    }
 
    var code =   Session.get("accessToken");
-    
+
     Meteor.call('createNewNoteBook', code, nb_name, teacherID, array, function(){
     });
 
@@ -627,8 +626,8 @@ Template.editmodule.events({
     /*
       editing to existing notebooks goes here
     */
-   teacherModules.update({_id:modid}, { $set: {code:newmodcode, module:newmodname, studentID:newstudentlist }}); 
-  /* 
+   teacherModules.update({_id:modid}, { $set: {code:newmodcode, module:newmodname, studentID:newstudentlist }});
+  /*
    for(i=0 ; i<actids.length ; i++){
     activityList.update({id:actids[i]}, { $set: {code:newmodcode, name:newmodname}});
     console.log(actids[i]);
@@ -672,7 +671,7 @@ Template.modulemanagement.helpers({
 });
 
 Template.modulemanagement.events({
-   
+
    'click #editmod' : function(){
       Router.go('/editmodule');
    },
@@ -811,7 +810,7 @@ Template.teachersession.events({
    var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
    var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
    const pageObject = new PageObject("currentActivity");
-  
+
 
    if(deployedSet == ''){
 
@@ -827,12 +826,12 @@ Template.teachersession.events({
    }
 
    else{
-   
+
     var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
     var id = deployedquestions.findOne({aID:activity})._id;
     currentdeployed.push(currentq);
     deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
-  
+
     alert("Question has been deployed");
 
    }
@@ -857,7 +856,7 @@ Template.teachersession.events({
    var currentqlist = questions.find({'aID':Session.get('aID'), deployState:false}).fetch();
    var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
    const pageObject = new PageObject("currentActivity");
-  
+
    if(deployedSet == ''){
 
      for (i=0 ; i<currentqlist.length ; i++) {
@@ -873,30 +872,30 @@ Template.teachersession.events({
         questions.update({_id:id, aID: activity }, { $set: {deployState: true }});
 
      }
-     
+
 
      alert("Question has been deployed");
    }
 
    else{
-   
+
     var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
     var id = deployedquestions.findOne({aID:activity})._id;
-    
+
     for (i=0 ; i<currentqlist.length ; i++) {
-      
+
       pageObject.addQuestion(qid,i);
       deployedquestions.update({_id:id }, { $set: {deployed: currentqlist[i] }});
       questions.update({_id:id, aID: activity }, { $set: {deployState: true }});
-    } 
-  
+    }
+
     alert("Question has been deployed");
 
    }
 
    Meteor.call('sendPageToStudents', code, nbID, pageObject);
-   
-   
+
+
   },
 
   'submit #addqform' : function(e){
