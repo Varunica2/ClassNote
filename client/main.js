@@ -30,18 +30,24 @@ Session.setDefaultPersistent('actstatus','inactive');
 // Required to be changed to automated retrieval of token in 2-way authentication
 Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyIsImtpZCI6IlliUkFRUlljRV9tb3RXVkpLSHJ3TEJiZF85cyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzUyMTkzNzAsIm5iZiI6MTQ3NTIxOTM3MCwiZXhwIjoxNDc1MjIzMjcwLCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImdpdmVuX25hbWUiOiJWYXJ1bmljYSIsImlwYWRkciI6IjEzNy4xMzIuMjI4LjM3IiwibmFtZSI6IlZhcnVuaWNhIiwib2lkIjoiYmUzZGI2M2ItMTVhOC00ZjI4LTk5YjAtNGNiYWYyMWNkMzc0Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtNTIyMjgiLCJwdWlkIjoiMTAwM0JGRkQ4RUI0MTA2NiIsInNjcCI6Ik5vdGVzLkNyZWF0ZSBOb3Rlcy5SZWFkIE5vdGVzLlJlYWQuQWxsIE5vdGVzLlJlYWRXcml0ZSBOb3Rlcy5SZWFkV3JpdGUuQWxsIE5vdGVzLlJlYWRXcml0ZS5DcmVhdGVkQnlBcHAiLCJzdWIiOiJFbFlZMThtNGVUcUNpZjBoZ2hOT2g1el9sbUhWWWtRVG5ieHhBWjVFR2FVIiwidGlkIjoiNWJhNWVmNWUtMzEwOS00ZTc3LTg1YmQtY2ZlYjBkMzQ3ZTgyIiwidW5pcXVlX25hbWUiOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ1cG4iOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ2ZXIiOiIxLjAifQ.iounNDSTwXKHzE9raGrk8-LvVzUomjxfdM19b9Y1DEgDi-3iczVR4qO-_gWlTPVGU2j70s57RYvKbbmSKAaGUiCzp60vC2apaEYaoDAI9r6497t2eQPdsPZoTap2McHndNU8PVlHqAJcc85h4l1VblM7yP_uBFQuLuL6XK6IwqjKC5gVZoGlSDiKTp4rUnjQyRjrcfZDKaDuL_qVBq8oRBw5VuhLYsifvD2dKYq8N0sCmwkupOAJZNaVJkyttj-nzDJfjCJd9ZQnqIASGNJp4AgaFF_g-Aad-hSzjwfLAFcjAgxU5xdnjebQjUv87mrAulajY6s7C_sahe8OjQxI8g");
 
+//Global Variable
+var currentPanelId = 0;
+
+var prevOpen = "";
+
 //Router Info
 
 Router.route('/dashboard',{
-	template:'dashboard',
-	name:'dash'
+  template:'dashboard',
+  name:'dash'
 });
 
 Router.route('/',{
 
-	template:'home',
+  template:'home',
   name:'home'
 });
+
 
 Router.route('/actcreate',{
 
@@ -49,10 +55,17 @@ Router.route('/actcreate',{
   name:'create'
 });
 
+
 Router.route('/addmodule',{
 
   template : "addmodule",
   name:'addmodule'
+});
+
+Router.route('/editmodule',{
+
+  template : "editmodule",
+  name:'editmodule'
 });
 
 Router.route('/studentlist',{
@@ -93,11 +106,13 @@ Template.home.events({
 
 
 //template home events end
-
-
-
-//Independent functions
-
+Template.dashboard.events({
+  'click #viewact': function(e){
+    //console.log(e.currentTarget.parentNode.childNodes;
+    Session.setPersistent('aID',e.currentTarget.parentNode.childNodes[11].innerHTML);
+    Router.go('/session');
+  }
+})
 
 
 Template.dashboard.helpers({
@@ -114,23 +129,26 @@ Template.dashboard.helpers({
     var user = Session.get('userID');
 
     if(user != ''){
-   	if((user == 't0914194') || (user =='dcsbw') || (user ='A0117057')){
+    if((user == 't0914194') || (user =='dcsbw') || (user ='A0117057')){
 
       Session.setPersistent('userType','teacher');
 
-   	}
+    }
 
-   	else{
+    else{
         Session.setPersistent('userType','student');
 
-   	}
+    }
    }
 
  },
 
-   list : function(){
+ modList: function() {
+    return teacherModules.find({userID : Session.get('userID')});
+ },
 
-   		return activityList.find({ userID : Session.get('userID')},{ sort: { time: -1 } });
+   list : function(){
+      return activityList.find({ userID : Session.get('userID')},{ sort: { time: -1 } });
 
    },
 
@@ -145,7 +163,21 @@ Template.dashboard.helpers({
     if(Session.get('userType')=='teacher'){
       return true;
     }
-   }
+   },
+
+   checkIndex: function (index) {
+    return index == 0 ? true : false;
+  },
+
+  checkIfSame: function(modCode, activityCode, index) {
+    if (index === 0) {
+      $("#" + modCode).css("display", "block");
+      prevOpen = "#" + modCode;
+    }
+    return modCode === activityCode;
+  }
+
+
 /*
     load_OneNote : function() {
     
@@ -206,6 +238,34 @@ Template.dashboard.helpers({
     }
 */
 });
+
+Template.insertTab.events({
+  'click a': function(event) {
+    if (prevOpen === "") {
+      prevOpen = "#" + event.currentTarget.innerHTML;
+    } else {
+      $(prevOpen).css("display", "none");
+      prevOpen = "#" + event.currentTarget.innerHTML;
+    }
+
+    $("#" + event.currentTarget.innerHTML).css("display", "block");
+  }
+});
+
+Template.insertActiveTab.events({
+  'click a': function(event) {
+    if (prevOpen === "") {
+      prevOpen = "#" + event.currentTarget.innerHTML;
+    } else {
+      $(prevOpen).css("display", "none");
+      prevOpen = "#" + event.currentTarget.innerHTML;
+    }
+
+    $("#" + event.currentTarget.innerHTML).css("display", "block");
+  }
+});
+
+
 
 
 Template.navigation.helpers({
@@ -294,8 +354,7 @@ Template.navigation.helpers({
 });
 
 Template.navigation.events({
-   'click #first #out' : function(){
-
+   'click #out' : function(){
 
    Router.go('/');
    logout();
@@ -324,6 +383,18 @@ Template.navigation.events({
 
    },
 
+  'click #editModule' : function(){
+
+
+   Router.go('/editmodule');
+
+
+   },
+
+   'click #createbtn' : function(){
+
+    Router.go('/actcreate');
+  },
 
 
    'click #first #homebtn' : function(){
@@ -340,16 +411,6 @@ Template.navigation.events({
    }
  });
 //
-
-
-Template.create.events({
-  'click #createbtn' : function(){
-
-    Router.go('/actcreate');
-  },
-
-
-});
 
 
 
@@ -403,6 +464,7 @@ Template.actcreate.events({
    var code = target.modulecode.value;
    var append = [];
    var x;
+   var deployed = false;
 
    for(x=0;x<count.length;x++){
      var uid = count[x].uniqid;
@@ -423,7 +485,8 @@ Template.actcreate.events({
    questions.insert({
         aID : code + activity,
         quest : append,
-        time : new Date()
+        time : new Date(),
+        deployState : deployed
 
   });
 
@@ -477,10 +540,17 @@ Template.addmodule.events({
    const target = event.target;
    var modname = target.modulename.value;
    var modcode = target.modulecode.value;
-   var nb_name = modcode + " - " + modname;
+   var nb_name = modcode;
    var teacherID = Session.get("userID");
    var studentlist = target.studentlist.value;
    var array = studentlist.split('\n');
+
+   if (currentPanelId = 4){
+    currentPanelId = 1;
+   }
+   else {
+    currentPanelId += 1;
+   }
 
    var code =   Session.get("accessToken");
     
@@ -491,10 +561,15 @@ Template.addmodule.events({
         module : modname,
         code : modcode,
         userID : Session.get('userID'),
-      //  notebook: notebookName;
+      //  notebook: notebookName,
         studentID : studentlist,
         time : new Date(),
 
+   });
+
+   panelDisplay.insert({
+      code: modcode,
+      panelid: currentPanelId,
    });
 
    var z;
@@ -531,12 +606,57 @@ Template.addmodule.events({
 }
 });
 
+Template.editmodule.helpers({
+
+ getModuleList:function(){
+
+  return teacherModules.find({userID:Session.get('userID')});
+ }
+
+});
+
+Template.editmodule.events({
+
+'submit #moduleform'(event){
+
+   event.preventDefault();
+   const target = event.target;
+   var modulecode = target.modulecode.value;
+   var newmodname = target.newmodulename.value;
+   var newmodcode = target.newmodulecode.value;
+   var nb_name = modulecode;
+   var newstudentlist = target.newstudentlist.value;
+   var array = newstudentlist.split('\n');
+   var modid = teacherModules.findOne({code:modulecode})._id;
+   var actids = [activityList.find({module:modulecode})._id];
+//   console.log(actids);
+
+   var code =   Session.get("accessToken");
+    /*
+      editing to existing notebooks goes here
+    */
+   teacherModules.update({_id:modid}, { $set: {code:newmodcode, module:newmodname, studentID:newstudentlist }}); 
+  /* 
+   for(i=0 ; i<actids.length ; i++){
+    activityList.update({id:actids[i]}, { $set: {code:newmodcode, name:newmodname}});
+    console.log(actids[i]);
+   };
+  */
+   alert("Module has been edited!");
+   Router.go('/dashboard');
+  }
+});
+
+
 Template.module.events({
 
 'click .modlist': function(e){
 
   Session.setPersistent('modID',this._id);
-  Router.go('/studentlist');
+  Router.go('/editmodule');
+  /*
+    enter code to auto populate fields of the form upon module clicked
+  */
 }
 
 });
@@ -675,18 +795,21 @@ Template.teachersession.events({
   'click .qbtn2' : function(event){
 
    event.preventDefault();
+   var code = Session.get("accessToken");
    const target = event.target;
    var qid = target.id;
    qid = qid.slice(1);
-   var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
    activity = Session.get('aID');
    teacher = Session.get('userID');
-   var qninfo =[];
+   var deployedSet = deployedquestions.find({aID:activity}).fetch();
+   var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
+   var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
+   const pageObject = new PageObject("currentActivity");
+  
 
-   if(deployedquestions.find({aID:activity}).fetch() == ''){
+   if(deployedSet == ''){
 
      var quests =[currentq];
-
      deployedquestions.insert({
           teacherID : teacher,
           aID : activity,
@@ -694,30 +817,80 @@ Template.teachersession.events({
           time : new Date(),
      });
 
-     qninfo.push(teacher);
-     qninfo.push(aID);
-     qninfo.push(deployed);
-     qninfo.push(time);
+     alert("Question has been deployed");
+   }
+
+   else{
+   
+    var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
+    var id = deployedquestions.findOne({aID:activity})._id;
+    currentdeployed.push(currentq);
+    deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
+  
+    alert("Question has been deployed");
+
+   }
+
+   pageObject.addQuestion(qid,currentq);
+   Meteor.call('sendPageToStudents', code, nbID, pageObject);
+   questions.update({_id:id }, { $set: {deployState: true }});
+
+
+  },
+
+  'click .deployall' : function(event){
+
+   event.preventDefault();
+   var code = Session.get("accessToken");
+   const target = event.target;
+   var qid = target.id;
+   qid = qid.slice(1);
+   activity = Session.get('aID');
+   teacher = Session.get('userID');
+   var deployedSet = deployedquestions.find({aID:activity}).fetch();
+   var currentqlist = questions.find({'aID':Session.get('aID'), deployState:false}).fetch();
+   var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
+   const pageObject = new PageObject("currentActivity");
+  
+   if(deployedSet == ''){
+
+     for (i=0 ; i<currentqlist.length ; i++) {
+
+        deployedquestions.insert({
+        teacherID : teacher,
+        aID : activity,
+        deployed : currentqlist[i],
+        time : new Date(),
+        });
+
+        pageObject.addQuestion(qid,currentqlist[i]);
+        questions.update({_id:id, aID: activity }, { $set: {deployState: true }});
+
+     }
+     
 
      alert("Question has been deployed");
    }
 
    else{
+   
     var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
     var id = deployedquestions.findOne({aID:activity})._id;
-    currentdeployed.push(currentq);
-    deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
-
-    qninfo.push(teacherID);
-    qninfo.push(activity);
-    qninfo.push(currentq);
-    qninfo.push(time);
-
+    
+    for (i=0 ; i<currentqlist.length ; i++) {
+      
+      pageObject.addQuestion(qid,i);
+      deployedquestions.update({_id:id }, { $set: {deployed: currentqlist[i] }});
+      questions.update({_id:id, aID: activity }, { $set: {deployState: true }});
+    } 
+  
     alert("Question has been deployed");
 
    }
 
-
+   Meteor.call('sendPageToStudents', code, nbID, pageObject);
+   
+   
   },
 
   'submit #addqform' : function(e){
@@ -949,6 +1122,26 @@ function Populate_UserId() {
 
 //function end
 
+function QuestionObject(questionIndex, questionText) {
+    this.index = questionIndex;
+    this.text = questionText;
+}
+
+class PageObject {
+  constructor(pageName) {
+    this.name = pageName;
+    this.questions = [];
+  }
+
+  addQuestion(questionIndex, questionText) {
+    this.questions.push(new QuestionObject(questionIndex,questionText));
+  }
+
+  getQuestions(){
+     return this.questions;
+  }
+}
+
 
 
 
@@ -969,5 +1162,4 @@ function logout(){
 
 //Independent functions end
 
-console.log("Developer : Siddhartha Arora");
-console.log("Linkedin : in.linkedin/in/sidirk");
+console.log("Welcome to ClassNote");

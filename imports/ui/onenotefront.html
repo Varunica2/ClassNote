@@ -1,41 +1,45 @@
 <template name="notebook_main">
-    <div>
+
+<div class="col-md-offset-3">
+    <div class="col-md-9" style="float:right; margin-top: 70px">
       {{> navigation}}
       {{> getNoteBooks}}
       {{> createNoteBook}}
     </div>
-    <hr/>
-    <div>
+
+    <div class="col-md-9">
       <h4>All notebooks</h4>
       {{#each notebookSet}}
         {{> notebook_template}}
       {{/each}}
     </div>
-    <hr/>
-    <div>
+
+    <div class="col-md-9">
       <h4>users in notebook</h4>
       {{#each studentSet}}
         {{> student_template}}
       {{/each}}
     </div>
-    <hr/>
-    <div>
+
+    <div class="col-md-9">
       <h4>sections for notebook</h4>
       {{#each sectionGrpSet}}
         {{> sectionGrp_template}}
       {{/each}}
     </div>
-    <hr/>
-    <div>
+
+    <div class="col-md-9">
       <h4>pages in selected section</h4>
       {{#each pageSet}}
         {{> page_template}}
       {{/each}}
     </div>
-    <hr/>
-    <div>
+
+    <div class="col-md-9">
       {{> pageContent_template}}
     </div>
+    </div>
+
 </template>
 
 <template name="user_template">
@@ -43,11 +47,11 @@
 </template>
 
 <template name="createNoteBook">
-  <button>Create Class NoteBook</button>
+  <button class="btn btn-primary">Create Class NoteBook</button>
 </template>
 
 <template name="getNoteBooks">
-  <button>Get My Notebooks</button>
+  <button class="btn btn-primary">Get My Notebooks</button>
 </template>
 
 <template name="notebook_template">
@@ -62,10 +66,7 @@
 </template>
 
 <template name="student_template">
-  <div>
-    <span class="e_student">id="{{rawId}}" >ID : {{rawId}} Name : {{name}}</span>
-    <a class="e_deleteStudet" style="color:blue; font-size:9px;">delete student</a>
-  </div>
+  <p id="{{rawId}}" >ID : {{rawId}} Name : {{name}} </p>
 </template>
 
 <template name="sectionGrp_template">
@@ -102,8 +103,8 @@
   <div>
     {{#each page}}
     <p>Selected page {{_id}}</p>
-    <div style="position:relative; border : 1px solid blue; width :100%; height:500px; overflow:auto">{{{content}}}</div>
-    <button id="{{_id}}">patch</button>
+    <div style="position:relative; border : 1px solid blue; width :100%; height:500px; overflow:auto">{{{content}}}</div><br />
+    <button class="btn btn-success" id="{{_id}}">patch</button><br /><br />
     {{/each}}
   </div>
 </template>

@@ -76,7 +76,7 @@ Template.notebook_template.events({
   'click .e_sendPages'(event, instance){
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    const pageObject = new PageObject("Testing Activity 14");
+    const pageObject = new PageObject("Testing Activity 17");
     pageObject.addQuestion("1","What is the time?");
     pageObject.addQuestion("2","question 2?");
     pageObject.addQuestion("3","This is question 3?");
@@ -95,7 +95,7 @@ Template.notebook_template.events({
   'click .e_getStudentQuestions'(event, instance) {
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('getStudentsQuestions', code, this._id, 'in-class assignment','Testing Activity 14', function(err, result){
+    Meteor.call('getStudentsQuestions', code, this._id, 'in-class assignment','Testing Activity 17', function(err, result){
       console.log(result);
     });
   }

@@ -3,65 +3,69 @@
    } 
 
 hr{
-
   height:50px;
   color:red;
 }
-#first{
 
-  color:white;
+html,
+body {
+    width: 100%;
+    height: 100%;
+
+    background-color: #EDE7F6;/*#E3DAF3;#FFE1FF;*/
+}
+
+#first{
   margin-left: -14px;
   margin-right: -14px;
   margin-top: 1px;
-
 }
 
 .navbar .navbar-nav {
   display: inline-block;
-  float: none;
+  float: right;
   vertical-align: top;
   color:red;
   font-family: DinLight;
   font-size:15px;
-
-
 }
 
 
-.navbar .nav > li > a {
-   
+.navbar .nav > li > a {  
     text-decoration: none;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    color: red;
     padding-left: 20px;
     padding-right: 20px;
     font-size: 17px;
+    background-color: transparent;
 }
 
 a:hover { 
   cursor:pointer;
-
-   }
-.navbar .navbar-collapse {
-  text-align: center;
-  background-color: #2F2E2E;
-  color:red;
-
-
 }
 
+.navbar .navbar-collapse {
+  text-align: center;
+/*  background-color: #00FFFF; */
+  color:red;
+}
 
+.panelarea{
+  margin-top: 4%;
+}
+
+.panel-primary{
+  background-color: #3E1254;
+  border-color: transparent;
+}
 
 #second{
   margin: 1px;
   margin-top: -14px;
   text-align: center;
-
-  
-  }
+}
 
 #second #logo{
-
   width:300px;
   height: 250px;
   margin-top: 50px;
@@ -74,150 +78,136 @@ a:hover {
   margin: 1px;
   margin-top: -40px;
   text-align: center;
-  
-  }
+}
 
 #fourth{
   font-family: DinLight;
-
   margin-top: 50px;
   text-align: center;
-  
 }
-
-
 
 #fifth{
   font-family: DinLight;
   margin: 1px;
   font-size: 18px;
   margin-top: -40px;
-
-  
-  }
+}
 
 #studentdiv{
-
-
-display:inline-block;
-margin-left: 435px;
-
+  display:inline-block;
+  margin-left: 435px;
 }
 
 #teacherdiv{
-
-
-display:inline-block;
-margin-left: 243px;
+  display:inline-block;
+  margin-left: 243px;
 }
-
 
 #sixth{
   font-family: DinLight;
   margin: 1px;
-  margin-top: 150px;
+  margin-top: 50px;
   text-align: center;
-  float:bottom;
-  
-  }
+  float:bottom;  
+}
 
-
-  #first >ul >li >a {
+#first >ul >li >a {
     color:red;
-  }
+}
 
-  .btn-custom {
-  background-color: hsl(360, 2%, 19%) !important;
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#656161", endColorstr="#312f2f");
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#656161), to(#312f2f));
-  background-image: -moz-linear-gradient(top, #656161, #312f2f);
-  background-image: -ms-linear-gradient(top, #656161, #312f2f);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #656161), color-stop(100%, #312f2f));
-  background-image: -webkit-linear-gradient(top, #656161, #312f2f);
-  background-image: -o-linear-gradient(top, #656161, #312f2f);
-  background-image: linear-gradient(#656161, #312f2f);
-  border-color: #312f2f #312f2f hsl(360, 2%, 14%);
-  color: #fff !important;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.33);
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  width: 1000px;
-  height: 200px;
-  
-
+.btn-custom {
+    background-color: hsl(360, 2%, 19%) !important;
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#656161", endColorstr="#312f2f");
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#656161), to(#312f2f));
+    background-image: -moz-linear-gradient(top, #656161, #312f2f);
+    background-image: -ms-linear-gradient(top, #656161, #312f2f);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #656161), color-stop(100%, #312f2f));
+    background-image: -webkit-linear-gradient(top, #656161, #312f2f);
+    background-image: -o-linear-gradient(top, #656161, #312f2f);
+    background-image: linear-gradient(#656161, #312f2f);
+    border-color: #312f2f #312f2f hsl(360, 2%, 14%);
+    color: #fff !important;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.33);
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    width: 1000px;
+    height: 200px;
 }
 
 #dashone{
-
-  margin-left: 20px;
+  margin-top: -100px;
+  margin-left: 0px;
+  color:white;
 }
 #dashrow{
-
   margin-top: 20px;
   margin-left: 5px;
 }
 
 .dashact{
   text-align: center;
-  opacity:0.8;
-  width:295px;
-  background-color: black;
+  width:220px;
+  height: 170px;
+  background-color: #3E1254;
   margin:10px;
-  margin-left: 11px;
+  margin-top: 100px;
   padding:10px;
   margin-right: 10px;
   color:white;
+  /*border-radius: 30px;*/
 }
 
 #createbtn{
-  
   float:right;
+  margin-right: -500px;
+  margin-top: 50px;
   width:200px;
 }
 
 #dashtwo{
-
   margin-left: 170px;
 }
 
 #activityform{
-  margin: 20px;
-  
+  margin: 10px;
+  margin-top: 7%;
+  width: 60%;
 }
 
 
 #moduleform{
-  margin: 20px;
-  
+  margin: 10px;
+  margin-top: 7%;
+  margin-left: 20%;
+}
+
+#studentlist{
+  margin: 10px;
+  margin-top: 7%;
+  margin-left: 20%;
 }
 
 #mod{
-
-text-align: center;
+  text-align: right;
 }
 
 #profileform{
-  margin: 20px;
-
-  
+  margin: 20px; 
 }
 
 #sessionquest{
-height : 550px;
-margin-left: 70px;
-margin-top:20px;
-border: 1px solid black;
-text-align: center;
+  height : 550px;
+  margin-left: 70px;
+  margin-top:20px;
+  border: 1px solid black;
+  text-align: center;
 }
 
 
 #sessionfirst{
-
-margin-left:60px;
-
-text-align: center;
-
+  margin-top:70px;
+  text-align: center;
 }
 
 #questlist{
@@ -228,11 +218,9 @@ text-align: center;
 }
 
 #sessionsec{
-
   margin-left:60px;
   margin-top:20px;
   width:;
- 
   text-align: center;
 }
 
@@ -244,21 +232,16 @@ text-align: center;
 
 #sessionresponse{
   height:275px;
-  
 }
 
 .qbtn{
-   
-  
   text-align: center;
-  
   background-color: black;
   border:1px solid white;
   color:white;
 }
 
 .qbtn2{
-   
   width : 60px;
   text-align: center;
   margin-left: 10px;
@@ -268,49 +251,36 @@ text-align: center;
 }
 
 .sqbtn{
-   
-  
   text-align: center;
-  
   background-color: black;
   border:1px solid white;
   color:white;
 }
 
-
-
 #sessionthird{
-
-
- height :100%;
- border-right : 1px solid black;
-
-  }
+  height :100%;
+  border-right : 1px solid black;
+}
 
 
 #sessionfourth{
  height : 100%;
-
-
-  }
+}
 
 #actadmin {
-   width : 100%;
-   margin : 0px;
-   font-size: 13px;
-   padding:10px;
-
-
-  }
+  width : 100%;
+  margin : 0px;
+  font-size: 13px;
+  padding:10px;
+}
 
 .admin{
-
   color :grey;
   height : 100%;
   padding:4px;
- } 
+} 
 
- #qdisplay {
+#qdisplay {
   color:grey;
   text-align: center;
   overflow: hidden;
@@ -321,7 +291,6 @@ text-align: center;
 }
 
 #qdisplaynum{
-
  margin-right: 240px;
 }
 
@@ -330,47 +299,42 @@ text-align: center;
   color :grey;
   height : 100%;
   padding:0px;
- } 
+} 
 
- #qviewmain {
+#qviewmain {
   border:1px solid grey;
   height: auto;
   height: 190px;
   overflow-x: hidden;
   text-align:left;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   color:grey;
   padding:10px;
- }
+}
 
- #addquest{
- height : 100%;
- padding:0px;
- border:1px solid black;
- margin:0px;
+#addquest{
+   height : 100%;
+   padding:0px;
+   border:1px solid black;
+   margin:0px;
 
-  }
+}
 
-  #control{
- height : 100%;
- border-top: 1px solid black;
- border-bottom : 1px solid black;
+#control{
+  height : 100%;
+  border-top: 1px solid black;
+  border-bottom : 1px solid black;
+}
 
-  }
+#response{
+  height : 100%;
+  border:1px solid black;
+}
 
-  #response{
- height : 100%;
- border:1px solid black;
-
-  }
-
-  
-
-  #addquestbtn{
-   
+#addquestbtn{ 
   width : 60px;
   text-align: center;
   background-color: black;
@@ -381,7 +345,6 @@ text-align: center;
 }
 
 #addquestion{
-
   color:grey;
 }
 
@@ -443,10 +406,10 @@ text-align: center;
 }
 
 #ulnoti{
-    height: auto;
-    max-height: 100px;
-    overflow-x: hidden;
-    padding:0px;
+  height: auto;
+  max-height: 100px;
+  overflow-x: hidden;
+  padding:0px;
 }
 
 #linoti{
@@ -519,6 +482,295 @@ text-align: center;
     max-height: 200px;
     overflow-x: hidden;
     padding:0px;
+}
+
+/*!
+ * Start Bootstrap - SB Admin (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+/* Global Styles */
+/*
+body {
+    margin-top: 100px;
+    background-color: #fff;
+}
+/*
+@media(min-width:768px) {
+    body {
+        margin-top: 50px;
+    }
+}
+*/
+#wrapper {
+    padding-left: 0;
+}
+
+#page-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background-color: #fff; 
+}
+
+.huge {
+    font-size: 50px;
+    line-height: normal;
+}
+/*
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 225px;
+    }
+
+    #page-wrapper {
+        padding: 10px;
+    }
+}
+
+/* Top Navigation */
+.fa-bell {
+  width: 24px;
+  height: 24px;
+}
+
+.top-nav>.open>.dropdown-menu {
+    float: left;
+    position: absolute;
+    margin-top: 0;
+    border: 1px solid rgba(0,0,0,.15);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.top-nav>.open>.dropdown-menu>li>a {
+    white-space: normal;
+}
+/*
+.top-nav {
+    padding: 0 15px;
+}
+
+.top-nav>li {
+    display: inline-block;
+    float: left;
+}
+
+.top-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: #999;
+}
+
+.top-nav>li>a:hover,
+.top-nav>li>a:focus,
+.top-nav>.open>a,
+.top-nav>.open>a:hover,
+.top-nav>.open>a:focus {
+    color: #fff;
+    background-color: #000;
+}
+
+.top-nav>.open>.dropdown-menu {
+    float: left;
+    position: absolute;
+    margin-top: 0;
+    border: 1px solid rgba(0,0,0,.15);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.top-nav>.open>.dropdown-menu>li>a {
+    white-space: normal;
+}
+
+ul.message-dropdown {
+    padding: 0;
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+li.message-preview {
+    width: 275px;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+li.message-preview>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+li.message-footer {
+    margin: 5px 0;
+}
+
+ul.alert-dropdown {
+    width: 200px;
+}
+*/
+/* Side Navigation */
+
+@media(min-width:768px) {
+    .side-nav {
+        position: fixed;
+        top: 51px;
+        left: 225px;
+        width: 225px;
+        margin-left: -225px;
+        border: none;
+        border-radius: 0;
+        overflow-y: auto;
+        bottom: 0;
+        overflow-x: hidden;
+        padding-bottom: 40px;
+    }
+
+    .side-nav>li>a {
+        width: 225px;
+        font-color:#3E1254;
+    }
+
+    .side-nav li a:hover,
+    .side-nav li a:focus {
+        outline: none;
+        background-color: #3E1254 !important;
+    }
+}
+
+.side-nav>li>ul {
+    padding: 0;
+}
+
+.side-nav>li>ul>li>a {
+    display: block;
+    padding: 10px 15px 10px 38px;
+    text-decoration: none;
+    color: #E31254;
+}
+
+.side-nav>li>ul>li>a:hover {
+    color: #fff;
+}
+
+/* Flot Chart Containers */
+
+.flot-chart {
+    display: block;
+    height: 400px;
+}
+
+.flot-chart-content {
+    width: 100%;
+    height: 100%;
+}
+
+/* Custom Colored Panels */
+
+.huge {
+    font-size: 40px;
+}
+
+.panel-green {
+    border-color: #5cb85c;
+}
+
+.panel-green > .panel-heading {
+    border-color: #5cb85c;
+    color: #fff;
+    background-color: #5cb85c;
+}
+
+.panel-green > a {
+    color: #5cb85c;
+}
+
+.panel-green > a:hover {
+    color: #3d8b3d;
+}
+
+.panel-red {
+    border-color: #d9534f;
+}
+
+.panel-red > .panel-heading {
+    border-color: #d9534f;
+    color: #fff;
+    background-color: #d9534f;
+}
+
+.panel-red > a {
+    color: #d9534f;
+}
+
+.panel-red > a:hover {
+    color: #b52b27;
+}
+
+.panel-yellow {
+    border-color: #f0ad4e;
+}
+
+.panel-yellow > .panel-heading {
+    border-color: #f0ad4e;
+    color: #fff;
+    background-color: #f0ad4e;
+}
+
+.panel-yellow > a {
+    color: #f0ad4e;
+}
+
+.panel-yellow > a:hover {
+    color: #df8a13;
+}
+
+#homebtn{
+  font-size: 22px;
+  margin-left: -30px;
+}
+
+.violet-blush{
+
+  /* Old browsers */
+    background: @first-color;
+    /* FF3.6+ */
+    background: -moz-linear-gradient(-45deg,  #6f749e 0%, #9a8daf 31%, #d0a8b9 58%, #f8bbb1 80%, #fde6b1 100%);
+    /* Chrome,Safari4+ */
+    background: -webkit-gradient(linear, left top, right bottom, 
+      color-stop(0%,#6f749e), 
+      stop-color(31%,#9a8daf), 
+      stop-color(58%,#d0a8b), 
+      stop-color(80%,#f8bbb1), 
+      stop-color(100%, #fde6b1));
+    /* Chrome10+,Safari5.1+ */
+    background: -webkit-linear-gradient(-45deg, #6f749e 0%, #9a8daf 31%, #d0a8b9 58%, #f8bbb1 80%, #fde6b1 100%);
+    /* Opera 11.10+ */
+    background: -o-linear-gradient(-45deg, #6f749e 0%, #9a8daf 31%, #d0a8b9 58%, #f8bbb1 80%, #fde6b1 100%);
+    /* IE10+ */
+    background: -ms-linear-gradient(-45deg, #6f749e 0%, #9a8daf 31%, #d0a8b9 58%, #f8bbb1 80%, #fde6b1 100%);
+    /* W3C */
+    background: linear-gradient(135deg, #6f749e 0%, #9a8daf 31%, #d0a8b9 58%, #f8bbb1 80%, #fde6b1 100%);
+
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.btn-group{
+  background-color: #3B3B3B;
+  border-radius: 15%;
+}
+
+.btn-default{
+  background-color: #3B3B3B;
 }
 
 
