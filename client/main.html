@@ -341,6 +341,7 @@
 
 </template>  
 
+
 <template name = "editmodule">
 
   {{>navigation}}
@@ -382,8 +383,7 @@
     </fieldset>
 
 
-    <button type="submit" class="btn btn-warning">Edit Module</button>
-    <button type="submit" class="btn btn-danger">Delete Module</button>
+    <button type="submit" class="btn btn-success" id="editModule">Submit</button>
 
   </form>
   
@@ -399,11 +399,13 @@
 </template>
 
 
-<template name = "studentlist">
+<template name = "modulemanagement">
 
   {{>navigation}}
 
   <div class = "row" id="studentlist">
+
+      <h3> Module: {{getModule}}</h3>
 
       <h3> Here is the list of students </h3>
 
@@ -413,7 +415,11 @@
         {{/each}}
       </div>
 
-    </div>
+    <button type="submit" id="editmod" class="btn btn-warning">Edit Module</button>
+    <button type="submit" id="deletemod" class="btn btn-danger" style="float: right">Delete Module</button>
+
+  </div>
+
 
 </template>
 

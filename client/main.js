@@ -68,10 +68,10 @@ Router.route('/editmodule',{
   name:'editmodule'
 });
 
-Router.route('/studentlist',{
+Router.route('/modulemanagement',{
 
-  template : "studentlist",
-  name:'studentlist'
+  template : "modulemanagement",
+  name:'modulemanagement'
 });
 
 Router.route('/session',{
@@ -383,14 +383,6 @@ Template.navigation.events({
 
    },
 
-  'click #editModule' : function(){
-
-
-   Router.go('/editmodule');
-
-
-   },
-
    'click #createbtn' : function(){
 
     Router.go('/actcreate');
@@ -606,10 +598,10 @@ Template.addmodule.events({
 }
 });
 
+
 Template.editmodule.helpers({
 
  getModuleList:function(){
-
   return teacherModules.find({userID:Session.get('userID')});
  }
 
@@ -650,32 +642,46 @@ Template.editmodule.events({
 
 Template.module.events({
 
-'click .modlist': function(e){
+  'click .modlist': function(e){
 
-  Session.setPersistent('modID',this._id);
-  Router.go('/editmodule');
-  /*
-    enter code to auto populate fields of the form upon module clicked
-  */
-}
+    Session.setPersistent('modID',this._id);
+    Router.go('/modulemanagement');
+    /*
+      enter code to auto populate fields of the form upon module clicked
+    */
+  }
 
 });
 
 
-Template.studentlist.helpers({
+Template.modulemanagement.helpers({
+
+  getModule : function () {
+      var code = teacherModules.findOne({_id:Session.get('modID')}).code;
+      var module = teacherModules.findOne({_id:Session.get('modID')}).module;
+
+      return code + ' - ' + module;
+  },
 
   getStudentList : function (){
-
     var x =  teacherModules.findOne({_id:Session.get('modID')}).studentID;
     var y = x.split('\n');
-
-
-
     return y;
-
-
   }
 
+});
+
+Template.modulemanagement.events({
+   
+   'click #editmod' : function(){
+      Router.go('/editmodule');
+   },
+
+   'click #deletemod' : function(){
+      teacherModules.remove({_id:Session.get('modID')});
+      alert("Module has been deleted!");
+      Router.go('/dashboard');
+   }
 });
 
 Template.actbox.events({
