@@ -332,8 +332,17 @@ a:hover {
 #response{
   height : 100%;
   border:1px solid black;
+  text-align: left;
 }
 
+#checkbox{
+  padding-top: 10px;
+}
+
+#sectionName{
+  resize: none;
+  width: 100%;
+}
 #addquestbtn{ 
   width : 60px;
   text-align: center;

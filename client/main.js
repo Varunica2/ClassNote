@@ -528,71 +528,64 @@ Template.addmodule.events({
 
   'submit #moduleform'(event){
 
-   event.preventDefault();
-   const target = event.target;
-   var modname = target.modulename.value;
-   var modcode = target.modulecode.value;
-   var nb_name = modcode;
-   var teacherID = Session.get("userID");
-   var studentlist = target.studentlist.value;
-   var array = studentlist.split('\n');
+     event.preventDefault();
+     const target = event.target;
+     var modname = target.modulename.value;
+     var modcode = target.modulecode.value;
+     var nb_name = modcode;
+     var teacherID = Session.get("userID");
+     var studentlist = target.studentlist.value;
+     var array = studentlist.split('\n');
+     var code =   Session.get("accessToken");
+      
+      Meteor.call('createNewNoteBook', code, nb_name, teacherID, array, function(){
+      });
 
-   if (currentPanelId = 4){
-    currentPanelId = 1;
-   }
-   else {
-    currentPanelId += 1;
-   }
+     // Meteor.call('createSectionGrp', code, nb_name,'Group Assignment');
 
-   var code =   Session.get("accessToken");
-    
-    Meteor.call('createNewNoteBook', code, nb_name, teacherID, array, function(){
-    });
+     teacherModules.insert({
+          module : modname,
+          code : modcode,
+          userID : Session.get('userID'),
+        //  notebook: notebookName,
+          studentID : studentlist,
+          time : new Date(),
+     });
 
-   teacherModules.insert({
-        module : modname,
-        code : modcode,
-        userID : Session.get('userID'),
-      //  notebook: notebookName,
-        studentID : studentlist,
-        time : new Date(),
+     for (var i=0; i<array.length; i++){
+      var student = array[i];
+      Meteor.call('createSectionInStudents', code, nb_name, student);
+     };
+      
+    /* var z;
+     for (z=0; z< array.length;z++){
+     currentID = array[z];
 
-   });
+     if(studentModules.find({studentID:currentID}).fetch() == ''){
 
-   panelDisplay.insert({
-      code: modcode,
-      panelid: currentPanelId,
-   });
+     var mods =[modcode];
+     studentModules.insert({
+          studentID : currentID,
+          module : modname,
+          codes : mods,
+          time : new Date(),
 
-   var z;
-   for (z=0; z< array.length;z++){
-   currentID = array[z];
+     });
+     }
 
-   if(studentModules.find({studentID:currentID}).fetch() == ''){
-
-   var mods =[modcode];
-   studentModules.insert({
-        studentID : currentID,
-        module : modname,
-        codes : mods,
-        time : new Date(),
-
-   });
-   }
-
-   else{
-    var currentmods = studentModules.findOne({studentID:currentID}).codes;
-    var id = studentModules.findOne({studentID:currentID})._id;
-    currentmods.push(modcode);
-    studentModules.update({_id:id }, { $set: {codes: currentmods }});
+     else{
+      var currentmods = studentModules.findOne({studentID:currentID}).codes;
+      var id = studentModules.findOne({studentID:currentID})._id;
+      currentmods.push(modcode);
+      studentModules.update({_id:id }, { $set: {codes: currentmods }});
 
 
-   }
-  }
+     }
+    } */
 
 
-   alert("Module has been created!");
-   Router.go('/dashboard');
+     alert("Module has been created!");
+     Router.go('/dashboard');
 
 
 }
@@ -678,8 +671,18 @@ Template.modulemanagement.events({
    },
 
    'click #deletemod' : function(){
-      teacherModules.remove({_id:Session.get('modID')});
-      alert("Module has been deleted!");
+      
+      var confirmation = confirm('Are you sure you want to delete this module?');
+      console.log(confirmation);
+
+      if(confirmation == true){
+        teacherModules.remove({_id:Session.get('modID')});
+        alert("Module has been deleted!");
+      } else {
+        alert("Module has not been deleted!");
+      }
+
+      
       Router.go('/dashboard');
    }
 });
@@ -688,9 +691,9 @@ Template.actbox.events({
 
   'click #viewact': function(e){
 
-  Session.setPersistent('aID',this.aID);
-  Router.go('/session');
-}
+    Session.setPersistent('aID',this.aID);
+    Router.go('/session');
+  }
 });
 
 Template.session.helpers({
@@ -738,6 +741,12 @@ Template.teachersession.helpers({
    getmodcode : function(){
 
     return activityList.findOne({'aID':Session.get('aID')}).module;
+   },
+
+   getStudentList : function(){
+    var module = activityList.findOne({'aID':Session.get('aID')}).module;
+    var studentlist = teacherModules.findOne({'code':module}).studentID;
+    var students = studentlist.split('\n');
    },
 
    getactcode : function(){
@@ -800,46 +809,58 @@ Template.teachersession.events({
 
   'click .qbtn2' : function(event){
 
-   event.preventDefault();
-   var code = Session.get("accessToken");
-   const target = event.target;
-   var qid = target.id;
-   qid = qid.slice(1);
-   activity = Session.get('aID');
-   teacher = Session.get('userID');
-   var deployedSet = deployedquestions.find({aID:activity}).fetch();
-   var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
-   var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
-   const pageObject = new PageObject("currentActivity");
-  
+     event.preventDefault();
+     var code = Session.get("accessToken");
+     const target = event.target;
+     var qid = target.id;
+     qid = qid.slice(1);
+     activity = Session.get('aID');
+     teacher = Session.get('userID');
+     var deployedSet = deployedquestions.find({aID:activity}).fetch();
+     var currentq = questions.findOne({'aID':Session.get('aID')}).quest[qid];
+     var nbID = activityList.findOne({'aID':Session.get('aID')}).module;
+     const pageObject = new PageObject("currentActivity");
 
-   if(deployedSet == ''){
+     var module = activityList.findOne({'aID':Session.get('aID')}).module;
+     var studentlist = teacherModules.findOne({'code':module}).studentID;
+     var students = studentlist.split('\n');
 
-     var quests =[currentq];
-     deployedquestions.insert({
-          teacherID : teacher,
-          aID : activity,
-          deployed : quests,
-          time : new Date(),
-     });
+     if (acttype === "individual"){
+        for(var i=0; i<students.length; i++){
+          var student = students[i];
+          Meteor.call('createSectionInStudents', code, nbID, student);
+        }
+     } else {
 
-     alert("Question has been deployed");
-   }
+     };
 
-   else{
-   
-    var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
-    var id = deployedquestions.findOne({aID:activity})._id;
-    currentdeployed.push(currentq);
-    deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
-  
-    alert("Question has been deployed");
+     if(deployedSet == ''){
 
-   }
+       var quests =[currentq];
+       deployedquestions.insert({
+            teacherID : teacher,
+            aID : activity,
+            deployed : quests,
+            time : new Date(),
+       });
 
-   pageObject.addQuestion(qid,currentq);
-   Meteor.call('sendPageToStudents', code, nbID, pageObject);
-   questions.update({_id:id }, { $set: {deployState: true }});
+       alert("Question has been deployed");
+     }
+
+     else{
+     
+      var currentdeployed = deployedquestions.findOne({aID:activity}).deployed;
+      var id = deployedquestions.findOne({aID:activity})._id;
+      currentdeployed.push(currentq);
+      deployedquestions.update({_id:id }, { $set: {deployed: currentdeployed }});
+    
+      alert("Question has been deployed");
+
+     }
+
+     pageObject.addQuestion(qid,currentq);
+     Meteor.call('sendPageToStudents', code, nbID, pageObject);
+     questions.update({_id:id }, { $set: {deployState: true }});
 
 
   },
@@ -958,6 +979,17 @@ Template.teachersession.events({
 
   },
 
+  'click #individual' : function(){
+    Session.setPersistent('acttype','individual');
+  },
+
+  'click #collab' : function(){
+    Session.setPersistent('acttype','collab');
+  },
+
+  'click #others' : function(){
+    Session.setPersistent('acttype','others');
+  },
 
 });
 
