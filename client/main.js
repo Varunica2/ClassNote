@@ -12,6 +12,8 @@ import '../imports/api/activityList.js';
 import { NotebooksDB, StudentsDB, SectionsGrpDB, SectionsDB, PagesDB, PagesContentDB } from '../imports/api/mongoRelations.js';
 import './main.html';
 
+//import toastr from 'toastr';
+
 //default session
 
 Session.setDefaultPersistent('userID','');
@@ -80,6 +82,12 @@ Router.route('/notebooks',{
 
   template : "notebook_main",
   name:'notebooks'
+});
+
+Router.route('/responses',{
+
+  template : "responses",
+  name:'responses'
 });
 
 
@@ -479,6 +487,7 @@ Template.actcreate.events({
   });
 
    Session.setPersistent('counter','');
+   //toastr.success("Activity has been created!");
    alert("Activity has been created!");
    Router.go('/dashboard');
 }
@@ -838,7 +847,7 @@ Template.teachersession.events({
 
    console.log(qid+" " +currentq);
    pageObject.addQuestion(qid,currentq);
-<<<<<<< HEAD
+/*<<<<<<< HEAD
    var acttype = Session.get("acttype");
    console.log(acttype);
    if (acttype == "individual"){
@@ -856,8 +865,8 @@ Template.teachersession.events({
      Meteor.call('addNewCollaborativeActivity', code, nbID, aID, function(err, result){
        console.log(result);
      });
->>>>>>> 576437ca0971971a7191f4e1652b7d2ab30347db
-   }
+>>>>>>> 576437ca0971971a7191f4e1652b7d2ab30347db 
+   }*/
    questions.update({_id:id }, { $set: {deployState: true }});
 
   },
@@ -986,9 +995,12 @@ Template.teachersession.events({
 
   },
 
+  'click #respbutton' : function(){
+    Router.go('/responses');
+  }
 
 });
-
+/*
 Template.studentsession.helpers({
 
   sqlist : function (){
@@ -1087,6 +1099,20 @@ Template.studentsession.events({
   },
 
 });
+*/
+Template.responses.helpers({
+ 
+ title : function(){
+    return Session.get('aID');
+ }
+
+});
+
+Template.responses.events({
+
+});
+
+
 //loginIVLE
 
 function loginIVLE() {
@@ -1130,6 +1156,7 @@ function Populate_UserName() {
   });
 }
 }
+
 //function end
 
 //userID through IVLE

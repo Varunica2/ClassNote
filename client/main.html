@@ -8,12 +8,12 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse" >
           <ul class="nav navbar-nav navbar-left">
-            <li ><a style="color:purple; margin-left: 20px;" id="homebtn" ><strong>ClassNote</strong></a></li>
+            <li ><a style="color:#B93B8F; margin-left: 20px;" id="homebtn" ><strong>ClassNote</strong></a></li>
           </ul>
           <ul class="nav navbar-nav" >
-            <li ><a href="#" style="color:purple" >HOME</a></li>
-            <li><a href="#" style="color:purple">ABOUT US</a></li>
-            <li><a href="#" style="color:purple">CONTACT</a></li>
+            <li ><a href="#" style="color:#B93B8F" >HOME</a></li>
+            <li><a href="#" style="color:#B93B8F">ABOUT US</a></li>
+            <li><a href="#" style="color:#B93B8F">CONTACT</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </nav>
@@ -647,7 +647,7 @@
            <button  id="notibutton">Push Notification</button>
           </div>
           <div class = "row">
-           <button id="respbutton">Response Analysis</button>
+           <button id="respbutton">Responses</button>
           </div>
 
           <div class = "row">
@@ -695,4 +695,39 @@
 
 <template name = "questionlist" >
 
+</template>
+
+<template name="responses">
+  {{>navigation}}
+
+  <div class="container col-md-offset-2">
+  <h2>Basic Table</h2>
+  <h2 style="text-align:center;">{{title}}</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Qn</th>
+        <th>Student</th>
+        <th>Answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Zheng Yao</td>
+        <td>functions are a type of procedure or routine</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Nirmala</td>
+        <td>functions are a set of instructions written in a sequence</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Suki</td>
+        <td>functions help to carry out an operation</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 </template>
