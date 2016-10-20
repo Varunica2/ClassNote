@@ -257,13 +257,13 @@
     <form id ="activityform" class="col-md-3">
 
       <fieldset class="form-group">
-        <label for="Module Name">Module Name</label>
-        <input type="text" class="form-control" name="modulename" placeholder="Eg Machine Lerning, Design Lab...">
+        <label for="Module Code">Module Code</label>
+        <input type="text" class="form-control" name="modulecode" placeholder="Eg CS45, CS12...">
       </fieldset>
 
       <fieldset class="form-group">
-        <label for="Module Code">Module Code</label>
-        <input type="text" class="form-control" name="modulecode" placeholder="Eg CS45, CS12...">
+        <label for="Module Name">Module Name</label>
+        <input type="text" class="form-control" name="modulename" placeholder="Eg Machine Lerning, Design Lab...">
       </fieldset>
 
       <fieldset class="form-group">
@@ -535,7 +535,7 @@
 
             <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
 
-            <p class = "list-group-item admin"> Start Time - </p>
+            <!--<p class = "list-group-item admin"> Start Time - </p> -->
             <p class = "list-group-item admin"> No. of Questions - {{getactqnum}} </p>
             <p class = "list-group-item admin"> Questions Responded- </p>
           </div>
@@ -612,11 +612,11 @@
             <p class = "list-group-item admin">  Activity Name : {{getmodcode}} - {{getactcode}} </p>
 
             <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
-            <p class = "list-group-item admin"> Active Students -  </p>
+          <!--  <p class = "list-group-item admin"> Active Students -  </p> -->
 
-            <p class = "list-group-item admin"> Start Time - </p>
+          <!--  <p class = "list-group-item admin"> Start Time - </p> -->
             <p class = "list-group-item admin"> No. of Questions - {{getactqnum}} </p>
-            <p class = "list-group-item admin"> Questions Deployed - </p>
+            <p class = "list-group-item admin"> Questions Deployed - {{getdeployedq}}</p>
           </div>
 
 
