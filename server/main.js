@@ -229,7 +229,6 @@ Meteor.methods({
 		var toSendMail = false;
 
 		var data = Meteor.call('API_createNotebook', code, notebookInfo, toSendMail);
-		console.log(data);
 
 		var result = {};
 		result.status = false;

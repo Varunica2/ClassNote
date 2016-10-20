@@ -28,7 +28,7 @@ Session.setDefaultPersistent('actstatus', 'inactive');
 //default session end
 //currently hardcoded for one-way authentication.
 // Required to be changed to automated retrieval of token in 2-way authentication
-Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyIsImtpZCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzY5NjYzMTMsIm5iZiI6MTQ3Njk2NjMxMywiZXhwIjoxNDc2OTcwMjEzLCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiQ2hhbiIsImdpdmVuX25hbWUiOiJZdWFuIFNoYW4iLCJpcGFkZHIiOiIxMTYuMTQuMjIuMTI0IiwibmFtZSI6IkNoYW4gWXVhbiBTaGFuIiwib2lkIjoiZTYwYTA1NjctOTg3OS00MDYzLThlNDItYmRhNjhmNGE1MDZmIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtODc2NSIsInB1aWQiOiIxMDAzQkZGRDhCMzM5OEZDIiwic2NwIjoiTm90ZXMuQ3JlYXRlIE5vdGVzLlJlYWQgTm90ZXMuUmVhZC5BbGwgTm90ZXMuUmVhZFdyaXRlIE5vdGVzLlJlYWRXcml0ZS5BbGwgTm90ZXMuUmVhZFdyaXRlLkNyZWF0ZWRCeUFwcCIsInN1YiI6IlV4Y20zeDdka19wN1JRZ3RiTjF0OTd4Y1NDUXJxLVJaN1ZiMmxjQUcxRGsiLCJ0aWQiOiI1YmE1ZWY1ZS0zMTA5LTRlNzctODViZC1jZmViMGQzNDdlODIiLCJ1bmlxdWVfbmFtZSI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInVwbiI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInZlciI6IjEuMCJ9.h-p--sYENPwpZnQf4IS6gtuSD4Y2oIUbUHYNjXFt35cuRy1oojDqtilXUK_t6AZc_uT6YA4fpdDJpoC9CgwvieF_1ljPbxyap0KXT2lq6ikAK6N8INyzN0J-DwWaigEApsClnhwzwUl54Vi5JD6RrbasPYZdych5FqLvETY2Dj7jArJBt4Q3x7HsZeqSxcTAunDEPKAIvihvzhdsTDx4fW7ntfvzBal6fqh3Ac1yQqkqtRCaYEr9JXeBWZPZt6EHDWyEmrdeJSo9PqKwIH-K0GrnaAywfo3sqKI4xxU4xkiF5OtiEMnE8whclGU3V6Yl7w_iEV-pmG5SY4aD8IK7vA");
+Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyIsImtpZCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzY5Njk0MzUsIm5iZiI6MTQ3Njk2OTQzNSwiZXhwIjoxNDc2OTczMzM1LCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiQ2hhbiIsImdpdmVuX25hbWUiOiJZdWFuIFNoYW4iLCJpcGFkZHIiOiIxMTYuMTQuMjIuMTI0IiwibmFtZSI6IkNoYW4gWXVhbiBTaGFuIiwib2lkIjoiZTYwYTA1NjctOTg3OS00MDYzLThlNDItYmRhNjhmNGE1MDZmIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtODc2NSIsInB1aWQiOiIxMDAzQkZGRDhCMzM5OEZDIiwic2NwIjoiTm90ZXMuQ3JlYXRlIE5vdGVzLlJlYWQgTm90ZXMuUmVhZC5BbGwgTm90ZXMuUmVhZFdyaXRlIE5vdGVzLlJlYWRXcml0ZS5BbGwgTm90ZXMuUmVhZFdyaXRlLkNyZWF0ZWRCeUFwcCIsInN1YiI6IlV4Y20zeDdka19wN1JRZ3RiTjF0OTd4Y1NDUXJxLVJaN1ZiMmxjQUcxRGsiLCJ0aWQiOiI1YmE1ZWY1ZS0zMTA5LTRlNzctODViZC1jZmViMGQzNDdlODIiLCJ1bmlxdWVfbmFtZSI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInVwbiI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInZlciI6IjEuMCJ9.n1I8Sy9Bz7RJtNioyWg6OVDSBw9SeNWuHa0p5Pt1xwcxf0kaeqszn6bkj-AOBcLAbqiEBSnUp9-Cys77OVLga_-MGKt19D-izNw7TG2WIslGcjcAk6T5c-Dxcr16r1spZ7eh8ENyppKYg3fH7qSUbpoAfO44TlvQPgolsA2QodcSrxZSV3RxZEfqftM_ibRBdJ_WMg79GaMf3wvCkJ1eQtWjtG0F5aH5eWYaf02gw2NQBan-lbbOO5Z4aRWNIwWZhDf4pLxjszetBUx5Z88Cz2yqM024wHi1OLZFwpSiScEoBjsJuLjCcfn-Hf8z4Kh-jAiCY_3scb4qDXOSBobpqw");
 var prevOpen = "";
 //Router Info
 Router.route('/dashboard', {
@@ -398,8 +398,15 @@ Template.addmodule.events({
 
 		Meteor.call('createNewNoteBook', code, nb_name, teacherID_Full, array, sectionsInStudents, teacherID, function(error, result) {
 			if (result.status) {
+
+				//this should be place somewhere else
+				Meteor.call('getNoteBookInformation', code, result.id, teacherID);
+				//
+
 				teacherModules.insert({
-					module: modname, code: modcode, userID: Session.get('userID'),
+					module: modname,
+					code: modcode,
+					userID: Session.get('userID'),
 					notebook_F_KEY: result.id,
 					studentID: studentlist,
 					time: new Date()
@@ -424,9 +431,9 @@ Template.addmodule.events({
 					}
 				}
 				alert("Module has been created!");
+				Router.go('/dashboard');
 			} else {
 				alert("Module has failed to be created!");
-				Router.go('/dashboard');
 			}
 		});
 	}
@@ -609,11 +616,18 @@ Template.teachersession.events({
 		}
 		console.log(qid + " " + currentq);
 		pageObject.addQuestion(qid, currentq);
+
+		console.log(nbID);
+		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
 		var acttype = Session.get("acttype");
+		console.log(acttype);
 		if (acttype === "individual") {
-			Meteor.call('sendPageToStudents', code, nbID, pageObject, 'assignments');
+			console.log("send");
+			Meteor.call('sendPageToStudents', code, notebook_F_KEY, pageObject, 'assignments', function(error, result) {
+				console.log(result);
+			});
 		} else {
-			Meteor.call('addNewCollaborativeActivity', code, nbID, aID, function(err, result) {
+			Meteor.call('addNewCollaborativeActivity', code, notebook_F_KEY, aID, function(err, result) {
 				console.log(result);
 			});
 		}
