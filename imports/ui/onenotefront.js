@@ -30,13 +30,13 @@ Template.notebook_main.onCreated(function bodyOnCreated() {
 
 Template.notebook_main.helpers({
   notebookSet() {
-    return NotebooksDB.find({});;
+    return NotebooksDB.find({owner : Session.set("cUser")});;
   },
   studentSet() {
-    return StudentsDB.find({});
+    return StudentsDB.find({owner : Session.set("cUser")});
   },
   sectionGrpSet() {
-    return SectionsGrpDB.find({});
+    return SectionsGrpDB.find({owner : Session.set("cUser")});
   }
 });
 
@@ -109,7 +109,8 @@ Template.notebook_template.events({
   'click .e_insertNewSectionInCollabSpace'(event, instance) {
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    var activityName = "week2InClass";
+    var activityName = "week4InClass";
+
     Meteor.call('addNewCollaborativeActivity', code, this._id, activityName, function(err, result){
       console.log(result);
     });
