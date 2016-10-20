@@ -173,7 +173,8 @@ Meteor.methods({
     });
 
   }, */
-  createNewNoteBook:function(code, nb_name, teacherID, studentsList){
+  createNewNoteBook:function(code, nb_name, teacherID, studentsList, sectionList){
+    console.log(studentsList +" list");
     var notebook = new Object();
     notebook.name = nb_name;
 
@@ -185,20 +186,17 @@ Meteor.methods({
     notebook.teachers = teachers;
 
     var students =[];
-    var stud = {};
-    for (i=0 ; i<studentsList.size -1; i++){
-      stud.id = studentsList.get(i);
+
+
+    for (var i = 0; i<studentsList.length; i++){
+      var stud = {};
+      stud.id = studentsList[i];
       stud.principalType ="Person";
       students.push(stud);
-      notebook.students = students;
-
     }
 
-    var sectionGrp = [];
-    sectionGrp.push("Homework");
-    sectionGrp.push("Assignment");
-    notebook.studentSections = sectionGrp;
-
+    notebook.students = students;
+    notebook.studentSections = sectionList;
     notebook.hasTeacherOnlySectionGroup = true;
 
     console.log(JSON.stringify(notebook));

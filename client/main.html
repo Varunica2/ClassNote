@@ -21,24 +21,24 @@
   <div class= "row" id="second">
     <div class ="col-md-12">
      <!--<img src ="images/ClassNote logo.png" id="logo" class="img-responsive"> -->
-   </div>  
+   </div>
   </div>
-    
+
     <div class= "row" id="third">
 
-    </div>  
-      
+    </div>
+
     <div class= "row" id="fourth">
       <div class ="col-md-12">
         <h1 style="font-style: Helvetica">CLASSNOTE</h1>
       </div>
       <div class ="col-md-12">
-        <button class = "btn btn-primary .btn-custom" id = "Login"> ClassNote Login </button> 
-       </div> 
+        <button class = "btn btn-primary .btn-custom" id = "Login"> ClassNote Login </button>
+       </div>
 
-  </div>  
+  </div>
 
-   
+
    <div class= "row" id="sixth">
 
       <div class ="col-md-12">
@@ -46,9 +46,9 @@
       <h4> ClassNote is designed to facilitate in-class collaboration learning through various activities, quizzes and discussions. </h4>
 
       <h4 style="font-color:white"> Product of School of Computing - National University of Singapore </h4>
-   
-      </div>  
-  </div>  
+
+      </div>
+  </div>
   </div>
   <hr>
 
@@ -74,18 +74,18 @@
                 </button>
                 <a class="navbar-brand page-scroll" href="#page-top" id="home"></a>
           </div>
-      
+
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-left">
             <li ><a href="dashboard" style="color:#B93B8F" id="homebtn" ><strong>ClassNote</strong></a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
 
-            
+
             <li class ="dropdown">
-              
+
               <a style="color:#B93B8F" id = "noti" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i> <sup style = "color:white"> {{unseen}} </sup></a>
-              
+
               <ol role="menu" class="dropdown-menu" style="color:grey" id = "ulnoti">
                 {{#each getNoti}}
                 <li id = "linoti"> {{message}} </li>
@@ -97,43 +97,43 @@
             <li class="dropdown">
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#B93B8F"><i class="fa fa-plus"></i><b class="caret" style="color:#B93B8F"></b> </a>
-            
-              <ul class="dropdown-menu"> 
+
+              <ul class="dropdown-menu">
                   {{#if teach}}
-                  <li><a id = "createModule">  Create Module </a></li> 
+                  <li><a id = "createModule">  Create Module </a></li>
                   <li class="divider"></li>
-                  <li><a href="actcreate"> Create Activity </a></li> 
+                  <li><a href="actcreate"> Create Activity </a></li>
                   {{/if}}
               </ul>
-            
+
             </li>
 
 
             <li class="dropdown">
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#B93B8F"><i class="fa fa-user"></i><b class="caret" style="color:#B93B8F"></b> {{getUser}}</a>
-            
-              <ul class="dropdown-menu"> 
+
+              <ul class="dropdown-menu">
           <!--  <li class="dropdown">
               <a data-toggle="dropdown" class="dropdown-toggle" style="color:white"><i class="fa fa-user fa-lg"></i> {{username}} <i class="fa fa-caret-down"></i></a>
               <ul role="menu" class="dropdown-menu" style="color:black;text-align:left">
               -->
                 <li style="color: grey; margin-left: 20px;">User    : {{getUser}}</li>
                 <li style="color: grey; margin-left: 20px;">ID      : {{getID}}</li><br />
-                <li style="color: grey; margin-left: 20px;">Modules : {{#if isModule}}  
-                  {{#each getModules}} 
+                <li style="color: grey; margin-left: 20px;">Modules : {{#if isModule}}
+                  {{#each getModules}}
                   {{#if teach}}
                   <a class ="modlist">{{code}} {{>module}}</a>
                   {{/if}}
-                  {{/each}} 
-                  {{else}} Null 
+                  {{/each}}
+                  {{else}} Null
                   {{/if}} </li>
                   <li class="divider"></li>
                   <li><a id = "out" >SignOut</a></li>
                 </ul>
-            
+
               </li>
-              
+
           </ul>
 
         </div>
@@ -155,10 +155,10 @@
             </li>
           </ul>
 
-        </div> 
+        </div>
 
         <div class="col-md-2">
-          
+
         </div>
 
 
@@ -171,13 +171,13 @@
      <div class = "row">
        <div class = "col-md-5" id="dashone">
 
-        Welcome {{username}} 
+        Welcome {{username}}
         {{dashboard}}
 
        </div>
 
-    </div>    
-  
+    </div>
+
     <div id ="dashrow">
       <div class="col-md-offset-2 container" style="margin-top: 100px;">
         {{#if isteacher}}
@@ -273,7 +273,7 @@
 
 
       <fieldset class="form-group">
-        <a id="addquestion">Add Question</a> 
+        <a id="addquestion">Add Question</a>
       </fieldset>
 
       {{#each count}}
@@ -292,7 +292,7 @@
 
 
 <template name = "addquestion">
-  <a id="remove">Remove Question</a> 
+  <a id="remove">Remove Question</a>
  <fieldset class="form-group">
     <label for="Append">Question</label>
     <input type = "text" class="form-control" name= "{{uniqid}}" >
@@ -303,7 +303,7 @@
 
 <template name = "addmodule">
 
-  {{>navigation}} 
+  {{>navigation}}
 
 <!-- <div class = "row" id ="modulelist">
   <div class = "col-md-12">
@@ -313,7 +313,7 @@
   {{>module}}
   {{/each}}
 
-</div> 
+</div>
 </div> -->
 
 
@@ -328,7 +328,7 @@
     <label for="Module Name">Module Name</label>
     <input type="text" class="form-control" name="modulename" placeholder="Eg Machine Lerning, Design Lab...">
   </fieldset>
-  
+
   <fieldset class="form-group">
     <label for="Append">List of Students</label>
     <textarea class="form-control" name="studentlist" rows="3"></textarea>
@@ -339,7 +339,7 @@
 </form>
 
 
-</template>  
+</template>
 
 
 <template name = "editmodule">
@@ -375,8 +375,8 @@
       <label for="Module Name">New Module Name</label>
       <input type="text" class="form-control" name="newmodulename" placeholder={{module}}>
     </fieldset>
-   
-    
+
+
     <fieldset class="form-group">
       <label for="Append">New List of Students</label>
       <textarea class="form-control" name="newstudentlist" rows="3">{{students}}</textarea>
@@ -386,7 +386,7 @@
     <button type="submit" class="btn btn-success" id="editModule">Submit</button>
 
   </form>
-  
+
 </template>
 
 
@@ -425,7 +425,7 @@
 
 <template name = "session">
     {{>navigation}}
-    
+
     {{#if teach}}
     {{>teachersession}}
     {{else}}
@@ -438,7 +438,7 @@
   <div class="col-md-offset-3">
     <div class = "row" id = "sessionfirst">
         <div class = "col-md-3">
-      {{aid}} Activity Session Page 
+      {{aid}} Activity Session Page
       </div>
       </div>
       <div class = "row">
@@ -453,21 +453,21 @@
 
           <div class = "list-group" id ="questlist">
                {{#each sqlist}}
-              
+
                <div class ="list-group-item questitem" >
                 <p id = "qdisplaynum"> {{@index}} </p>
-                <p id ="qdisplay"> {{this}}  </p> 
+                <p id ="qdisplay"> {{this}}  </p>
                 <p>
 
-                 <button id = "v{{@index}}" class = "sqbtn"> View and Respond </button>  
-                
-                
+                 <button id = "v{{@index}}" class = "sqbtn"> View and Respond </button>
+
+
                 </p>
                 </div>
 
                {{/each}}
-              
-               
+
+
 
           </div>
           </div>
@@ -479,32 +479,32 @@
 
           <div class = "col-md-6" id= "sessionthird">
           <h4> Question View </h4>
-         
+
          <div id ="qviewmain">
 
           <p> {{qviewmain}}
-           </p> 
+           </p>
          </div>
-        
+
 
          </div>
-         
+
           <div class = "col-md-6" id = "sessionfourth">
           <h4> Write Response </h4>
              <form id = "respform">
            <fieldset class="form-group">
-        
+
            <textarea rows ="8" cols = "60em" id ="addrtextarea" name="responseadd" > Type response here...
            </textarea>
-      
+
            </fieldset>
-           
+
            <button id="saverespbtn">Save</button>
            <button id="attachrespbtn">Attach File</button>
            <button type="submit"  id="submitrespbtn" >Submit</button>
           </form>
 
-          
+
          </div>
        </div>
 
@@ -514,17 +514,17 @@
 
             <div class = "list-group" id ="peerresplist">
                {{#each prlist}}
-              
+
                <div class ="list-group-item questitem" >
                 <p id = "rdisplaynum"> <b> {{studentID}} </b></p>
-                <p id ="rdisplay"> {{response}}  </p> 
-               
+                <p id ="rdisplay"> {{response}}  </p>
+
                 </div>
 
                {{/each}}
           </div>
-          
-         
+
+
           </div>
          <div class = "col-md-4" id="response">
           <h4> Activity Admin </h4>
@@ -550,7 +550,7 @@
 
 <template name = "teachersession">
   <div class="col-md-offset-2">
-        
+
       <div class = "row" id = "sessionfirst">
         <div class = "col-md-12" style="text-align: center; font-size: 28px; color: #3E1254">
         <strong>{{aid}} Activity Session Page </strong>
@@ -562,27 +562,27 @@
 
           <div class = "row" >
           <h4> Questions </h4>
-          <button id = "" class = "deployall"> Deploy All</button> 
+          <button id = "" class = "deployall"> Deploy All</button>
           </div>
 
           <div class = "row">
 
           <div class = "list-group" id ="questlist">
                {{#each qlist}}
-              
+
                <div class ="list-group-item questitem" >
                 <p id = "qdisplaynum"> {{@index}} </p>
-                <p id ="qdisplay"> {{this}}  </p> 
+                <p id ="qdisplay"> {{this}}  </p>
                 <p>
 
-                 <button id = "v{{@index}}" class = "qbtn"> View Question </button>  
-                <button id = "d{{@index}}" class = "qbtn2"> Deploy </button>  
-                
+                 <button id = "v{{@index}}" class = "qbtn"> View Question </button>
+                <button id = "d{{@index}}" class = "qbtn2"> Deploy </button>
+
                 </p>
                 </div>
 
                {{/each}}
-              
+
           </div>
           </div>
         </div>
@@ -594,16 +594,16 @@
 
           <div class = "col-md-6" id= "sessionthird">
           <h4> Question View </h4>
-         
+
          <div id ="qviewmain" style="background-color: white;">
 
           <p> {{qviewmain}}
-           </p> 
+           </p>
          </div>
-        
+
 
          </div>
-         
+
           <div class = "col-md-6" id = "sessionfourth">
           <h4> Activity Admin </h4>
             <div class = "list-group" id = "actadmin">
@@ -619,21 +619,21 @@
             <p class = "list-group-item admin"> Questions Deployed - </p>
           </div>
 
-          
+
          </div>
        </div>
 
          <div class = "row" id ="sessionresponse">
           <div class = "col-md-4" id="addquest">
             <h4> Add Question </h4>
-          
+
           <form id = "addqform">
            <fieldset class="form-group">
-        
+
            <textarea rows ="8" cols = "60em" id ="addqtextarea" name="addition" placeholder="Add question here..."></textarea>
-      
+
            </fieldset>
-           
+
            <button type="submit"  id="addquestbtn">Add</button>
           </form>
 
@@ -643,21 +643,21 @@
           <div class = "row">
            <button id="togglestatus">{{activitystatus}}</button>
           </div>
-          <div class = "row"> 
+          <div class = "row">
            <button  id="notibutton">Push Notification</button>
           </div>
-          <div class = "row"> 
+          <div class = "row">
            <button id="respbutton">Response Analysis</button>
           </div>
 
           <div class = "row">
              <form id = "feedback">
            <fieldset class="form-group">
-        
+
            <textarea rows ="8" cols = "60em" id ="feedbackarea" name="feedback " placeholder="Give group feedback..."></textarea>
-      
+
            </fieldset>
-           
+
            <button type="submit"  id="submitfeed">Submit Feedback</button>
           </form>
           </div>
@@ -676,11 +676,11 @@
           </div> -->
          <!-- <div class = "list-group" id ="resplist">
                {{#each rlist}}
-              
+
                <div class ="list-group-item questitem" >
                 <p id = "rdisplaynum"> <b> {{studentID}} </b></p>
-                <p id ="rdisplay"> {{response}}  </p> 
-               
+                <p id ="rdisplay"> {{response}}  </p>
+
                 </div>
 
                {{/each}}
@@ -694,7 +694,5 @@
 </template>
 
 <template name = "questionlist" >
-  
+
 </template>
-
-
