@@ -120,12 +120,16 @@ Meteor.methods({
       return e;
     }
   },
-  API_getNoteBookSectionPages:function(a_token, selfLink){
+  API_getNoteBookSectionPages:function(a_token, selfLink, specificPage){
     var tokenString = "Bearer ".concat(a_token);
     console.log("--getNoteBookSectionPages-- " + selfLink);
     var data = {};
     try {
+
       var link = selfLink+"/pages";
+      if(specificPage != ""){
+        link= link+"?filter=title eq '"+specificPage+"'";
+      }
       data = HTTP.get( link, {
         headers : {
                    'Authorization': tokenString
@@ -144,14 +148,13 @@ Meteor.methods({
     console.log("--getNoteBookSectionPageContent-- " + pageLink);
     var data = {};
     try {
-      var link = pageLink+"/content?preAuthenticated=true";
+      var link = pageLink+"/content?preAuthenticated=true&includeIDs=true";
       data = HTTP.get( link, {
         headers : {
                    'Authorization': tokenString
         }
       });
       console.log("success");
-      console.log(data);
       return data;
     }catch(e){
       console.log("fail");
@@ -278,7 +281,6 @@ Meteor.methods({
     var data = {};
     try {
       var link = sectionGrp_link + "/sections";
-      console.log(link);
       data = HTTP.call("POST", link, {
         headers : {
                    'Authorization': tokenString,
@@ -289,16 +291,18 @@ Meteor.methods({
       console.log("success");
       return data;
     }catch(e){
-      console.log(e);
       console.log("fail");
       return e;
     }
   },
-  API_addStudentToNotebook : function(a_token, notebook_link, student){
+  API_addStudentToNotebook : function(a_token, notebook_link, notebook_rawId, student){
     var tokenString = "Bearer ".concat(a_token);
     console.log("--Adding student to --" + notebook_link);
+
     var data = {};
+    var studentString = JSON.stringify(student);
     try {
+
       var link = notebook_link + "/students";
       console.log(link);
       data = HTTP.call("POST", link, {
@@ -306,10 +310,28 @@ Meteor.methods({
                    'Authorization' : tokenString,
                    'Content-Type': 'application/json'
         },
-        content : student
+        content : studentString
+      });
+
+      var pLink = "https://www.onenote.com/api/v1.0/me/notes/notebooks/" + notebook_rawId + "/permissions";
+      var pTemp ={
+        "userRole" : "Contributor",
+        "userId" : student.id
+      };
+      var pTempS = JSON.stringify(pTemp);
+      var temp = HTTP.call("POST", pLink, {
+        headers : {
+                   'Authorization' : tokenString,
+                   'Content-Type': 'application/json'
+        },
+        content : pTempS
       });
       console.log("success");
-      return data;
+      var rType = {};
+      rType.data = data;
+      rType.pData = temp;
+
+      return rType;
     }catch(e){
       console.log(e);
       console.log("fail");
