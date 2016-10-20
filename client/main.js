@@ -63,6 +63,11 @@ Router.route('/notebooks', {
 	template: "notebook_main",
 	name: 'notebooks'
 });
+Router.route('/responses',{
+
+  template : "responses",
+  name:'responses'
+});
 //router info end
 //template home events
 Template.home.events({
@@ -753,6 +758,9 @@ Template.teachersession.events({
 			notifications.insert({studentID: current, module: modu, message: noti, status: 'unseen', time: new Date()});
 		}
 		alert("Notifications sent");
+	},
+	'click #respbutton' : function(){
+	   Router.go('/responses');
 	}
 });
 Template.studentsession.helpers({
