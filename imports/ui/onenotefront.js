@@ -94,7 +94,8 @@ Template.notebook_template.events({
   'click .e_addStudent'(event, instance){
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('addStudent', code, this._id, 'a0130720@u.nus.edu');
+    var cUser = Session.get("cUser");
+    Meteor.call('addStudent', code, this._id, 'a0125415@u.nus.edu', cUser);
   },
   'click .e_getStudentQuestions'(event, instance) {
     event.stopPropagation();

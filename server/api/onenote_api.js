@@ -327,7 +327,11 @@ Meteor.methods({
         content : pTempS
       });
       console.log("success");
-      return data;
+      var rType = {};
+      rType.data = data;
+      rType.pData = temp;
+
+      return rType;
     }catch(e){
       console.log(e);
       console.log("fail");

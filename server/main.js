@@ -267,7 +267,7 @@ Meteor.methods({
       });
     }
   },
-  addStudent : function(code, notebook_id, studentId){
+  addStudent : function(code, notebook_id, studentId, cUser){
     var notebook = NotebooksDB.find({_id : notebook_id}).fetch();
     if(notebook.length == 1){
       var student = {
@@ -275,6 +275,14 @@ Meteor.methods({
         "principalType": "Person"
       };
       Meteor.call('API_addStudentToNotebook', code, notebook[0].self, notebook[0].rawId, student, function(err, result){
+        if(result["pData"]["statusCode"] == 201){
+          var id = result["pData"]["data"]["id"];
+          var name = result["pData"]["data"]["name"];
+          var userId = result["pData"]["data"]["userId"];
+          var self = result["pData"]["data"]["self"];
+          StudentsDB.insert({rawId: id, name: name, userId: userId, self: self, notebook_id : notebook_id, owner : cUser});
+        }else{
+        }
       });
     }
   },
@@ -285,6 +293,11 @@ Meteor.methods({
       if(notebook.length == 1){
         var studentUserId = student[0].userId.substring(student[0].userId.lastIndexOf("|") + 1);
         Meteor.call('API_deleteStudentFromNotebook', code, notebook[0].rawId, studentUserId, function(err, result){
+          if(result["statusCode"] == 204){
+            StudentsDB.remove({_id : studentId});
+          }else{
+            console.log(result);
+          }
         });
       }
     }
