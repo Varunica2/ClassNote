@@ -28,7 +28,7 @@ Session.setDefaultPersistent('actstatus', 'inactive');
 //default session end
 //currently hardcoded for one-way authentication.
 // Required to be changed to automated retrieval of token in 2-way authentication
-Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyIsImtpZCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0NzY5Njk0MzUsIm5iZiI6MTQ3Njk2OTQzNSwiZXhwIjoxNDc2OTczMzM1LCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiQ2hhbiIsImdpdmVuX25hbWUiOiJZdWFuIFNoYW4iLCJpcGFkZHIiOiIxMTYuMTQuMjIuMTI0IiwibmFtZSI6IkNoYW4gWXVhbiBTaGFuIiwib2lkIjoiZTYwYTA1NjctOTg3OS00MDYzLThlNDItYmRhNjhmNGE1MDZmIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtODc2NSIsInB1aWQiOiIxMDAzQkZGRDhCMzM5OEZDIiwic2NwIjoiTm90ZXMuQ3JlYXRlIE5vdGVzLlJlYWQgTm90ZXMuUmVhZC5BbGwgTm90ZXMuUmVhZFdyaXRlIE5vdGVzLlJlYWRXcml0ZS5BbGwgTm90ZXMuUmVhZFdyaXRlLkNyZWF0ZWRCeUFwcCIsInN1YiI6IlV4Y20zeDdka19wN1JRZ3RiTjF0OTd4Y1NDUXJxLVJaN1ZiMmxjQUcxRGsiLCJ0aWQiOiI1YmE1ZWY1ZS0zMTA5LTRlNzctODViZC1jZmViMGQzNDdlODIiLCJ1bmlxdWVfbmFtZSI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInVwbiI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInZlciI6IjEuMCJ9.n1I8Sy9Bz7RJtNioyWg6OVDSBw9SeNWuHa0p5Pt1xwcxf0kaeqszn6bkj-AOBcLAbqiEBSnUp9-Cys77OVLga_-MGKt19D-izNw7TG2WIslGcjcAk6T5c-Dxcr16r1spZ7eh8ENyppKYg3fH7qSUbpoAfO44TlvQPgolsA2QodcSrxZSV3RxZEfqftM_ibRBdJ_WMg79GaMf3wvCkJ1eQtWjtG0F5aH5eWYaf02gw2NQBan-lbbOO5Z4aRWNIwWZhDf4pLxjszetBUx5Z88Cz2yqM024wHi1OLZFwpSiScEoBjsJuLjCcfn-Hf8z4Kh-jAiCY_3scb4qDXOSBobpqw");
+Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyIsImtpZCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0Nzg2MTM2OTksIm5iZiI6MTQ3ODYxMzY5OSwiZXhwIjoxNDc4NjE3NTk5LCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiQ2hhbiIsImdpdmVuX25hbWUiOiJZdWFuIFNoYW4iLCJpcGFkZHIiOiIxMTYuMTQuMjIuMTI0IiwibmFtZSI6IkNoYW4gWXVhbiBTaGFuIiwib2lkIjoiZTYwYTA1NjctOTg3OS00MDYzLThlNDItYmRhNjhmNGE1MDZmIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtODc2NSIsInBsYXRmIjoiMyIsInB1aWQiOiIxMDAzQkZGRDhCMzM5OEZDIiwic2NwIjoiTm90ZXMuQ3JlYXRlIE5vdGVzLlJlYWQgTm90ZXMuUmVhZC5BbGwgTm90ZXMuUmVhZFdyaXRlIE5vdGVzLlJlYWRXcml0ZS5BbGwgTm90ZXMuUmVhZFdyaXRlLkNyZWF0ZWRCeUFwcCIsInN1YiI6IlV4Y20zeDdka19wN1JRZ3RiTjF0OTd4Y1NDUXJxLVJaN1ZiMmxjQUcxRGsiLCJ0aWQiOiI1YmE1ZWY1ZS0zMTA5LTRlNzctODViZC1jZmViMGQzNDdlODIiLCJ1bmlxdWVfbmFtZSI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInVwbiI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInZlciI6IjEuMCJ9.IAYtc5h1DjYsJ-Es_8pc9AgDHh92-s3P3savvA4DxWuW7li_-8wkkM7BYtoggExOypBSIEz9o0E0krV22upix5OdMMGjSt4u8LlNHSwK76QEKtaP6zNnY2XSHLKQxd3WL-dTMMfgmqdLJJ8j2MaTKQ4Z2vBJ8mczVPBBqazwY9Wnz7Am5-Jx0mo_NSNrotRYFtY_17lF3T3CSnbC8FLc5m7J1ul1uGGnXqJ1wjmJjpPplbDDw79o493hNV5JRMtdS9MPozLIUJp46AC_O-I1kOV7SQ2Hsp86KHKpmEbui8BFG9sD8kRndZOC0AZqswjPpq1M82wLydpez4ATaXEP2Q");
 var prevOpen = "";
 //Router Info
 Router.route('/dashboard', {
@@ -352,12 +352,16 @@ Template.actcreate.events({
 			time: new Date(),
 			userID: Session.get('userID')
 		});
-		questions.insert({
-			aID: code + activity,
-			quest: append,
-			time: new Date(),
-			deployState: deployed
-		});
+
+		for (var dexI = 0; dexI < append.length; dexI++){
+			questions.insert({
+				aID: code + activity,
+				questIndex : dexI+1,
+				quest: append[dexI],
+				time: new Date(),
+				deployState: false
+			});
+		}
 		Session.setPersistent('counter', '');
 		alert("Activity has been created!");
 		Router.go('/dashboard');
@@ -533,9 +537,14 @@ Template.session.helpers({
 });
 Template.teachersession.helpers({
 	qlist: function() {
-		var a = questions.findOne({'aID': Session.get('aID')}).quest;
-		Session.setPersistent('qnumber', a.length);
-		return a;
+		var quest = questions.find({'aID': Session.get('aID')});
+		var r = [];
+
+		quest.forEach(function(question) {
+			r.push(question);
+		});
+		Session.setPersistent('qnumber', r.length);
+		return r;
 	},
 	aid: function() {
 		return Session.get('aID');
@@ -619,6 +628,7 @@ Template.teachersession.events({
 			});
 			alert("Question has been deployed");
 		}
+
 		console.log(qid + " " + currentq);
 		pageObject.addQuestion(qid, currentq);
 
@@ -632,9 +642,15 @@ Template.teachersession.events({
 				console.log(result);
 			});
 		} else {
-			Meteor.call('addNewCollaborativeActivity', code, notebook_F_KEY, aID, function(err, result) {
-				console.log(result);
-			});
+
+
+			var questionSet = [];
+	    questionSet.push(new QuestionObject(qid,currentq));
+
+	    Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, aID, questionSet, teacher, function(err, result){
+	      console.log(result);
+	    });
+
 		}
 		questions.update({
 			_id: id
@@ -645,60 +661,53 @@ Template.teachersession.events({
 		});
 	},
 	'click .deployall': function(event) {
+
 		event.preventDefault();
+
+		var acttype = Session.get("acttype");
+
 		var code = Session.get("accessToken");
 		const target = event.target;
 		var qid = target.id;
 		qid = qid.slice(1);
 		activity = Session.get('aID');
 		teacher = Session.get('userID');
+
+		//get questionList and deployed question
 		var deployedSet = deployedquestions.find({aID: activity}).fetch();
 		var currentqlist = questions.find({'aID': Session.get('aID'), deployState: false}).fetch();
 		var nbID = activityList.findOne({'aID': Session.get('aID')}).module;
-		const pageObject = new PageObject("currentActivity");
-		if (deployedSet == '') {
-			for (i = 0; i < currentqlist.length; i++) {
-				deployedquestions.insert({teacherID: teacher, aID: activity, deployed: currentqlist[i], time: new Date()});
-				pageObject.addQuestion(qid, currentqlist[i]);
-				questions.update({
-					_id: id,
-					aID: activity
-				}, {
-					$set: {
-						deployState: true
-					}
-				});
-			}
-			alert("Question has been deployed");
-		} else {
-			var currentdeployed = deployedquestions.findOne({aID: activity}).deployed;
-			var id = deployedquestions.findOne({aID: activity})._id;
-			for (i = 0; i < currentqlist.length; i++) {
-				pageObject.addQuestion(qid, i);
-				deployedquestions.update({
-					_id: id
-				}, {
-					$set: {
-						deployed: currentqlist[i]
-					}
-				});
-				questions.update({
-					_id: id,
-					aID: activity
-				}, {
-					$set: {
-						deployState: true
-					}
-				});
-			}
-			alert("Question has been deployed");
+
+		//format question to question set.
+		var questionSet = [];
+		for (var i = 0; i < currentqlist.length; i++) {
+			questionSet.push(new QuestionObject(currentqlist[i].questIndex, currentqlist[i].quest));
 		}
+
+		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
+
+		//push page to student
 		if (acttype === "individual") {
-			Meteor.call('sendPageToStudents', code, nbID, pageObject, 'assignments');
+
+			
 		} else if (acttype === "collab") {
-			Meteor.call('addNewCollaborativeActivity', code, nbID, aID, function(err, result) {
+			Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, activity, questionSet, teacher, function(err, result) {
 				console.log(result);
+				if(result.status == 1){
+					//successfully send question to students;
+
+					for (var i = 0; i < currentqlist.length; i++) {
+						deployedquestions.insert({teacherID: teacher, aID: activity, deployed: currentqlist[i].quest, deployedQuestIndex : currentqlist[i].questIndex , time: new Date()});
+						questions.update({ _id: currentqlist[i]._id}, {$set: { deployState: true}});
+					}
+					alert("Question has been deployed");
+
+				}else{
+					alert("Something went wrong!");
+				}
 			});
+		}else{
+			alert("Something went wrong!");
 		}
 	},
 	'click #individual': function() {
@@ -724,8 +733,12 @@ Template.teachersession.events({
 		});
 	},
 	'click #togglestatus': function() {
+		console.log("yo");
 		var id = activityList.findOne({aID: Session.get('aID')})._id;
 		var status = activityList.findOne({aID: Session.get('aID')}).status;
+
+		console.log(status);
+
 		if (status == 'active') {
 			activityList.update({
 				_id: id
@@ -745,6 +758,20 @@ Template.teachersession.events({
 				}
 			});
 			Session.setPersistent('actstatus', 'active');
+
+      console.log("asd");
+
+			var moduleCode = activityList.findOne({aID : Session.get('aID')}).module;
+			console.log(moduleCode);
+
+			var notebookDB_Id = teacherModules.findOne({code : moduleCode}).notebook_F_KEY;
+			console.log(notebookDB_Id);
+			console.log("start");
+			var code = Session.get("accessToken");
+			Meteor.call('addNewCollaborativeActivity', code, notebookDB_Id, Session.get('aID'), function(err, result){
+	      console.log(result);
+	    });
+
 		}
 	},
 	'click #notibutton': function() {

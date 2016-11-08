@@ -536,16 +536,24 @@ Meteor.methods({
 			}
 		}
 	},
-	pushQuestionToCollabFull: function(code, sectionDB_id, questionSet, cUser){
+	pushQuestionToCollabFull: function(code, notebook_id, sectionName, questionSet, cUser){
 
 		var returnObject = new ResultObject();
 
-		var sections = SectionsDB.find({_id: sectionDB_id}).fetch();
+		var notebook = NotebooksDB.find({_id: notebook_id}).fetch();
+		if (notebook.length != 1) {
+			returnObject.setStatus(-1);
+			return returnObject;
+		}
+
+		var sections = SectionsDB.find({notebook_id: notebook_id, name :sectionName}).fetch();
 		if (sections.length != 1) {
 			returnObject.setStatus(-1);
 			return returnObject;
 		}
 
+		var sectionDB_id = sections[0]._id;
+		console.log(sectionDB_id);
 		PagesDB.remove({section_id: sectionDB_id});
 		var response = Meteor.call('getNotebookSectionPages', code, sectionDB_id, cUser);
 
@@ -559,7 +567,6 @@ Meteor.methods({
 			contentIn += "<br/>";
 		}
 
-		console.log(contentIn);
 		for (pCount = 0; pCount < pages.length; pCount++) {
 
 			var content = [
@@ -707,9 +714,9 @@ Meteor.methods({
 			numOfQuestions = tempStud[0].questions.length - 1;
 		}
 
-		for (q = 1; q < numOfQuestions + 1; q++) {
+		for ( var q = 1; q < numOfQuestions + 1; q++) {
 			var questionHolder = [];
-			for (i = 0; i < tempStud.length; i++) {
+			for (var i = 0; i < tempStud.length; i++) {
 				questionHolder.push(tempStud[i].questions[q]);
 			}
 			questionSet.push(questionHolder);
