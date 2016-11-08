@@ -78,7 +78,9 @@ Template.notebook_template.events({
   'click .e_insertSectionGrps'(event, instance){
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    Meteor.call('createSectionGrp', code, this._id,'Temp section');
+    Meteor.call('createSectionGrp', code, this._id,'Temp section 123',  function(err, result){
+        console.log(result);
+    });
   },
   'click .e_sendPages'(event, instance){
     event.stopPropagation();
@@ -87,7 +89,9 @@ Template.notebook_template.events({
     pageObject.addQuestion("1","What is the time?");
     pageObject.addQuestion("2","question 2?");
     pageObject.addQuestion("3","This is question 3?");
-    Meteor.call('sendPageToStudents', code, this._id, pageObject, 'in-class assignment');
+    Meteor.call('sendPageToStudents', code, this._id, pageObject, 'in-class assignment2',  function(err, result){
+        console.log(result);
+    });
   },
   'click .e_insertStudentSections'(event, instance){
     event.stopPropagation();
@@ -111,7 +115,7 @@ Template.notebook_template.events({
   'click .e_insertNewSectionInCollabSpace'(event, instance) {
     event.stopPropagation();
     var code =   Session.get("accessToken");
-    var activityName = "week4InClass";
+    var activityName = "week5InClass";
 
     Meteor.call('addNewCollaborativeActivity', code, this._id, activityName, function(err, result){
       console.log(result);
@@ -171,6 +175,29 @@ Template.section_template.events({
     Meteor.call('pushQuestionToCollab', code, this._id, questionObjet, function(err, result){
       console.log(result);
     });
+  },
+  'click .e_jointFunctionToPullAndPush'(event, instance){
+    event.stopPropagation();
+    var code =   Session.get("accessToken");
+    var cUser = Session.get("cUser");
+
+    var questionSet = [];
+    questionSet.push(new QuestionObject("1","What is next 1?"));
+    questionSet.push(new QuestionObject("2","What is next 2?"));
+
+    Meteor.call('pushQuestionToCollabFull', code, this._id, questionSet, cUser, function(err, result){
+      console.log(result);
+    });
+  },
+  'click .e_pullAnswers'(event, instance){
+    event.stopPropagation();
+    var code =   Session.get("accessToken");
+    var cUser = Session.get("cUser");
+
+    Meteor.call('getStudentsCollabAnswers', code, cUser, this._id, function(err, result){
+      console.log(result);
+    });
+
   }
 });
 
