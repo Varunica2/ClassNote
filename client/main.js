@@ -26,9 +26,7 @@ Session.setDefaultPersistent('profileMade', 'No');
 Session.setDefault('qvselect', '');
 Session.setDefaultPersistent('actstatus', 'inactive');
 //default session end
-//currently hardcoded for one-way authentication.
-// Required to be changed to automated retrieval of token in 2-way authentication
-Session.set("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyIsImtpZCI6Ikk2b0J3NFZ6QkhPcWxlR3JWMkFKZEE1RW1YYyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0Nzg2MTM2OTksIm5iZiI6MTQ3ODYxMzY5OSwiZXhwIjoxNDc4NjE3NTk5LCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiQ2hhbiIsImdpdmVuX25hbWUiOiJZdWFuIFNoYW4iLCJpcGFkZHIiOiIxMTYuMTQuMjIuMTI0IiwibmFtZSI6IkNoYW4gWXVhbiBTaGFuIiwib2lkIjoiZTYwYTA1NjctOTg3OS00MDYzLThlNDItYmRhNjhmNGE1MDZmIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtODc2NSIsInBsYXRmIjoiMyIsInB1aWQiOiIxMDAzQkZGRDhCMzM5OEZDIiwic2NwIjoiTm90ZXMuQ3JlYXRlIE5vdGVzLlJlYWQgTm90ZXMuUmVhZC5BbGwgTm90ZXMuUmVhZFdyaXRlIE5vdGVzLlJlYWRXcml0ZS5BbGwgTm90ZXMuUmVhZFdyaXRlLkNyZWF0ZWRCeUFwcCIsInN1YiI6IlV4Y20zeDdka19wN1JRZ3RiTjF0OTd4Y1NDUXJxLVJaN1ZiMmxjQUcxRGsiLCJ0aWQiOiI1YmE1ZWY1ZS0zMTA5LTRlNzctODViZC1jZmViMGQzNDdlODIiLCJ1bmlxdWVfbmFtZSI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInVwbiI6ImEwMTI1NTE0QHUubnVzLmVkdSIsInZlciI6IjEuMCJ9.IAYtc5h1DjYsJ-Es_8pc9AgDHh92-s3P3savvA4DxWuW7li_-8wkkM7BYtoggExOypBSIEz9o0E0krV22upix5OdMMGjSt4u8LlNHSwK76QEKtaP6zNnY2XSHLKQxd3WL-dTMMfgmqdLJJ8j2MaTKQ4Z2vBJ8mczVPBBqazwY9Wnz7Am5-Jx0mo_NSNrotRYFtY_17lF3T3CSnbC8FLc5m7J1ul1uGGnXqJ1wjmJjpPplbDDw79o493hNV5JRMtdS9MPozLIUJp46AC_O-I1kOV7SQ2Hsp86KHKpmEbui8BFG9sD8kRndZOC0AZqswjPpq1M82wLydpez4ATaXEP2Q");
+
 var prevOpen = "";
 //Router Info
 Router.route('/dashboard', {
@@ -77,11 +75,15 @@ Meteor.startup(() => {
 	if(n > 0){
 		var arr = fullUrl.substring(n).split("&");
 	  var code = arr[0].substring(arr[0].indexOf("=") + 1);
-
+		console.log(code);
 		Meteor.call('getAccessTokenByCode','tempForNow',code, function(err, result){
-			console.log(results);
+			console.log(result);
 			if(result['status'] == "success"){
-
+				Session.set("accessToken", result['token']);
+				userName = Session.get('userName');
+				if(userName != ""){
+					Router.go('/dashboard');
+				}
 			}else{
 				if(result["status"] == "invalid_grant"){
 
@@ -526,7 +528,7 @@ Template.editmodule.events({
 		var modid = teacherModules.findOne({_id: Session.get('modID')})._id;
 
 		var newStudents = $("#newStudentInput")[0].value;
-		
+
 		var newStudentsArray = newStudents.split(',');
 		console.log(newStudentsArray);
 
@@ -570,15 +572,15 @@ Template.editmodule.events({
 		//Router.go('/dashboard');
 	},
 
-	'click #deletestudent': function(e) { 
+	'click #deletestudent': function(e) {
 		var studentId = "#student" + $(e.target).attr('class').split(" ")[2].substr(6);
 		var matricNumber = $(studentId)[0].innerHTML;
 		var modid = teacherModules.findOne({_id: Session.get('modID')})._id;
-		
+
 		Meteor.call('deleteStudent', matricNumber, function(error, result) {
 			console.log(result);
 		});
-		
+
 		var students = teacherModules.findOne({_id: Session.get('modID')}).studentID.split('\n');;
 
 		for(var i=0; i<students.length; i++){
@@ -592,7 +594,7 @@ Template.editmodule.events({
 
 		for(var j=1; j<students.length; j++){
 			newstudentslist += "/n" + students[i];
-		} 
+		}
 
 		teacherModules.update({
 			_id: modid
@@ -978,7 +980,7 @@ function loginIVLE() {
 	var APIKey = "6YIDjroMfeBjiTP49ms99";
 	var APIDomain = "https://ivle.nus.edu.sg/";
 	var APIUrl = APIDomain + "api/lapi.svc/";
-	var returnURL = 'http://localhost:3000/dashboard';
+	var returnURL = 'http://classnote.meteorapp.com/dashboard';
 	var LoginURL = APIDomain + "api/login/?apikey=6YIDjroMfeBjiTP49ms99&url=" + returnURL;
 	Session.setPersistent('userState', "logged-in");
 	window.location = LoginURL;

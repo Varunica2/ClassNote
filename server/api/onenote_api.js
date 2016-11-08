@@ -6,16 +6,21 @@ Meteor.methods({
     var str = "grant_type=authorization_code";
     str = str.concat("&client_id=2a19c276-5593-44b9-9508-99a68bb2b71d");
     str =  str.concat("&client_secret=vqbydRaSO1HERUmB6kbdgqvzmu3CA3kv/Tm4VEJXSyU=");
-    str = str.concat("&redirect_uri=http://onenotebuild.azurewebsites.net");
+    str = str.concat("&redirect_uri=http://classnote.meteorapp.com");
     str = str.concat("&code="+code);
     str = str.concat("&resource=https://onenote.com/");
 
+    console.log(str);
     console.log("--transmitting http post--");
     var data = {};
     try {
-      data = HTTP.call("POST", "https://login.microsoftonline.com/4ae50cbe-be0d-4849-96c8-0ae667032237/oauth2/token",
-      {content  : str});
+      data = HTTP.call("POST", "https://login.microsoftonline.com/common/oauth2/token",
+      {
+        headers : {'Content-Type': 'application/x-www-form-urlencoded'},
+        content : str
+      });
       var resultObj = JSON.parse(data["content"]);
+      console.log(resultObj);
       var accessToken = resultObj["access_token"];
       var id_token = resultObj["id_token"];
       var refreashToken = resultObj["refresh_token"];
@@ -26,7 +31,6 @@ Meteor.methods({
       console.log(errorCode);
       data = { uuid: uuid, status: errorCode, idtoken : "null", token : "null", refresh_token : "null", expire_on : 0, createdAt : new Date() };
     }
-    console.log(data);
     console.log("---end of http post---");
     return data;
   },
