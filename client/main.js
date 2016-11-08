@@ -69,6 +69,31 @@ Router.route('/responses',{
   name:'responses'
 });
 //router info end
+
+Meteor.startup(() => {
+	console.log("startup");
+	var fullUrl = window.location.href;
+  var n = fullUrl.indexOf("?code=");
+	if(n > 0){
+		var arr = fullUrl.substring(n).split("&");
+	  var code = arr[0].substring(arr[0].indexOf("=") + 1);
+
+		Meteor.call('getAccessTokenByCode','tempForNow',code, function(err, result){
+			console.log(results);
+			if(result['status'] == "success"){
+
+			}else{
+				if(result["status"] == "invalid_grant"){
+
+				}
+			}
+		});
+
+	}else{
+
+	}
+});
+
 //template home events
 Template.home.events({
 	'click #fourth #Login': function() {
@@ -689,7 +714,7 @@ Template.teachersession.events({
 		//push page to student
 		if (acttype === "individual") {
 
-			
+
 		} else if (acttype === "collab") {
 			Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, activity, questionSet, teacher, function(err, result) {
 				console.log(result);

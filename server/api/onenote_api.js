@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { HTTP } from 'meteor/http';
 
 Meteor.methods({
-  tempFunction:function (uuid,code) {
+  getAccessTokenByCode:function (uuid,code) {
     var str = "grant_type=authorization_code";
     str = str.concat("&client_id=2a19c276-5593-44b9-9508-99a68bb2b71d");
     str =  str.concat("&client_secret=vqbydRaSO1HERUmB6kbdgqvzmu3CA3kv/Tm4VEJXSyU=");
@@ -39,7 +39,7 @@ Meteor.methods({
       n = n+1;
       var arr = fullurl.substring(n).split("&");
       var code = arr[0].substring(arr[0].indexOf("=") + 1);
-      tokenPack = Meteor.call('tempFunction',uuid,code);
+      tokenPack = Meteor.call('getAccessTokenByCode',uuid,code);
     }else{
 
     }
