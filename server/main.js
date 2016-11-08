@@ -16,7 +16,11 @@ import {EJSON} from 'meteor/ejson'
 Meteor.startup(() => {});
 
 Meteor.methods({
+	promptUserToLogin() {
+		console.log("login");
+	},
 	getNoteBookInformation(code, notebookDB_id, cUser) {
+		var returnObj = new ResultObject();
 		var notebook = NotebooksDB.find({_id: notebookDB_id}).fetch();
 		if (notebook.length == 1) {
 
@@ -26,11 +30,28 @@ Meteor.methods({
 			PagesDB.remove({owner: cUser});
 			PagesContentDB.remove({owner: cUser});
 
-			Meteor.call('getStudents', code, notebook[0]["rawId"], notebookDB_id, cUser);
-			Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"], notebookDB_id, cUser);
+			var r1 = Meteor.call('getStudents', code, notebook[0]["rawId"], notebookDB_id, cUser);
+			var r2 = Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"], notebookDB_id, cUser);
+
+			if(r1.status != 200 || r2.status != 1){
+				returnObj.setStatus(401);
+				return returnObj;
+			}else{
+				returnObj.setStatus(1);
+				return returnObj;
+			}
+		}else{
+			return returnObj;
 		}
 	},
 	getNoteBooks: function(code, cUser) {
+
+		var returnObj = new ResultObject();
+		isPreCodeGood = checkCode(code);
+		if(!isPreCodeGood){
+			returnObj.setStatus(401);
+			return returnObj;
+		}
 
 		NotebooksDB.remove({owner: cUser});
 		StudentsDB.remove({owner: cUser});
@@ -39,22 +60,33 @@ Meteor.methods({
 		PagesDB.remove({owner: cUser});
 		PagesContentDB.remove({owner: cUser});
 
-		Meteor.call('API_getNoteBooks', code, function(err, result) {
-			if (result["statusCode"] == 200) {
-				var values = EJSON.parse(result["content"])["value"];
-				for (i = 0; i < values.length; i++) {
-					var id = values[i]["id"];
-					var name = values[i]["name"];
-					var self = values[i]["self"];
-					NotebooksDB.insert({rawId: id, name: name, self: self, owner: cUser});
-				}
-			}
-		});
+		 var response = Meteor.call('API_getNoteBooks', code);
+		 if(response["statusCode"] === undefined){
+			 returnObj.setStatus(response.response["statusCode"]);
+		 }
+		 else{
+			 if (response["statusCode"] == 200) {
+ 				var values = EJSON.parse(response["content"])["value"];
+ 				for (i = 0; i < values.length; i++) {
+ 					var id = values[i]["id"];
+ 					var name = values[i]["name"];
+ 					var self = values[i]["self"];
+ 					NotebooksDB.insert({rawId: id, name: name, self: self, owner: cUser});
+ 				}
+ 			}
+			 returnObj.setStatus(response["statusCode"]);
+		 }
+		 return returnObj;
 	},
 	getStudents: function(code, notebookId, notebookDB_id, cUser) {
-		Meteor.call('API_getStudents', code, notebookId, function(err, result) {
-			if (result["statusCode"] == 200) {
-				var values = EJSON.parse(result["content"])["value"];
+		var returnObject = new ResultObject();
+		var response = Meteor.call('API_getStudents', code, notebookId);
+		if(response["statusCode"] === undefined){
+			returnObject.setStatus(response.response["statusCode"]);
+		}
+		else{
+			if (response["statusCode"] == 200) {
+				var values = EJSON.parse(response["content"])["value"];
 				for (i = 0; i < values.length; i++) {
 					var id = values[i]["id"];
 					var name = values[i]["name"];
@@ -70,12 +102,22 @@ Meteor.methods({
 					});
 				}
 			}
-		});
+			returnObject.setStatus(response["statusCode"]);
+		}
+		return returnObject;
+
 	},
 	getNotebookSectionGroups: function(code, notebookId, notebookDB_id, cUser) {
-		Meteor.call('API_getNoteBookSectionGroups', code, notebookId, function(err, result) {
-			if (result["statusCode"] == 200) {
-				var values = EJSON.parse(result["content"])["value"];
+
+		var returnObject = new ResultObject();
+		var response = Meteor.call('API_getNoteBookSectionGroups', code, notebookId);
+		if(response["statusCode"] === undefined){
+			returnObject.setStatus(response.response["statusCode"]);
+		}
+		else{
+			var isAllGood = true;
+			if (response["statusCode"] == 200) {
+				var values = EJSON.parse(response["content"])["value"];
 				var arr = [];
 				for (i = 0; i < values.length; i++) {
 					var id = values[i]["id"];
@@ -85,14 +127,25 @@ Meteor.methods({
 					arr.push(sectionDB_id);
 				}
 				for (i = 0; i < values.length; i++) {
-					Meteor.call('getSectionGroupSections', code, arr[i], cUser);
+					 var r2 = Meteor.call('getSectionGroupSections', code, arr[i], cUser);
+					 if (r2["statusCode"] === undefined) {
+						 isAllGood = false;
+					 }
 				}
 				console.log("==== done ===");
-
+				if(isAllGood){
+					returnObject.setStatus(1);
+				}else{
+					returnObject.setStatus(-1);
+				}
+			}else{
+					returnObject.setStatus(response["statusCode"]);
 			}
-		});
+		}
+		return returnObject;
 	},
 	getSectionGroupSections: function(code, SectionsGrpDB_id, cUser) {
+
 		var sectionsGrp = SectionsGrpDB.find({_id: SectionsGrpDB_id}).fetch();
 		if (sectionsGrp.length == 1) {
 			//remove all existing sections for sectionGrp in mongo
@@ -115,6 +168,10 @@ Meteor.methods({
 					});
 				}
 			}
+
+			return result;
+		}else{
+			return -1;
 		}
 	},
 	getNotebookSectionPages: function(code, sectionDB_id, cUser) {
@@ -583,4 +640,31 @@ function getStringInHtml(questionHtml) {
 		}
 	}
 	return fullString.trim();
+}
+
+function checkCode(code){
+	if (code === ""){
+		return false;
+	}
+
+	return true;
+}
+
+class ResultObject {
+  constructor() {
+    this.status = -1;
+    this.data = "";
+  }
+
+  setData(data) {
+    this.data = data;
+  }
+
+	getStatus(){
+		return this.status;
+	}
+
+	setStatus(status){
+		this.status = status;
+	}
 }
