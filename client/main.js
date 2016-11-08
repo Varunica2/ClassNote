@@ -443,25 +443,42 @@ Template.addmodule.events({
 		});
 	}
 });
+
 Template.editmodule.helpers({
 	getModuleList: function() {
 		return teacherModules.find({userID: Session.get('userID')});
+	},
+	setCounter: function() {
+		Session.setPersistent('counter', []);
+	},
+	count: function() {
+		return Session.get('counter');
+	},
+	getModule: function() {
+		return teacherModules.findOne({_id: Session.get('modID')}).code;
+	},
+	getStudentList: function() {
+		var x = teacherModules.findOne({_id: Session.get('modID')}).studentID;
+		var y = x.split('\n');
+		return y;
 	}
+
 });
 
+
 Template.editmodule.events({
-	'submit #moduleform' (event) {
+	'submit #moduleform': function (event) {
 		event.preventDefault();
 		const target = event.target;
-		var modulecode = target.modulecode.value;
+		var modulecode = teacherModules.findOne({_id: Session.get('modID')}).code;
 		var newmodname = target.newmodulename.value;
-		var newmodcode = target.newmodulecode.value;
-		var nb_name = modulecode;
-		var newstudentlist = target.newstudentlist.value;
-		var array = newstudentlist.split('\n');
+		var nbID = modulecode;
+		//var newmodcode = target.newmodulecode.value;
+		//var array = newstudentlist.split('\n');
 		var modid = teacherModules.findOne({code: modulecode})._id;
 		var actids = [activityList.find({module: modulecode})._id];
-		//   console.log(actids);
+		//var studentlist = target.newstudentlist.value;
+		//studentlist = teacherModules.findOne({code: modulecode}).studentID;
 		var code = Session.get("accessToken");
 		/*
           editing to existing notebooks goes here
@@ -470,11 +487,50 @@ Template.editmodule.events({
 			_id: modid
 		}, {
 			$set: {
-				code: newmodcode,
-				module: newmodname,
-				studentID: newstudentlist
+				module: newmodname
 			}
 		});
+
+		var code = Session.get("accessToken");
+		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
+		var teacherID = Session.get("userID");
+		var modid = teacherModules.findOne({_id: Session.get('modID')})._id;
+
+		var newStudents = $("#newStudentInput")[0].value;
+		
+		var newStudentsArray = newStudents.split(',');
+		console.log(newStudentsArray);
+
+		var newStudentsList = "";
+
+		for (var i=0; i<newStudentsArray.length; i++) {
+			if (i === newStudentsArray.length - 1) {
+				newStudentsList += newStudentsArray[i];
+			} else {
+				newStudentsList += newStudentsArray[i] + "\n";
+			}
+		}
+
+		console.log(newStudentsList);
+
+		var students = teacherModules.findOne({_id: Session.get('modID')}).studentID;
+		var combinedStudentsList = students + "\n" + newStudentsList;
+
+		console.log(combinedStudentsList);
+
+		teacherModules.update({
+			_id: modid
+		}, {
+			$set: {
+				studentID: combinedStudentsList
+			}
+		});
+
+		for (var i=0; i<newStudentsArray; i++) {
+			Meteor.call('addStudent', code, notebook_F_KEY, newStudentsArray[i], teacherID, function(error, result){
+				console.log(result);
+			});
+		}
 		/*
          for(i=0 ; i<actids.length ; i++){
           activityList.update({id:actids[i]}, { $set: {code:newmodcode, name:newmodname}});
@@ -482,9 +538,53 @@ Template.editmodule.events({
          };
         */
 		alert("Module has been edited!");
-		Router.go('/dashboard');
+		//Router.go('/dashboard');
+	},
+
+	'click #deletestudent': function(e) { 
+		var studentId = "#student" + $(e.target).attr('class').split(" ")[2].substr(6);
+		var matricNumber = $(studentId)[0].innerHTML;
+		var modid = teacherModules.findOne({_id: Session.get('modID')})._id;
+		
+		Meteor.call('deleteStudent', matricNumber, function(error, result) {
+			console.log(result);
+		});
+		
+		var students = teacherModules.findOne({_id: Session.get('modID')}).studentID.split('\n');;
+
+		for(var i=0; i<students.length; i++){
+			if(students[i].localeCompare(matricNumber) === 0){
+				console.log('here');
+				students.splice(i, 1);
+			}
+		}
+
+		var newstudentslist = students[0];
+
+		for(var j=1; j<students.length; j++){
+			newstudentslist += "/n" + students[i];
+		} 
+
+		teacherModules.update({
+			_id: modid
+		}, {
+			$set: {
+				studentID: newstudentslist
+			}
+		});
+	},
+
+	'click #addstudent': function() {
+		count = Session.get('counter');
+		var uniqid = 'count' + (Math.floor(Math.random() * 100000)).toString(); // Give a unique ID so you can pull _this_ input when you click remove
+		count.push({uniqid: uniqid, value: ""});
+		newcount = count;
+		Session.setPersistent('counter', newcount);
 	}
+
 });
+
+
 Template.module.events({
 	'click .modlist': function(e) {
 		Session.setPersistent('modID', this._id);

@@ -330,6 +330,7 @@ Meteor.methods({
 	},
 	deleteStudent: function(code, studentId) {
 		var student = StudentsDB.find({_id: studentId}).fetch();
+		console.log(student);
 		if (student.length == 1) {
 			var notebook = NotebooksDB.find({_id: student[0].notebook_id}).fetch();
 			if (notebook.length == 1) {

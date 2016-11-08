@@ -175,6 +175,15 @@ a:hover {
   width: 60%;
 }
 
+#editmodsubmit{
+  margin-top: 150px;
+  margin-right: 20px;
+}
+
+#addstudent{
+  margin-left: 50px;
+}
+
 
 #moduleform{
   margin: 10px;
