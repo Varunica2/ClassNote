@@ -82,7 +82,7 @@ a:hover {
 
 #fourth{
   font-family: DinLight;
-  margin-top: 50px;
+  margin-top: 7%;
   text-align: center;
 }
 
@@ -103,16 +103,60 @@ a:hover {
   margin-left: 243px;
 }
 
+h1{
+  font-style: Helvetica;
+  font-size: 70px;
+  color:#B93B8F;
+}
+
 #sixth{
   font-family: DinLight;
+  font-weight: bold;
   margin: 1px;
-  margin-top: 50px;
+  margin-top: 20%;
+  position: relative;
+  bottom:0;
   text-align: center;
-  float:bottom;  
+}
+
+.btn-xlarge {
+    padding: 18px 28px;
+    font-size: 22px;
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
 }
 
 #first >ul >li >a {
     color:red;
+}
+
+#background-image {
+    background-image: url('images/homepage.jpg');
+    background-repeat:no-repeat;
+    background-position:center;
+    opacity:0.5;
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    z-index:0;
+}
+
+#dashboard-background-image{
+    background-image: url('images/book-coffee.jpg');
+    background-repeat:no-repeat;
+    background-position:right;
+    opacity:0.9;
+    position:absolute;
+    top:5%;
+    left:0;
+    height:100%;
+    width:100%;
+    z-index:0;
+
 }
 
 .btn-custom {

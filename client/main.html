@@ -2,6 +2,8 @@
 
 <template name="home">
 
+<div id="background-image"></div>
+
   <div class="container-fluid" id="first">
       <nav class="navbar navbar-default" role="navigation" style="background-color: #3B3B3B">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -18,9 +20,12 @@
         </div><!-- /.navbar-collapse -->
       </nav>
 
+<div>
+
+
   <div class= "row" id="second">
     <div class ="col-md-12">
-     <!--<img src ="images/ClassNote logo.png" id="logo" class="img-responsive"> -->
+     <!--<img src ="images/classnote_homepage.jpg" id="logo" class="img-responsive"> -->
    </div>
   </div>
 
@@ -29,11 +34,11 @@
     </div>
 
     <div class= "row" id="fourth">
-      <div class ="col-md-12">
-        <h1 style="font-style: Helvetica">CLASSNOTE</h1>
+      <div class ="col-md-12" id="title">
+        <h1>CLASSNOTE</h1>
       </div>
       <div class ="col-md-12">
-        <button class = "btn btn-primary .btn-custom" id = "Login"> ClassNote Login </button>
+        <button class = "btn btn-primary .btn-custom btn-xlarge" id = "Login"> ClassNote Login </button>
        </div>
 
   </div>
@@ -43,18 +48,33 @@
 
       <div class ="col-md-12">
 
-      <h4> ClassNote is designed to facilitate in-class collaboration learning through various activities, quizzes and discussions. </h4>
-
-      <h4 style="font-color:white"> Product of School of Computing - National University of Singapore </h4>
+        <h4> ClassNote is designed to facilitate in-class collaboration learning through various activities, quizzes and discussions. </h4>
+        <h4> Product of School of Computing - National University of Singapore </h4>
 
       </div>
   </div>
   </div>
-  <hr>
+  </div>
+
+
+
 
 </template>
 
+<!--<template name="about">
+
+<style>
+  body  {
+    background-image: url('images/about.jpg');
+    background-repeat:no-repeat;
+    background-position:center;
+  }
+</style>
+</template> -->
+
 <template name ="navigation">
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <!--<script src="./jquery-ui.js" type="javascript"></script>-->
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -165,6 +185,8 @@
   </template>
 
 <template name ="dashboard">
+
+  <div id="dashboard-background-image"></div>
 
   {{>navigation}}
 
@@ -345,6 +367,7 @@
 <template name = "editmodule">
 
   {{setCounter}}
+  {{setCounter2}}
   {{>navigation}}
 
   <form id ="moduleform" class="col-md-8">
@@ -363,14 +386,22 @@
   </div>
 
     <fieldset class="form-group">
-      <h3>{{getModule}}</h3>
+      <a class="newmodulename fa fa-pencil-square-o fa-2x" aria-hidden="true" >
+      <!-- <h2 class="fa fa-pencil-square-o fa-2x" aria-hidden="true">{{getModule}}</h2> -->
+       {{getModule}}
+      </a>
+       
     </fieldset>
+    
+<!--      {{#each count}}
 
+      {{>newmodulename}}
 
-    <fieldset class="form-group">
-      <label for="Module Name">New Module Name</label>
-      <input type="text" class="form-control" name="newmodulename" placeholder={{module}}>
-    </fieldset>
+      {{/each}} -->
+  <fieldset class="form-group">
+    <label for="Append">Enter new module name:</label>
+    <input type = "text" id="newmodulename" class="form-control" name="{{uniqid}}">
+  </fieldset>
 
     <script type='text/javascript'
       src='http://code.jquery.com/jquery-1.10.1.js'></script>
@@ -446,6 +477,13 @@
 
   </form>
 
+</template>
+
+<template name = "newmodulename">
+ <fieldset class="form-group">
+    <label for="Append">Enter new module name:</label>
+    <input type = "text" id="newmodulename" class="form-control" name="{{uniqid}}">
+  </fieldset>
 </template>
 
 <template name = "addstudent">
@@ -628,7 +666,7 @@
 
           <div class = "row" >
           <h4> Questions </h4>
-          <button id = "" class = "deployall"> Deploy All</button>
+          <button id = "" class = "deployall"> Deploy Group</button>
           </div>
 
           <div class = "row">
@@ -675,13 +713,13 @@
             <div class = "list-group" id = "actadmin">
 
             <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
-            <p class = "list-group-item admin">  Activity Name : {{getmodcode}} - {{getactcode}} </p>
+            <p class = "list-group-item admin">  Activity Name : {{getmodcode}}{{getactcode}} </p>
 
             <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
           <!--  <p class = "list-group-item admin"> Active Students -  </p> -->
 
           <!--  <p class = "list-group-item admin"> Start Time - </p> -->
-            <p class = "list-group-item admin"> No. of Questions - {{getactqnum}} </p>
+            <p class = "list-group-item admin"> Total Questions - {{getactqnum}} </p>
             <p class = "list-group-item admin"> Questions Deployed - {{getdeployedq}}</p>
           </div>
 
