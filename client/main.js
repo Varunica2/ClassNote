@@ -910,7 +910,6 @@ Template.teachersession.events({
 		var activity = Session.get('aID');
 		var teacher = Session.get('userID');
 		var deployedSet = deployedquestions.find({aID: activity}).fetch();
-		console.log("deployedSet: "+deployedSet);
 
 		var quest = questions.find({'aID': Session.get('aID')});
 		var r = [];
@@ -918,20 +917,24 @@ Template.teachersession.events({
 			r.push(question.quest);
 		});
 		var currentq = r[qid];
+		var currentqid = questions.findOne({'quest': currentq})._id;
 		
 		var nbID = activityList.findOne({'aID': Session.get('aID')}).module;
 		const pageObject = new PageObject(activity);
 		
 		if (deployedSet.length == 0) {
+			
 			var quests = [currentq];
 			deployedquestions.insert({teacherID: teacher, aID: activity, deployed: quests, time: new Date()});
 			alert("Question has been deployed");
+
 		} else {
-			console.log("proceed");
+			
 			var currentdeployed = deployedquestions.findOne({aID: activity}).deployed;
 			var id = deployedquestions.findOne({aID: activity})._id;
-			console.log(id);
+
 			currentdeployed.push(currentq);
+			
 			deployedquestions.update({
 				_id: id
 			}, {
@@ -939,8 +942,17 @@ Template.teachersession.events({
 					deployed: currentdeployed
 				}
 			});
+			
 			alert("Question has been deployed");
 		}
+		
+		questions.update({
+			_id: currentqid
+		}, {
+			$set: {
+				deployState: true
+			}
+		});
 
 		console.log(qid + " " + currentq);
 		pageObject.addQuestion(qid, currentq);
@@ -1032,17 +1044,24 @@ Template.teachersession.events({
 	'submit #addqform': function(e) {
 		e.preventDefault();
 		const target = event.target;
-		var q = target.addition.value;
-		var old = questions.findOne({'aID': Session.get('aID')}).quest;
-		var id = questions.findOne({'aID': Session.get('aID')})._id;
-		console.log(old);
-		old.push(q);
-		questions.update({
-			_id: id
-		}, {
-			$set: {
-				quest: old
-			}
+		var addQ = target.addition.value;
+		//var old = questions.findOne({'aID': Session.get('aID')}).quest;
+		//var id = questions.findOne({'aID': Session.get('aID')})._id;
+		console.log(addQ);
+
+		var quest = questions.find({'aID': Session.get('aID')});
+		var r = [];
+		var index=0;
+		quest.forEach(function() {
+			index++;
+		});
+		
+		questions.insert({
+				aID: Session.get('aID'),
+				questIndex : index+1,
+				quest: addQ,
+				time: new Date(),
+				deployState: false
 		});
 	},
 	'click #togglestatus': function() {
