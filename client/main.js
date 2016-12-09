@@ -835,7 +835,6 @@ Template.teachersession.helpers({
 
 		quest.forEach(function(question) {
 			r.push(question);
-			console.log(r);
 		});
 		Session.setPersistent('qnumber', r.length);
 		return r;
@@ -887,9 +886,7 @@ Template.teachersession.helpers({
 		return responses.find({aID: Session.get('aID')});
 	},
 	getdeployedq: function() {
-		var count = deployedquestions.findOne({'aID': Session.get('aID')});
-		console.log(count);
-		console.log(count.length);
+		var count = deployedquestions.findOne({'aID': Session.get('aID')}).deployed;
 		return count.length;
 	}
 });
@@ -903,27 +900,35 @@ Template.teachersession.events({
 	},
 	'click .qbtn2': function(event) {
 		event.preventDefault();
-		var code = Session.get("accessToken");
 		const target = event.target;
+
+		var code = Session.get("accessToken");
+
 		var qid = target.id;
 		qid = qid.slice(1);
-		activity = Session.get('aID');
-		teacher = Session.get('userID');
+
+		var activity = Session.get('aID');
+		var teacher = Session.get('userID');
 		var deployedSet = deployedquestions.find({aID: activity}).fetch();
-		var currentq = questions.findOne({'aID': Session.get('aID')}).quest[qid];
-		console.log("currentq: "+currentq);
+		console.log("deployedSet: "+deployedSet);
+
+		var quest = questions.find({'aID': Session.get('aID')});
+		var r = [];
+		quest.forEach(function(question) {
+			r.push(question.quest);
+		});
+		var currentq = r[qid];
+		
 		var nbID = activityList.findOne({'aID': Session.get('aID')}).module;
 		const pageObject = new PageObject(activity);
+		
 		if (deployedSet.length == 0) {
 			var quests = [currentq];
-			console.log("quests: " + quests);
 			deployedquestions.insert({teacherID: teacher, aID: activity, deployed: quests, time: new Date()});
-			console.log("in deployed set");
 			alert("Question has been deployed");
 		} else {
 			console.log("proceed");
-			var currentdeployed = deployedquestions.findOne({aID: activity}).deployed.quest;
-			console.log(currentdeployed);
+			var currentdeployed = deployedquestions.findOne({aID: activity}).deployed;
 			var id = deployedquestions.findOne({aID: activity})._id;
 			console.log(id);
 			currentdeployed.push(currentq);
