@@ -921,38 +921,6 @@ Template.teachersession.events({
 		
 		var nbID = activityList.findOne({'aID': Session.get('aID')}).module;
 		const pageObject = new PageObject(activity);
-		
-		if (deployedSet.length == 0) {
-			
-			var quests = [currentq];
-			deployedquestions.insert({teacherID: teacher, aID: activity, deployed: quests, time: new Date()});
-			alert("Question has been deployed");
-
-		} else {
-			
-			var currentdeployed = deployedquestions.findOne({aID: activity}).deployed;
-			var id = deployedquestions.findOne({aID: activity})._id;
-
-			currentdeployed.push(currentq);
-			
-			deployedquestions.update({
-				_id: id
-			}, {
-				$set: {
-					deployed: currentdeployed
-				}
-			});
-			
-			alert("Question has been deployed");
-		}
-		
-		questions.update({
-			_id: currentqid
-		}, {
-			$set: {
-				deployState: true
-			}
-		});
 
 		console.log(qid + " " + currentq);
 		pageObject.addQuestion(qid, currentq);
@@ -961,29 +929,84 @@ Template.teachersession.events({
 		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
 		var acttype = Session.get("acttype");
 		console.log(acttype);
+
 		if (acttype === "individual") {
 			console.log("send");
 			Meteor.call('sendPageToStudents', code, notebook_F_KEY, pageObject, 'assignments', function(error, result) {
 				console.log(result);
-			});
+				if (deployedSet.length == 0) {
+			
+					var quests = [currentq];
+					deployedquestions.insert({teacherID: teacher, aID: activity, deployed: quests, time: new Date()});
+					alert("Question has been deployed");
+
+				} else {
+					
+					var currentdeployed = deployedquestions.findOne({aID: activity}).deployed;
+					var id = deployedquestions.findOne({aID: activity})._id;
+
+					currentdeployed.push(currentq);
+					
+					deployedquestions.update({
+						_id: id
+					}, {
+						$set: {
+							deployed: currentdeployed
+						}
+					});
+					
+					alert("Question has been deployed");
+				}
+				
+				questions.update({
+					_id: currentqid
+				}, {
+					$set: {
+						deployState: true
+					}
+				});
+					});
 		} else {
-
-
 			var questionSet = [];
-	    questionSet.push(new QuestionObject(qid,currentq));
+	    	questionSet.push(new QuestionObject(qid,currentq));
 
-	    Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, aID, questionSet, teacher, function(err, result){
-	      console.log(result);
-	    });
+		    Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, aID, questionSet, teacher, function(err, result){
+		      console.log(result);
 
+		      if (deployedSet.length == 0) {
+			
+					var quests = [currentq];
+					deployedquestions.insert({teacherID: teacher, aID: activity, deployed: quests, time: new Date()});
+					alert("Question has been deployed");
+
+				} else {
+					
+					var currentdeployed = deployedquestions.findOne({aID: activity}).deployed;
+					var id = deployedquestions.findOne({aID: activity})._id;
+
+					currentdeployed.push(currentq);
+					
+					deployedquestions.update({
+						_id: id
+					}, {
+						$set: {
+							deployed: currentdeployed
+						}
+					});
+					
+					alert("Question has been deployed");
+				}
+				
+				questions.update({
+					_id: currentqid
+				}, {
+					$set: {
+						deployState: true
+					}
+				});
+		    });
 		}
-		questions.update({
-			_id: id
-		}, {
-			$set: {
-				deployState: true
-			}
-		});
+		
 	},
 	'click .deployall': function(event) {
 
@@ -1000,7 +1023,9 @@ Template.teachersession.events({
 
 		//get questionList and deployed question
 		var deployedSet = deployedquestions.find({aID: activity}).fetch();
-		var currentqlist = questions.find({'aID': Session.get('aID'), deployState: false}).fetch();
+		//var currentqlist = questions.find({'aID': Session.get('aID'), deployState: false}).fetch();
+		var currentqlist = questions.find({'aID': Session.get('aID')}).fetch();
+		console.log(currentqlist);
 		var nbID = activityList.findOne({'aID': Session.get('aID')}).module;
 
 		//format question to question set.
@@ -1011,9 +1036,36 @@ Template.teachersession.events({
 
 		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
 
+				
 		//push page to student
 		if (acttype === "individual") {
+			Meteor.call('sendPageToStudents', code, notebook_F_KEY, pageObject, 'assignments', function(error, result) {
+				console.log(result);
 
+				if(result.status == 1){
+					//successfully send question to students;
+
+					for (var i = 0; i < currentqlist.length; i++) {
+						deployedquestions.insert({
+							teacherID: teacher, 
+							aID: activity, 
+							deployed: currentqlist[i].quest, 
+							deployedQuestIndex : currentqlist[i].questIndex , 
+							time: new Date()
+						});
+						
+						questions.update({ 
+							_id: currentqlist[i]._id}, 
+							{$set: { deployState: true}
+						});
+					
+					}
+					alert("Question has been deployed");
+
+				}else{
+					alert("Something went wrong!");
+				}
+			});
 
 		} else if (acttype === "collab") {
 			Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, activity, questionSet, teacher, function(err, result) {
@@ -1022,8 +1074,19 @@ Template.teachersession.events({
 					//successfully send question to students;
 
 					for (var i = 0; i < currentqlist.length; i++) {
-						deployedquestions.insert({teacherID: teacher, aID: activity, deployed: currentqlist[i].quest, deployedQuestIndex : currentqlist[i].questIndex , time: new Date()});
-						questions.update({ _id: currentqlist[i]._id}, {$set: { deployState: true}});
+						deployedquestions.insert({
+							teacherID: teacher, 
+							aID: activity, 
+							deployed: currentqlist[i].quest, 
+							deployedQuestIndex : currentqlist[i].questIndex , 
+							time: new Date()
+						});
+						
+						questions.update({ 
+							_id: currentqlist[i]._id}, 
+							{$set: { deployState: true}
+						});
+					
 					}
 					alert("Question has been deployed");
 
