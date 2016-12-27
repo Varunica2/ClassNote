@@ -25,6 +25,12 @@ Session.setDefaultPersistent('userType', '');
 Session.setDefaultPersistent('profileMade', 'No');
 Session.setDefault('qvselect', '');
 Session.setDefaultPersistent('actstatus', 'inactive');
+Session.setDefaultPersistent('students','');
+Session.setDefaultPersistent('addmodcode','');
+Session.setDefaultPersistent('AuthToken','');
+Session.setDefaultPersistent('APIKey',"6YIDjroMfeBjiTP49ms99");
+Session.setDefaultPersistent('APIDomain',"http://ivle.nus.edu.sg/");
+Session.setDefaultPersistent('APIUrl', Session.get('APIDomain') + "api/lapi.svc/");
 //default session end
 
 var prevOpen = "";
@@ -49,10 +55,6 @@ Router.route('/editmodule', {
 	template: "editmodule",
 	name: 'editmodule'
 });
-Router.route('/modulemanagement', {
-	template: "modulemanagement",
-	name: 'modulemanagement'
-});
 Router.route('/session', {
 	template: "session",
 	name: 'session'
@@ -71,11 +73,10 @@ Router.route('/responses',{
 Meteor.startup(() => {
 	console.log("startup");
 	var fullUrl = window.location.href;
-  var n = fullUrl.indexOf("?code=");
+    var n = fullUrl.indexOf("?code=");
 	if(n > 0){
 		var arr = fullUrl.substring(n).split("&");
-	  var code = arr[0].substring(arr[0].indexOf("=") + 1);
-		console.log(code);
+	    var code = arr[0].substring(arr[0].indexOf("=") + 1);
 		Meteor.call('getAccessTokenByCode','tempForNow',code, function(err, result){
 			console.log(result);
 			if(result['status'] == "success"){
@@ -125,6 +126,13 @@ Template.dashboard.helpers({
 			}
 		}
 	},
+	setAuthToken: function(){
+		//Token =/= AuthToken
+		//below method may not work
+		Session.setPersistent('AuthToken', Session.get('Token'));
+		console.log(Session.get('Token'));
+		console.log(Session.get('AuthToken'));
+	},
 	modList: function() {
 		return teacherModules.find({userID: Session.get('userID')});
 	},
@@ -173,29 +181,22 @@ Template.dashboard.helpers({
         var code = Session.get("accessToken");
         //getNotebooks
         Meteor.call('getNoteBooks', code, function(){});
-
         //notebook_template
         var cursor = NotebooksDB.find();
         console.log(cursor);
-
         // Execute the each command, triggers for each document
         cursor.each(function(err, item) {
-
           console.log("entered");
           // If the item is null then the cursor is exhausted/empty and closed - may remove later
           if(item == null) {
             alert("no notebooks available!");
           }
-
           else {
-
-
             var notebook = NotebooksDB.find({_id : this._id}).fetch();
             if(notebook.length == 1){
             Meteor.call('getStudents', code, notebook[0]["rawId"]);
             Meteor.call('getNotebookSectionGroups', code, notebook[0]["rawId"]);
             }
-
             var sectionsGrp = SectionsGrpDB.find({_id: this._id}).fetch();
             if(sectionsGrp.length == 1){
               var code =   Session.get("accessToken");
@@ -203,17 +204,13 @@ Template.dashboard.helpers({
             }else{
               alert("problem detected");
             }
-
-
             //Meteor.call('createSectionGrp', code, this._id); - work on creating
-
             var sections = SectionsDB.find({_id: this._id}).fetch();
             if(sections.length == 1){
               Meteor.call('getNotebookSectionPages', code, sections[0]["self"], sections[0]["_id"]);
             }else{
               alert("problem detected");
             }
-
             var sections = PagesDB.find({_id: this._id}).fetch();
             if(sections.length == 1){
               var code =   Session.get("accessToken");
@@ -221,12 +218,12 @@ Template.dashboard.helpers({
             }else{
               alert("problem detected");
             }
-
           }
         });
       }
   */
 });
+
 Template.insertTab.events({
 	'click a': function(event) {
 		if (prevOpen === "") {
@@ -421,16 +418,75 @@ Template.addmodule.events({
 		const target = event.target;
 		var modname = target.modulename.value;
 		var modcode = target.modulecode.value;
+		Session.setPersistent('addmodcode', modcode);
 		var nb_name = modcode;
 		var teacherID = Session.get("userID");
-		var studentlist = target.studentlist.value;
-		var array = studentlist.split('\n');
 		var code = Session.get("accessToken");
 		var teacherID_Full = teacherID + "@u.nus.edu";
-
 		var sectionsInStudents = [];
 		sectionsInStudents.push("assignments");
 		sectionsInStudents.push("homework");
+		var result = 'x123';
+		//var studentlist = target.studentlist.value;
+
+		//getting student list from IVLE API
+		var APIKey = Session.get('APIKey');
+		var APIDomain = Session.get('APIDomain');
+		var APIUrl = Session.get('APIUrl');
+		var token = Session.get('AuthToken'); //change to get authtoken from IVLE
+		var courseID = Session.get('addmodcode');
+		var url = APIUrl + "Class_Roster?APIKey=" + APIKey + "&AuthToken=" + token + "&CourseID=" + courseID;
+		//https://ivle.nus.edu.sg/API/Lapi.svc/Class_Roster?APIKey={System.String}&AuthToken={System.String}&CourseID={System.String}
+		/*
+		jQuery.getJSON(url, function(data) {
+			console.log('entered');
+			Session.setPersistent('students', data);
+			console.log(data);
+		});
+		*/
+		$.post(url, function(data){
+			console.log('entered');
+			Session.setPersistent('students', data);
+        	console.log("Data: " + data);
+    	});
+		
+		//Populate_StudentList();
+		var studentlist = Session.get('students');
+		console.log('studentlist from IVLE: '+studentlist);
+		//var array = studentlist.split('\n');
+		//end of code for getting students from IVLE API
+
+		//delete after testing classroster LAPI
+		teacherModules.insert({
+					module: modname,
+					code: modcode,
+					userID: Session.get('userID'),
+					notebook_F_KEY: result,
+					studentID: studentlist,
+					time: new Date()
+				});
+				var z;
+				for (z = 0; z < array.length; z++) {
+					currentID = array[z];
+					if (studentModules.find({studentID: currentID}).fetch() == '') {
+						var mods = [modcode];
+						studentModules.insert({studentID: currentID, module: modname, codes: mods, time: new Date()});
+					} else {
+						var currentmods = studentModules.findOne({studentID: currentID}).codes;
+						var id = studentModules.findOne({studentID: currentID})._id;
+						currentmods.push(modcode);
+						studentModules.update({
+							_id: id
+						}, {
+							$set: {
+								codes: currentmods
+							}
+						});
+					}
+				}
+				alert("Module has been created!");
+				Router.go('/dashboard');
+		//till here
 
 		Meteor.call('createNewNoteBook', code, nb_name, teacherID_Full, array, sectionsInStudents, teacherID, function(error, result) {
 			if (result.status) {
@@ -488,159 +544,8 @@ Template.editmodule.helpers({
 	getModule: function() {
 		return teacherModules.findOne({_id: Session.get('modID')}).code;
 	},
-	getStudentList: function() {
-		var x = teacherModules.findOne({_id: Session.get('modID')}).studentID;
-		var y = x.split('\n');
-		return y;
-	}
-
-});
-
-
-Template.editmodule.events({
-	'submit #moduleform': function (event) {
-		event.preventDefault();
-		const target = event.target;
-		var modulecode = teacherModules.findOne({_id: Session.get('modID')}).code;
-		var newmodname = target.newmodulename.value;
-		var nbID = modulecode;
-		//var newmodcode = target.newmodulecode.value;
-		//var array = newstudentlist.split('\n');
-		var modid = teacherModules.findOne({code: modulecode})._id;
-		var actids = [activityList.find({module: modulecode})._id];
-		//var studentlist = target.newstudentlist.value;
-		//studentlist = teacherModules.findOne({code: modulecode}).studentID;
-		var code = Session.get("accessToken");
-		/*
-          editing to existing notebooks goes here
-          */
-        
-		teacherModules.update({
-			_id: modid
-		}, {
-			$set: {
-				module: newmodname
-			}
-		});
-
-		var code = Session.get("accessToken");
-		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
-		var teacherID = Session.get("userID");
-		var modid = teacherModules.findOne({_id: Session.get('modID')})._id;
-
-		var newStudents = $("#newStudentInput")[0].value;
-		
-		var newStudentsArray = newStudents.split(',');
-		console.log(newStudentsArray);
-
-		var newStudentsList = "";
-
-		for (var i=0; i<newStudentsArray.length; i++) {
-			if (i === newStudentsArray.length - 1) {
-				newStudentsList += newStudentsArray[i];
-			} else {
-				newStudentsList += newStudentsArray[i] + "\n";
-			}
-		}
-
-		console.log(newStudentsList);
-
-		var students = teacherModules.findOne({_id: Session.get('modID')}).studentID;
-		var combinedStudentsList = students + "\n" + newStudentsList;
-
-		console.log(combinedStudentsList);
-
-		teacherModules.update({
-			_id: modid
-		}, {
-			$set: {
-				studentID: combinedStudentsList
-			}
-		});
-
-		for (var i=0; i<newStudentsArray; i++) {
-			matric =  newStudentsArray[i] + '@u.nus.edu';
-			Meteor.call('addStudent', code, notebook_F_KEY, matric, teacherID, function(error, result){
-				console.log(result);
-			});
-		}
-		/*
-         for(i=0 ; i<actids.length ; i++){
-          activityList.update({id:actids[i]}, { $set: {code:newmodcode, name:newmodname}});
-			console.log(actids[i]);
-	     };
-		*/
-		alert("Module has been edited!");
-		Router.go('/modulemanagement');
-	},
-
-	'click #deletestudent': function(e) { 
-		var studentId = "#student" + $(e.target).attr('class').split(" ")[2].substr(6);
-		var matricNumber = $(studentId)[0].innerHTML;
-		var matric = matricNumber + '@u.nus.edu';
-		var modid = teacherModules.findOne({_id: Session.get('modID')})._id;
-		
-		Meteor.call('deleteStudent', matric, function(error, result) {
-			console.log(result);
-		});
-		
-		var students = teacherModules.findOne({_id: Session.get('modID')}).studentID.split('\n');;
-
-		for(var i=0; i<students.length; i++){
-			if(students[i].localeCompare(matricNumber) === 0){
-				console.log('here');
-				students.splice(i, 1);
-			}
-		}
-
-		var newstudentslist = students[0];
-
-		for(var j=1; j<students.length; j++){
-			newstudentslist += "/n" + students[i];
-		} 
-
-		teacherModules.update({
-			_id: modid
-		}, {
-			$set: {
-				studentID: newstudentslist
-			}
-		});
-	},
-
-	'click #addstudent': function() {
-		count = Session.get('counter');
-		var uniqid = 'count' + (Math.floor(Math.random() * 100000)).toString(); // Give a unique ID so you can pull _this_ input when you click remove
-		count.push({uniqid: uniqid, value: ""});
-		newcount = count;
-		Session.setPersistent('counter', newcount);
-	}
-
-});
-
-
-
-
-/*
-
-Template.editmodule.helpers({
-	getModuleList: function() {
-		return teacherModules.find({userID: Session.get('userID')});
-	},
-	setCounter: function() {
-		Session.setPersistent('counter', []);
-	},
-	count: function() {
-		return Session.get('counter');
-	},
-	setCounter2: function() {
-		Session.setPersistent('counter2', []);
-	},
-	count2: function() {
-		return Session.get('counter2');
-	},
-	getModule: function() {
-		return teacherModules.findOne({_id: Session.get('modID')}).code + " "+ teacherModules.findOne({_id: Session.get('modID')}).module;
+	getModuleName: function() {
+		return teacherModules.findOne({_id: Session.get('modID')}).module;
 	},
 	getStudentList: function() {
 		var x = teacherModules.findOne({_id: Session.get('modID')}).studentID;
@@ -652,165 +557,42 @@ Template.editmodule.helpers({
 
 
 Template.editmodule.events({
-	'submit #moduleform': function (event) {
-		event.preventDefault();
-		const target = event.target;
-		var modulecode = teacherModules.findOne({_id: Session.get('modID')}).code;
-		var newmodname = target.newmodulename.value;
-		var nbID = modulecode;
-		//var newmodcode = target.newmodulecode.value;
-		//var array = newstudentlist.split('\n');
-		var modid = teacherModules.findOne({code: modulecode})._id;
-		var actids = [activityList.find({module: modulecode})._id];
-		//var studentlist = target.newstudentlist.value;
-		//studentlist = teacherModules.findOne({code: modulecode}).studentID;
-		var code = Session.get("accessToken");
-		/*
-          editing to existing notebooks goes here
-        */
-        /*
-		teacherModules.update({
-			_id: modid
-		}, {
-			$set: {
-				module: newmodname
-			}
-		});
-
-		var code = Session.get("accessToken");
-		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
-		var teacherID = Session.get("userID");
-		var modid = teacherModules.findOne({_id: Session.get('modID')})._id;
-
-		var newStudents = $("#newStudentInput")[0].value;
-
-		var newStudentsArray = newStudents.split(',');
-		//console.log(newStudentsArray);
-
-		var newStudentsList = "";
-
-		for (var i=0; i<newStudentsArray.length; i++) {
-			if (i === newStudentsArray.length - 1) {
-				newStudentsList += newStudentsArray[i];
-			} else {
-				newStudentsList += newStudentsArray[i] + "\n";
-			}
-		}
-
-		//console.log(newStudentsList);
-
-		var students = teacherModules.findOne({_id: Session.get('modID')}).studentID;
-		var combinedStudentsList = students + "\n" + newStudentsList;
-
-		console.log(combinedStudentsList);
-
-		teacherModules.update({
-			_id: modid
-		}, {
-			$set: {
-				studentID: combinedStudentsList
-			}
-		});
-
-		for (var i=0; i<newStudentsArray; i++) {
-			Meteor.call('addStudent', code, notebook_F_KEY, newStudentsArray[i], teacherID, function(error, result){
-				console.log(result);
-			});
-		}
-		/*
-         for(i=0 ; i<actids.length ; i++){
-          activityList.update({id:actids[i]}, { $set: {code:newmodcode, name:newmodname}});
-          console.log(actids[i]);
-         };
-        *//*
-		alert("Module has been edited!");
-		Router.go('/modulemanagement');
-	},
-/*
-	'click #deletestudent': function(e) {
-		console.log("in delete");
-		var studentId = "#student" + $(e.target).attr('class').split(" ")[2].substr(6);
-		var matricNumber = $(studentId)[0].innerHTML;
-		console.log(matricNumber);
-		var modid = teacherModules.findOne({_id: Session.get('modID')})._id;
-
-		Meteor.call('deleteStudent', matricNumber, function(error, result) {
-			console.log(result);
-			console.log("entered");
-		});
-
-		var students = teacherModules.findOne({_id: Session.get('modID')}).studentID.split('\n');;
-
-		for(var i=0; i<students.length; i++){
-			if(students[i].localeCompare(matricNumber) === 0){
-				console.log('hello');
-				students.splice(i, 1);
-			}
-		}
-
-		var newstudentslist = students[0];
-
-		for(var j=1; j<students.length; j++){
-			newstudentslist += "/n" + students[i];
-		}
-
-		teacherModules.update({
-			_id: modid
-		}, {
-			$set: {
-				studentID: newstudentslist
-			}
-		});
-	},
-
-	'click #newmodulename': function() {
-		count = Session.get('counter2');
-		var uniqid = 'count' + (Math.floor(Math.random() * 100000)).toString(); // Give a unique ID so you can pull _this_ input when you click remove
-		count.push({uniqid: uniqid, value: ""});
-		newcount = count;
-		Session.setPersistent('counter2', newcount);
-	},
-
-	'click #addstudent': function() {
-		count = Session.get('counter');
-		var uniqid = 'count' + (Math.floor(Math.random() * 100000)).toString(); // Give a unique ID so you can pull _this_ input when you click remove
-		count.push({uniqid: uniqid, value: ""});
-		newcount = count;
-		Session.setPersistent('counter', newcount);
-	}
-
-});
-*/
-
-Template.module.events({
-	'click .modlist': function(e) {
-		Session.setPersistent('modID', this._id);
-		Router.go('/modulemanagement');
-		/*
-          enter code to auto populate fields of the form upon module clicked
-        */
-	}
-});
-Template.modulemanagement.helpers({
-	getModule: function() {
-		var code = teacherModules.findOne({_id: Session.get('modID')}).code;
-		var module = teacherModules.findOne({_id: Session.get('modID')}).module;
-		return code + ' - ' + module;
-	},
-	getStudentList: function() {
-		var x = teacherModules.findOne({_id: Session.get('modID')}).studentID;
-		var y = x.split('\n');
-		return y;
-	}
-});
-Template.modulemanagement.events({
-	'click #editmod': function() {
-		Router.go('/editmodule');
-	},
 	'click #deletemod': function() {
 		teacherModules.remove({_id: Session.get('modID')});
 		alert("Module has been deleted!");
 		Router.go('/dashboard');
+	},
+	'click #modname': function() {
+		$.fn.editable.defaults.mode = 'inline';
+		var modulecode = teacherModules.findOne({_id: Session.get('modID')}).code;
+		var modid = teacherModules.findOne({code: modulecode})._id;
+		$('#modname').editable({
+	      	type: 'text',
+		    title: 'Enter new module name',
+		    success: function(response, newModName) {
+		        teacherModules.update({
+					_id: modid
+				}, {
+					$set: {
+						module: newModName
+					}
+				});
+				/*
+		          editing to existing notebooks goes here
+		        */
+		        location.reload();
+			}
+		});
+	}
+});
+
+Template.module.events({
+	'click .modlist': function(e) {
+		Session.setPersistent('modID', this._id);
+		Router.go('/editmodule');
+		/*
+          enter code to auto populate fields of the form upon module clicked
+        */
 	}
 });
 Template.actbox.events({
@@ -1245,25 +1027,64 @@ Template.studentsession.events({
 });
 //loginIVLE
 function loginIVLE() {
-	var APIKey = "6YIDjroMfeBjiTP49ms99";
-	var APIDomain = "https://ivle.nus.edu.sg/";
-	var APIUrl = APIDomain + "api/lapi.svc/";
+	var APIKey = Session.get('APIKey');
+	var APIDomain = Session.get('APIDomain');
+	var APIUrl = Session.get('APIUrl');
 	var returnURL = 'http://localhost:3000/dashboard';
 	//var returnURL = 'http://classnote.meteorapp.com/dashboard';
 	var LoginURL = APIDomain + "api/login/?apikey=6YIDjroMfeBjiTP49ms99&url=" + returnURL;
+	var url = LoginURL;
+
+	//getting AuthToken
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		console.log('entered xhttp');
+	    if (this.readyState == 4 && this.status == 200) {
+	       // Action to be performed when the document is read;
+	       console.log('entered into readystate and status if loop');
+	       //search for XML DOM and DOM Elements for more usable functions
+	       	xmlDoc = this.responseXML;
+	       	console.log(this);
+			x = xmlDoc.getElementsByID("Token");
+			console.log(x);
+			/*
+			for (i = 0; i < x.length; i++) {
+			    txt += x[i].childNodes[0].nodeValue + "<br>";
+			}
+			document.getElementById("demo").innerHTML = txt;
+			*/
+	    }
+	};
+	xhttp.open("GET", "filename", true);
+	xhttp.send();
+
+	
+	/*
+	//getJSON not working find alternative coz returned object is not in JSON format
+	jQuery.getJSON(url, function(data) {
+		console.log('inside');
+		Session.setPersistent('AuthToken', data);
+		console.log('AuthToken: '+ Session.get('AuthToken'));
+		console.log('data received - '+data);
+	});
+	*/
+	
 	Session.setPersistent('userState', "logged-in");
 	window.location = LoginURL;
 }
 //function end
+
 var Token = window.location.search.substr(1).split(/\&/)[0].slice(6);
 Session.setPersistent("Token", Token);
 Populate_UserId();
 Populate_UserName();
+
+
 //userName through IVLE
 function Populate_UserName() {
-	var APIKey = "6YIDjroMfeBjiTP49ms99";
-	var APIDomain = "https://ivle.nus.edu.sg/";
-	var APIUrl = APIDomain + "api/lapi.svc/";
+	var APIKey = Session.get('APIKey');
+	var APIDomain = Session.get('APIDomain');
+	var APIUrl = Session.get('APIUrl');
 	var token = Session.get('Token');
 	var url = APIUrl + "UserName_Get?output=json&callback=?&APIKey=" + APIKey + "&Token=" + token;
 	if (Session.get('setuserName') == 'No') {
@@ -1276,15 +1097,34 @@ function Populate_UserName() {
 //function end
 //userID through IVLE
 function Populate_UserId() {
-	var APIKey = "6YIDjroMfeBjiTP49ms99";
-	var APIDomain = "https://ivle.nus.edu.sg/";
-	var APIUrl = APIDomain + "api/lapi.svc/";
+	var APIKey = Session.get('APIKey');
+	var APIDomain = Session.get('APIDomain');
+	var APIUrl = Session.get('APIUrl');
 	var token = Session.get('Token');
 	var url = APIUrl + "UserID_Get?output=json&callback=?&APIKey=" + APIKey + "&Token=" + token;
 	if (Session.get('setID') == 'No') {
 		jQuery.getJSON(url, function(data) {
 			Session.setPersistent('userID', data);
 			Session.setPersistent('setID', 'Yes');
+		});
+	}
+}
+//function end
+//students in a module through IVLE
+function Populate_StudentList(){
+	var APIKey = Session.get('APIKey');
+	var APIDomain = Session.get('APIDomain');
+	var APIUrl = Session.get('APIUrl');
+	//change to get authtoken
+	var token = Session.get('Token');
+	var courseID = Session.get('addmodcode');
+
+	var url = APIUrl + "Class_Roster?APIKey=" + APIKey + "&AuthToken=" + token + "&CourseID=" + courseID;
+	//https://ivle.nus.edu.sg/API/Lapi.svc/Class_Roster?APIKey={System.String}&AuthToken={System.String}&CourseID={System.String}
+
+	if (Session.get('setID') == 'No') {
+		jQuery.getJSON(url, function(data) {
+			Session.setPersistent('students', data);
 		});
 	}
 }
