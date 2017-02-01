@@ -7,6 +7,7 @@ studentModules = new Mongo.Collection('studentModules');
 questions = new Mongo.Collection('questions');
 deployedquestions = new Mongo.Collection('deployedquestions');
 responses = new Mongo.Collection('responses');
+groupresponses = new Mongo.Collection('groupresponses');
 feedback = new Mongo.Collection('feedback');
 notifications = new Mongo.Collection('notifications');
 
@@ -29,6 +30,9 @@ if (Meteor.isServer) {
   Meteor.publish('responses', function responsesPublication() {
       return responses.find();
   });
+  Meteor.publish('groupresponses', function responsesPublication() {
+      return groupresponses.find();
+  });
   Meteor.publish('feedback', function feedbackPublication() {
       return feedback.find();
   });
@@ -42,6 +46,7 @@ if (Meteor.isServer) {
   Meteor.subscribe('questions');
   Meteor.subscribe('deployedquestions');
   Meteor.subscribe('responses');
+  Meteor.subscribe('groupresponses');
   Meteor.subscribe('feedback');
   Meteor.subscribe('notifications');
 }

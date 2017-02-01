@@ -272,6 +272,9 @@
 
 <template name = "actcreate">
 
+  <link href="toastr.css" rel="stylesheet"/>
+  <script src="toastr.js"></script>
+
   {{setCounter}}
   {{>navigation}}
 
@@ -367,6 +370,8 @@
 
 <template name = "editmodule">
 
+  <div id="editmodule-background-image"></div>
+
   {{>navigation}} 
 
   <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
@@ -383,7 +388,7 @@
 
       <div>
         <h3>Module Name:</h3>
-        <a href="#" id="modname" data-type="text" class="editable editable-click" data-pk="{{getModule}}" data-placement="right" data-title="Enter new module name">{{getModuleName}}</a>
+        <a href="#" id="modname" data-type="text" class="editable editable-click updateactlist" data-pk="{{getModule}}" data-placement="right" data-title="Enter new module name">{{getModuleName}}</a>
       </div>
 
       <div>
@@ -697,21 +702,54 @@
 </template>
 
 <template name="responses">
-  {{>navigation}}
+  <!--{{>navigation}} -->
 
+  <h1>{{getAID}}</h1>
   <div class="container col-md-offset-2">
-  <h2>Basic Table</h2>
-  <h2 style="text-align:center;">{{title}}</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Qn</th>
-        <th>Student</th>
-        <th>Answer</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
+    <h2>Individual Answers</h2>
+    <h2 style="text-align:center;">{{title}}</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Qn</th>
+          <th>Student</th>
+          <th>Answer</th>
+        </tr>
+      </thead> 
+      <tbody> 
+        <tr>
+          {{#each getResponses}}
+              <td>{{this.question}}</td>
+              <td>{{this.student}}</td>
+              <td>{{this.answer}}</td>
+          {{/each}}
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Group Answers</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Qn</th>
+          <th>Group</th>
+          <th>Answer</th>
+        </tr>
+      </thead> 
+      <tbody> 
+        <tr>
+        {{#each getGroupResponses}}
+            <td>{{this.question}}</td>
+            <td>{{this.student}}</td>
+            <td>{{this.answer}}</td>
+        {{/each}}
+        </tr>
+      </tbody>
+    </table>
+        
+  <!--    
+      <tr> 
+     
         <td>1</td>
         <td>Zheng Yao</td>
         <td>functions are a type of procedure or routine</td>
@@ -728,5 +766,7 @@
       </tr>
     </tbody>
   </table>
-</div>
+
+  -->
+  </div>
 </template>

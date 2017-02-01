@@ -513,22 +513,28 @@ Meteor.methods({
 		console.log(masterQuestion);
 		return masterQuestion;
 	},
-	sendQuestionIndividualStudents : function(code, notebook_id, questionSet, sectionName, pageName, cUser){
-		console.log("send to individual students");
+	//paramter pageObject was questionSet
+	sendQuestionIndividualStudents : function(code, notebook_id, studentlist, pageObject, sectionName, pageName, cUser){
+		console.log("entered into sendQuestionIndividualStudents");
 		var returnObject = new ResultObject();
 
 		//check all students in notebook has a page in the section
-		var students = StudentsDB.find({notebook_id : notebook_id}).fetch();
+		var students = studentlist;
+		console.log("students" + students);
+
 		if(students.length == 0){
 			returnObject.setStatus(-1);
 			returnObject.setData("no students found in notebook");
 			return returnObject;
 		}
 
+		//checks in mongo if page exists
 		var sectionToCheckForPage = [];
 		//get the student sectionGrp to find section
 		for(var i = 0; i < students.length; i++){
-			var secGrp = SectionsGrpDB.find({name : students[i].name, notebook_id : notebook_id, owner : cUser});
+			//var secGrp = SectionsGrpDB.find({name : students[i].name, notebook_id : notebook_id, owner : cUser});
+			var secGrp = SectionsGrpDB.find({notebook_id : notebook_id, owner : cUser});
+			console.log("secGrp: "+secGrp);
 			if(secGrp.length == 0){
 				returnObject.setStatus(-1);
 				returnObject.setData("Error while processing student section grps");
@@ -558,7 +564,7 @@ Meteor.methods({
 					sectionToCheckForPage.push(section[0]._id);
 				}
 			}
-		}
+		} 
 
 		var pageContent = "<html> \
 			<head> \
@@ -569,29 +575,52 @@ Meteor.methods({
 		</body> \
 		</html>";
 
+		/*
+		var pageContent = "<html> \
+        <head> \
+          <title>" + pageObject.name + "</title> \
+        </head> \
+        <body>";
+			for (i = 0; i < pageObject.questions.length; i++) {
+				pageContent += addQuestion(pageObject.questions[i].index, pageObject.questions[i].text);
+				pageContent += "<br/>";
+			}
+			pageContent += "\
+	      </body> \
+	      </html>";
+		*/
+
+		console.log("sectionToCheckForPage: "+sectionToCheckForPage);
+
 		var pagesSet = [];
 		//create page for each section if not found
 		for(var i = 0; i <sectionToCheckForPage.length; i++){
 
-				var sectionItem = SectionsDB.find({ _id : sectionToCheckForPage[i] });
-				Meteor.call('getNotebookSectionPages', code, sectionItem[0]._id, cUser);
-				var pages = PagesDB.find({section_id: sectionItem[0]._id, title : pageName, notebook_id : notebook_id}).fetch();
-				if(pages.length == 0){
-					var r1 = Meteor.call('API_sendPageToSection', code, sectionItem[0].self, pageContent);
-					if(r1["statusCode"] === undefined){
+			var sectionItem = SectionsDB.find({ _id : sectionToCheckForPage[i] });
+			Meteor.call('getNotebookSectionPages', code, sectionItem[0]._id, cUser);
+			var pages = PagesDB.find({section_id: sectionItem[0]._id, title : pageName, notebook_id : notebook_id}).fetch();
 
-					}else{
-						Meteor.call('getNotebookSectionPages', code, sectionItem[0]._id, cUser);
-						var pages = PagesDB.find({section_id: sectionItem[0]._id, title : pageName, notebook_id : notebook_id}).fetch();
-						pagesSet.push(pages);
-					}
+			if(pages.length == 0){
+				var r1 = Meteor.call('API_sendPageToSection', code, sectionItem[0].self, pageContent);
+				if(r1["statusCode"] === undefined){
+
 				}else{
+					Meteor.call('getNotebookSectionPages', code, sectionItem[0]._id, cUser);
+					var pages = PagesDB.find({section_id: sectionItem[0]._id, title : pageName, notebook_id : notebook_id}).fetch();
 					pagesSet.push(pages);
 				}
+			}else{
+				pagesSet.push(pages);
+			}
 		}
 
+		console.log(pagesSet);
+
 		//pass question into the page
-		
+		for (var j=0; j<pagesSet.length; j++){
+			Meteor.call('patchPageContent', code, pagesSet[j]._id, pageContent);
+		}
+
 	},
 	initGroupActivity: function(code, sectionDB_id, cUser) {
 		console.log("init grp");
@@ -731,6 +760,91 @@ Meteor.methods({
 		}
 		return returnObject;
 	},
+	/**/
+	getStudentsQuestions: function(code, notebook_id, sectionName, pageName, cUser) {
+		console.log(notebook_id + " " + sectionName);
+		var sections = SectionsDB.find({notebook_id: notebook_id, name: sectionName}).fetch();
+		var tempStud = [];
+		sections.forEach(function(section) {
+			Meteor.call('API_getNoteBookSectionPages', code, section.self, pageName, function(err, result) {
+				if (result["statusCode"] == 200) {
+					var values = EJSON.parse(result["content"])["value"];
+					for (i = 0; i < values.length; i++) {
+						var id = values[i]["id"];
+						var title = values[i]["title"];
+						var self = values[i]["self"];
+						var page = PagesDB.find({rawId: id}).fetch();
+
+						var stud = {};
+
+						if (page.length == 0) {
+							stud.pageId = PagesDB.insert({
+								rawId: id,
+								title: title,
+								self: self,
+								notebook_id: section.notebook_id,
+								sectionGrp_id: section.sectionGrp_id,
+								section_id: section.rawId
+							});
+						} else {
+							stud.pageId = page[0]._id;
+						}
+						stud.parentId = section.sectionGrp_id;
+						tempStud.push(stud);
+					}
+				}
+			});
+
+		});
+
+		//process the links returned
+		for (i = 0; i < tempStud.length; i++) {
+			console.log(tempStud[i].pageId);
+			var page = PagesDB.find({_id: tempStud[i].pageId}).fetch();
+			if (page.length > 0) {
+				Meteor.call('API_getNoteBookSectionPageContent', code, page[0]["self"], function(err, result) {
+					if (result["statusCode"] == 200) {
+						var contentIn = result["content"];
+						var questions = parseContent(contentIn);
+						tempStud[i].questions = questions;
+					}
+				});
+			}
+		}
+
+		//process the tempStud
+		var masterQuestion = {};
+		var studList = [];
+		var numOfQuestions = 0;
+		var questionSet = [];
+
+		if (tempStud.length > 0) {
+			numOfQuestions = tempStud[0].questions.length - 1;
+		}
+
+		for (i = 0; i < tempStud.length; i++) {
+			var s = SectionsGrpDB.find({_id: tempStud[i].parentId}).fetch();
+			if (s.length > 0) {
+				studList.push(s[0].name);
+			}
+		}
+
+		for (q = 1; q < numOfQuestions + 1; q++) {
+			var questionHolder = [];
+			for (i = 0; i < tempStud.length; i++) {
+				questionHolder.push(tempStud[i].questions[q]);
+			}
+			questionSet.push(questionHolder);
+		}
+
+		masterQuestion.numberOfQuestions = numOfQuestions;
+		masterQuestion.studentList = studList;
+		masterQuestion.questionSet = questionSet;
+
+		console.log(masterQuestion);
+		return masterQuestion;
+	},
+	/**/
 	getStudentsCollabAnswers(code, cUser, sectionDB_id){
 		console.log("hi");
 

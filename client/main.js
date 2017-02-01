@@ -7,6 +7,7 @@ import {Meteor} from 'meteor/meteor'
 import {EJSON} from 'meteor/ejson'
 import '../imports/ui/onenotefront.js'
 import '../imports/api/activityList.js';
+import ivle from '../imports/api/nus-ivle-api.js';
 import {
 	NotebooksDB,
 	StudentsDB,
@@ -31,9 +32,16 @@ Session.setDefaultPersistent('AuthToken','');
 Session.setDefaultPersistent('APIKey',"6YIDjroMfeBjiTP49ms99");
 Session.setDefaultPersistent('APIDomain',"http://ivle.nus.edu.sg/");
 Session.setDefaultPersistent('APIUrl', Session.get('APIDomain') + "api/lapi.svc/");
+Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ilk0dWVLMm9hSU5RaVFiNVlFQlNZVnlEY3BBVSIsImtpZCI6Ilk0dWVLMm9hSU5RaVFiNVlFQlNZVnlEY3BBVSJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0ODU5MzA0MTcsIm5iZiI6MTQ4NTkzMDQxNywiZXhwIjoxNDg1OTM0MzE3LCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImdpdmVuX25hbWUiOiJWYXJ1bmljYSIsImlwYWRkciI6IjEzNy4xMzIuMjIwLjE5MCIsIm5hbWUiOiJWYXJ1bmljYSIsIm9pZCI6ImJlM2RiNjNiLTE1YTgtNGYyOC05OWIwLTRjYmFmMjFjZDM3NCIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS03NjkzMjMyMzItMTU1ODcwMTg3My0xMzE3MDU5NDk1LTUyMjI4IiwicGxhdGYiOiI1IiwicHVpZCI6IjEwMDNCRkZEOEVCNDEwNjYiLCJzY3AiOiJOb3Rlcy5DcmVhdGUgTm90ZXMuUmVhZCBOb3Rlcy5SZWFkLkFsbCBOb3Rlcy5SZWFkV3JpdGUgTm90ZXMuUmVhZFdyaXRlLkFsbCBOb3Rlcy5SZWFkV3JpdGUuQ3JlYXRlZEJ5QXBwIiwic3ViIjoiRWxZWTE4bTRlVHFDaWYwaGdoTk9oNXpfbG1IVllrUVRuYnh4QVo1RUdhVSIsInRpZCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsInVuaXF1ZV9uYW1lIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidXBuIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidmVyIjoiMS4wIn0.Ua02vq55oQQi3iMuF4eR6A1vfLffqlQsNj28rQ7gJltabtB8fK5TsuphE_4DClZJHTHZ_mSZWWbLJ2EdqXXE2BE4007_6esfx9NTgB9IWEyewPJ_ghy5UBHuGO4Ft0Jm_gn_1suDv93WcazPrV7i3QtJu60-xFYxxmMCHF_kt2CyqvkhWn8KzIQo0Uf0eQiNWQFSYPxZ0XjXcChbfbe0MXsbqd9YzO0mzQzwugeK95E-V210_hfGy6fJd4orIzUihg0aSG9VRDvlWbNcxyJcDpNq2LP0flMNU07ZOAJi4kf8ptw4GI7b849DIAM3sjTx92wjXmWfnFodM_CGHdKPcg');
+
 //default session end
 
 var prevOpen = "";
+var newModuleName = "";
+var flag = false;
+
+var user;
+
 //Router Info
 Router.route('/dashboard', {
 	template: 'dashboard',
@@ -111,7 +119,17 @@ Template.dashboard.events({
 		Session.setPersistent('aID', e.currentTarget.parentNode.childNodes[11].innerHTML);
 		Router.go('/session');
 	}
-})
+});
+
+Template.dashboard.rendered = function() {
+	console.log('rendered');
+
+	var token = ivle.getToken();
+	Session.setPersistent('AuthToken', token);
+
+	user = ivle.User(Session.get("APIKey"), token);
+};
+
 Template.dashboard.helpers({
 	username: function() {
 		return Session.get('userName');
@@ -344,6 +362,7 @@ Template.actcreate.helpers({
 	}
 });
 Template.questionlist.helpers({});
+
 Template.actcreate.events({
 	'click #addquestion': function() {
 		count = Session.get('counter');
@@ -413,7 +432,7 @@ Template.addmodule.helpers({
 	}
 });
 Template.addmodule.events({
-	'submit #moduleform' (event) {
+	'submit #moduleform': function(event) {
 		event.preventDefault();
 		const target = event.target;
 		var modname = target.modulename.value;
@@ -426,9 +445,9 @@ Template.addmodule.events({
 		var sectionsInStudents = [];
 		sectionsInStudents.push("assignments");
 		sectionsInStudents.push("homework");
-		var result = 'x123';
-		//var studentlist = target.studentlist.value;
-
+		var studentlist = target.studentlist.value;
+		var array = studentlist.split('\n');
+		/**/
 		//getting student list from IVLE API
 		var APIKey = Session.get('APIKey');
 		var APIDomain = Session.get('APIDomain');
@@ -436,28 +455,25 @@ Template.addmodule.events({
 		var token = Session.get('AuthToken'); //change to get authtoken from IVLE
 		var courseID = Session.get('addmodcode');
 		var url = APIUrl + "Class_Roster?APIKey=" + APIKey + "&AuthToken=" + token + "&CourseID=" + courseID;
+		var result = 'x123';
 		//https://ivle.nus.edu.sg/API/Lapi.svc/Class_Roster?APIKey={System.String}&AuthToken={System.String}&CourseID={System.String}
 		/*
-		jQuery.getJSON(url, function(data) {
-			console.log('entered');
-			Session.setPersistent('students', data);
-			console.log(data);
-		});
-		*/
-		$.post(url, function(data){
-			console.log('entered');
-			Session.setPersistent('students', data);
-        	console.log("Data: " + data);
-    	});
-		
-		//Populate_StudentList();
-		var studentlist = Session.get('students');
+		user.get("Class_Roster", {CourseID: modcode})
+			.success(function(data) {
+				console.log("Class_Roster");
+	        	console.log(data);
+	    	});
+
+	    var studentlist = Session.get('students');
 		console.log('studentlist from IVLE: '+studentlist);
+		*/
+		//Populate_StudentList();
+		
 		//var array = studentlist.split('\n');
 		//end of code for getting students from IVLE API
 
 		//delete after testing classroster LAPI
-		teacherModules.insert({
+		/*teacherModules.insert({
 					module: modname,
 					code: modcode,
 					userID: Session.get('userID'),
@@ -486,9 +502,10 @@ Template.addmodule.events({
 				}
 				alert("Module has been created!");
 				Router.go('/dashboard');
-		//till here
+		//till here*/
 
 		Meteor.call('createNewNoteBook', code, nb_name, teacherID_Full, array, sectionsInStudents, teacherID, function(error, result) {
+			console.log(error);
 			if (result.status) {
 
 				//this should be place somewhere else
@@ -525,6 +542,7 @@ Template.addmodule.events({
 				alert("Module has been created!");
 				Router.go('/dashboard');
 			} else {
+				console.log("result.status: "+result.status);
 				alert("Module has failed to be created!");
 			}
 		});
@@ -566,6 +584,7 @@ Template.editmodule.events({
 		$.fn.editable.defaults.mode = 'inline';
 		var modulecode = teacherModules.findOne({_id: Session.get('modID')}).code;
 		var modid = teacherModules.findOne({code: modulecode})._id;
+
 		$('#modname').editable({
 	      	type: 'text',
 		    title: 'Enter new module name',
@@ -577,10 +596,50 @@ Template.editmodule.events({
 						module: newModName
 					}
 				});
-				/*
-		          editing to existing notebooks goes here
-		        */
-		        location.reload();
+				activityList.update({
+					module: modulecode
+				}, {
+				$set: {
+					name: newname
+				}
+			});
+				
+			flag = true;
+			newModuleName = newModName;
+			/*
+		       editing to existing notebooks goes here
+		    */
+		    location.reload();
+			}
+		});
+/*
+		if(flag){
+			activityList.update({
+				module: modulecode
+			}, {
+				$set: {
+					name: newname;
+				}
+			});
+			flag_success = false;
+		};
+*/
+	},
+	'click .updateactlist': function(){
+		$.fn.editable.defaults.mode = 'inline';
+		var modulecode = teacherModules.findOne({_id: Session.get('modID')}).code;
+
+		$('#updateactlist').editable({
+	      	type: 'text',
+		    title: 'Enter new module name',
+		    success: function(response, newModName) {
+		        activityList.update({
+					module: modulecode
+				}, {
+				$set: {
+					name: newModName
+				}
+				});
 			}
 		});
 	}
@@ -590,9 +649,6 @@ Template.module.events({
 	'click .modlist': function(e) {
 		Session.setPersistent('modID', this._id);
 		Router.go('/editmodule');
-		/*
-          enter code to auto populate fields of the form upon module clicked
-        */
 	}
 });
 Template.actbox.events({
@@ -664,9 +720,11 @@ Template.teachersession.helpers({
 			return 'Finish Activity';
 		}
 	},
+
 	rlist: function() {
 		return responses.find({aID: Session.get('aID')});
 	},
+
 	getdeployedq: function() {
 		var count = deployedquestions.findOne({'aID': Session.get('aID')}).deployed;
 		return count.length;
@@ -691,6 +749,7 @@ Template.teachersession.events({
 
 		var activity = Session.get('aID');
 		var teacher = Session.get('userID');
+		var teacher_cUser = teacher + '@u.nus.edu';
 		var deployedSet = deployedquestions.find({aID: activity}).fetch();
 
 		var quest = questions.find({'aID': Session.get('aID')});
@@ -709,12 +768,20 @@ Template.teachersession.events({
 
 		console.log(nbID);
 		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
+		console.log(notebook_F_KEY);
 		var acttype = Session.get("acttype");
 		console.log(acttype);
+		console.log(Session.get('modID'));
+		console.log(teacherModules.findOne({_id: Session.get('modID')}).code);
+		var studentlist = teacherModules.findOne({_id: Session.get('modID')}).studentID;
+		var studentarray = studentlist.split('\n'); 
+		console.log(studentarray);
 
 		if (acttype === "individual") {
 			console.log("send");
-			Meteor.call('sendPageToStudents', code, notebook_F_KEY, pageObject, 'assignments', function(error, result) {
+			//sendPageToStudents: function(code, notebook_id, pageObject, sectionName)
+			//sendQuestionIndividualStudents : function(code, notebook_id, questionSet, sectionName, pageName, cUser)
+			Meteor.call('sendQuestionIndividualStudents', code, notebook_F_KEY, studentarray, pageObject, 'assignments', Session.get('aID'), teacher_cUser, function(error, result) {
 				console.log(result);
 				if (deployedSet.length == 0) {
 			
@@ -752,7 +819,7 @@ Template.teachersession.events({
 			var questionSet = [];
 	    	questionSet.push(new QuestionObject(qid,currentq));
 
-		    Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, aID, questionSet, teacher, function(err, result){
+		    Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, Session.get('aID'), questionSet, teacher, function(err, result){
 		      console.log(result);
 
 		      if (deployedSet.length == 0) {
@@ -946,11 +1013,11 @@ Template.teachersession.events({
 			console.log("start");
 			var code = Session.get("accessToken");
 			Meteor.call('addNewCollaborativeActivity', code, notebookDB_Id, Session.get('aID'), function(err, result){
-	      console.log(result);
-	    });
-
+		      console.log(result);
+		    });
 		}
 	},
+
 	'click #notibutton': function() {
 		var noti = prompt("Type the message you want to send", "Have mercy");
 		var modu = activityList.findOne({aID: Session.get('aID')}).module;
@@ -963,10 +1030,184 @@ Template.teachersession.events({
 		}
 		alert("Notifications sent");
 	},
+
 	'click #respbutton' : function(){
-	   Router.go('/responses');
-	}
+
+	   //getIndividualAnswers
+		var aId = Session.get('aID');
+		var moduleCode = activityList.findOne({aID : Session.get('aID')}).module;
+		var notebookDB_Id = teacherModules.findOne({code : moduleCode}).notebook_F_KEY;
+		var code = Session.get("accessToken");
+		var teacherID = Session.get("userID") + "@u.nus.edu";
+
+		Meteor.call('getStudentsQuestions', code, notebookDB_Id, "assignments", Session.get('aID'), teacherID, function(err, result){
+			console.log(result);
+		/*	
+		result = {};
+		result.numberOfQuestion = 3;
+		result.students = ["student1", "student2", "student3"];
+		result.answers = 
+		[ 
+			["student 1 answer1", "student 2 answer1", "student 3 answer1"], 
+			["student 1 answer2", "student 2 answer2", "student 3 answer2"], 
+			["student 1 answer3", "student 2 answer3", "student 3 answer3"]
+		]
+
+	 	var answerSet = result;
+	 	console.log(answerSet);
+	 	var activityExists = responses.find({aID: "xxx"}).count();
+	 	//var activityExists = teacherModules.find({code : moduleCode}).count();
+	 	console.log(activityExists);
+		/*
+	 	if (activityExists > 0){
+	 		console.log('true');
+	 	} else { console.log('false');}
+	 	*/
+
+	 	var activityExists = responses.find({code : moduleCode}).count();
+	 	var answerSet = result;
+	 	console.log(activityExists);
+
+	 	if(activityExists>0) {
+	 		console.log("ififififif");
+	 		responses.update({
+		    	aID : aId,
+		    },{
+		    	$set: {
+			    	numberOfQuestions: answerSet.numberOfQuestions,
+		    		student: answerSet.studentList, 
+			      	answers: answerSet.questionSet
+		      	}
+	    	});
+	 	} else {
+	 		console.log("elseelsesleselse");
+	 		responses.insert({
+		    	aID : aId,
+		    	numberOfQuestions: answerSet.numberOfQuestions,
+		    	student: answerSet.studentList, 
+			    answers: answerSet.questionSet
+	    	});
+		}
+	});
+		
+	//getCollabAnswers 
+		var sections = SectionsDB.find({notebook_id: notebookDB_Id, name :Session.get('aID')}).fetch();
+		console.log(sections);
+		var sectionDB_id = sections[0]._id;
+		
+		Meteor.call('getStudentsCollabAnswers', code, teacherID, sectionDB_id, function(err, result){
+		    	console.log('entered collab answers');
+			 	var answerSet = result;
+			 	var activityExists = groupresponses.find({aID: aId}).count();
+			 	var this_id = groupresponses.findOne({aID: aId})._id
+			 	console.log(result);
+			 	console.log(answerSet);
+			 	console.log(answerSet.data.numberOfQuestions);
+			 	console.log(answerSet.data.studentList);
+			 	console.log(answerSet.data.questionSet);
+
+			 	if(activityExists>0) {
+			 		groupresponses.update({
+				    	_id : this_id,
+				    },{
+				    	$set: {
+					    	numberOfQuestions: answerSet.data.numberOfQuestions,
+				    		student: answerSet.data.studentList, 
+					      	answers: answerSet.data.questionSet
+				      	}
+			    	});
+
+			 	} else {
+			 		groupresponses.insert({
+				    	aID : aId,
+				    	numberOfQuestions: answerSet.data.numberOfQuestions,
+			    		student: answerSet.data.studentList, 
+				      	answers: answerSet.data.questionSet
+			    	});
+				}
+		    
+		});	
+
+		Router.go('/responses');
+	},
+
 });
+
+Template.responses.helpers({
+
+	getAID : function (){
+		return Session.get('aID');
+	},
+
+	getResponses : function() {
+		
+		var answerSet = responses.find({aID: Session.get('aID')});
+		var responseObject;
+		var totalQns = answerSet.numberOfQuestion;
+		console.log(answerSet.numberOfQuestion);
+		console.log('entered');
+		var noOfStudents = answerSet.students.length;
+		var answers;
+		console.log('entered');
+		
+		console.log(totalQns);
+		console.log(noOfStudents);
+
+
+		for (i=0; i<totalQns; i++){
+			for (j=0; j<noOfStudents; j++){
+				responseObject.question = i;
+				responseObject.student = answerSet.students[j];
+				responseObject.answer = answerSet.answers[i][j];
+				console.log('entered for loop');
+			}
+
+			answers.push(responseObject);
+		}
+		console.log(answers);
+		return answers;
+	},
+
+	getGroupResponses : function() {
+		var answerSet = groupresponses.find({aID: Session.get('aID')});
+		var responseObject;
+		var totalQns = answerSet.numberOfQuestion;
+		var noOfStudents = answerSet.students.length;
+		var answers;
+
+		for (i=0; i<totalQns; i++){
+			for (j=0; j<noOfStudents; j++){
+				responseObject.question = i;
+				responseObject.student = answerSet.students[j];
+				responseObject.answer = answerSet.answers[i][j];
+			}
+
+			answers.push(responseObject);
+		}
+
+		return answers;
+	},
+	/*
+	isIndividual : function(){
+		if (this.type == "individual"){
+			return true;
+		} else { return false; }
+	},
+
+	isCollab : function(){
+		if (this.type == "collab"){
+			return true;
+		} else { return false; }
+	},
+
+	getStudentName : function(){
+		return this.name;
+	},
+	*/
+
+});
+
+
 Template.studentsession.helpers({
 	sqlist: function() {
 		var a = deployedquestions.findOne({'aID': Session.get('aID')}).deployed;
@@ -1025,6 +1266,7 @@ Template.studentsession.events({
 		responses.insert({studentID: stuid, response: resp, aID: id, time: new Date()});
 	}
 });
+
 //loginIVLE
 function loginIVLE() {
 	var APIKey = Session.get('APIKey');
@@ -1034,30 +1276,6 @@ function loginIVLE() {
 	//var returnURL = 'http://classnote.meteorapp.com/dashboard';
 	var LoginURL = APIDomain + "api/login/?apikey=6YIDjroMfeBjiTP49ms99&url=" + returnURL;
 	var url = LoginURL;
-
-	//getting AuthToken
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		console.log('entered xhttp');
-	    if (this.readyState == 4 && this.status == 200) {
-	       // Action to be performed when the document is read;
-	       console.log('entered into readystate and status if loop');
-	       //search for XML DOM and DOM Elements for more usable functions
-	       	xmlDoc = this.responseXML;
-	       	console.log(this);
-			x = xmlDoc.getElementsByID("Token");
-			console.log(x);
-			/*
-			for (i = 0; i < x.length; i++) {
-			    txt += x[i].childNodes[0].nodeValue + "<br>";
-			}
-			document.getElementById("demo").innerHTML = txt;
-			*/
-	    }
-	};
-	xhttp.open("GET", "filename", true);
-	xhttp.send();
-
 	
 	/*
 	//getJSON not working find alternative coz returned object is not in JSON format
@@ -1070,7 +1288,27 @@ function loginIVLE() {
 	*/
 	
 	Session.setPersistent('userState', "logged-in");
-	window.location = LoginURL;
+	location.assign(ivle.login(APIKey, returnURL));
+
+	/*window.location = LoginURL;
+	//getting AuthToken
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		console.log('entered xhttp');
+	    if (this.readyState == 4 && this.status == 200) {
+	       // Action to be performed when the document is read;
+	       console.log('entered into readystate and status if loop');
+	       //search for XML DOM and DOM Elements for more usable functions
+	       	xmlDoc = this.responseXML;
+	       	console.log(this);
+	       	console.log(xmlDoc);
+	       	console.log(this.responseXML);
+		//	x = xmlDoc.getElementsByID("Token");
+		//	console.log(x);
+	    }
+	};
+	xhttp.open("GET", "filename", true);
+	xhttp.send();*/
 }
 //function end
 

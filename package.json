@@ -5,5 +5,6 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "bcrypt": "^1.0.2"
   }
 }

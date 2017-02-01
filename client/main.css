@@ -159,6 +159,20 @@ h1{
 
 }
 
+#editmodule-background-image{
+    background-image: url('images/inkpen.jpg');
+    background-repeat:no-repeat;
+    background-position:right;
+    opacity:0.5;
+    position:absolute;
+    top:5%;
+    left:0;
+    height:100%;
+    width:100%;
+    z-index:0;
+
+}
+
 .btn-custom {
     background-color: hsl(360, 2%, 19%) !important;
     background-repeat: repeat-x;
@@ -200,6 +214,11 @@ h1{
   margin-right: 10px;
   color:white;
   /*border-radius: 30px;*/
+}
+
+.dropdown-toggle{
+  max-height:50px; 
+  overflow-y:auto;
 }
 
 #createbtn{
