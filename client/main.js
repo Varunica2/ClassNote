@@ -32,7 +32,10 @@ Session.setDefaultPersistent('AuthToken','');
 Session.setDefaultPersistent('APIKey',"6YIDjroMfeBjiTP49ms99");
 Session.setDefaultPersistent('APIDomain',"http://ivle.nus.edu.sg/");
 Session.setDefaultPersistent('APIUrl', Session.get('APIDomain') + "api/lapi.svc/");
-Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ilk0dWVLMm9hSU5RaVFiNVlFQlNZVnlEY3BBVSIsImtpZCI6Ilk0dWVLMm9hSU5RaVFiNVlFQlNZVnlEY3BBVSJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0ODU5MzA0MTcsIm5iZiI6MTQ4NTkzMDQxNywiZXhwIjoxNDg1OTM0MzE3LCJhY3IiOiIxIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6IjJhMTljMjc2LTU1OTMtNDRiOS05NTA4LTk5YTY4YmIyYjcxZCIsImFwcGlkYWNyIjoiMCIsImdpdmVuX25hbWUiOiJWYXJ1bmljYSIsImlwYWRkciI6IjEzNy4xMzIuMjIwLjE5MCIsIm5hbWUiOiJWYXJ1bmljYSIsIm9pZCI6ImJlM2RiNjNiLTE1YTgtNGYyOC05OWIwLTRjYmFmMjFjZDM3NCIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS03NjkzMjMyMzItMTU1ODcwMTg3My0xMzE3MDU5NDk1LTUyMjI4IiwicGxhdGYiOiI1IiwicHVpZCI6IjEwMDNCRkZEOEVCNDEwNjYiLCJzY3AiOiJOb3Rlcy5DcmVhdGUgTm90ZXMuUmVhZCBOb3Rlcy5SZWFkLkFsbCBOb3Rlcy5SZWFkV3JpdGUgTm90ZXMuUmVhZFdyaXRlLkFsbCBOb3Rlcy5SZWFkV3JpdGUuQ3JlYXRlZEJ5QXBwIiwic3ViIjoiRWxZWTE4bTRlVHFDaWYwaGdoTk9oNXpfbG1IVllrUVRuYnh4QVo1RUdhVSIsInRpZCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsInVuaXF1ZV9uYW1lIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidXBuIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidmVyIjoiMS4wIn0.Ua02vq55oQQi3iMuF4eR6A1vfLffqlQsNj28rQ7gJltabtB8fK5TsuphE_4DClZJHTHZ_mSZWWbLJ2EdqXXE2BE4007_6esfx9NTgB9IWEyewPJ_ghy5UBHuGO4Ft0Jm_gn_1suDv93WcazPrV7i3QtJu60-xFYxxmMCHF_kt2CyqvkhWn8KzIQo0Uf0eQiNWQFSYPxZ0XjXcChbfbe0MXsbqd9YzO0mzQzwugeK95E-V210_hfGy6fJd4orIzUihg0aSG9VRDvlWbNcxyJcDpNq2LP0flMNU07ZOAJi4kf8ptw4GI7b849DIAM3sjTx92wjXmWfnFodM_CGHdKPcg');
+
+/* --- Uncomment for localhost, comment for deploy --- */
+Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Il9VZ3FYR190TUxkdVNKMVQ4Y2FIeFU3Y090YyIsImtpZCI6Il9VZ3FYR190TUxkdVNKMVQ4Y2FIeFU3Y090YyJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0ODg4OTkxNjUsIm5iZiI6MTQ4ODg5OTE2NSwiZXhwIjoxNDg4OTAzMDY1LCJhY3IiOiIxIiwiYWlvIjoiTkEiLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiMmExOWMyNzYtNTU5My00NGI5LTk1MDgtOTlhNjhiYjJiNzFkIiwiYXBwaWRhY3IiOiIwIiwiZ2l2ZW5fbmFtZSI6IlZhcnVuaWNhIiwiaXBhZGRyIjoiMTM3LjEzMi4yMjguMzMiLCJuYW1lIjoiVmFydW5pY2EiLCJvaWQiOiJiZTNkYjYzYi0xNWE4LTRmMjgtOTliMC00Y2JhZjIxY2QzNzQiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtNzY5MzIzMjMyLTE1NTg3MDE4NzMtMTMxNzA1OTQ5NS01MjIyOCIsInBsYXRmIjoiNSIsInB1aWQiOiIxMDAzQkZGRDhFQjQxMDY2Iiwic2NwIjoiTm90ZXMuQ3JlYXRlIE5vdGVzLlJlYWQgTm90ZXMuUmVhZC5BbGwgTm90ZXMuUmVhZFdyaXRlIE5vdGVzLlJlYWRXcml0ZS5BbGwgTm90ZXMuUmVhZFdyaXRlLkNyZWF0ZWRCeUFwcCIsInN1YiI6IkVsWVkxOG00ZVRxQ2lmMGhnaE5PaDV6X2xtSFZZa1FUbmJ4eEFaNUVHYVUiLCJ0aWQiOiI1YmE1ZWY1ZS0zMTA5LTRlNzctODViZC1jZmViMGQzNDdlODIiLCJ1bmlxdWVfbmFtZSI6ImEwMTE3MDU3QHUubnVzLmVkdSIsInVwbiI6ImEwMTE3MDU3QHUubnVzLmVkdSIsInZlciI6IjEuMCJ9.Qv3Or8wNCCS6aI5hvpnCcq_NX0wpNjdj-v4VoSNXbRmBov_iFqaaOkc-MAmyE91wQVRKrP7UHJXOa449xr1V95PQUV9O7JplE8I89Ej8xttpj-afrpS1AH3eCvxBN6Bda7jie3taJcYS8hR0xOytjTAOVF2sqyH7QeAguRdelOKZsIekenos_iC-BkUdKUY3tCILJWRdG8R7UG9F0zbFrtfu1LRB-PEApKyDN7Kjnp8pC0MMSGmYRuJIqjXFd8F4nDHSptNubLdl_ulrr-Z12iTXV_BLXg6P916U_QTusCOZKOBn-5QXwWPnVeOezz8GoBW7ZB8vSr958kJRROrrrw');
+/*-----------------*/
 
 //default session end
 
@@ -761,6 +764,7 @@ Template.teachersession.events({
 		var currentqid = questions.findOne({'quest': currentq})._id;
 		
 		var nbID = activityList.findOne({'aID': Session.get('aID')}).module;
+		var modcode = nbID;
 		const pageObject = new PageObject(activity);
 
 		console.log(qid + " " + currentq);
@@ -768,20 +772,20 @@ Template.teachersession.events({
 
 		console.log(nbID);
 		var notebook_F_KEY = teacherModules.findOne({code: nbID}).notebook_F_KEY;
-		console.log(notebook_F_KEY);
 		var acttype = Session.get("acttype");
 		console.log(acttype);
-		console.log(Session.get('modID'));
-		console.log(teacherModules.findOne({_id: Session.get('modID')}).code);
-		var studentlist = teacherModules.findOne({_id: Session.get('modID')}).studentID;
-		var studentarray = studentlist.split('\n'); 
-		console.log(studentarray);
+
+		var pageName = activity;
+		console.log(pageName);
+
+		var studentlist = teacherModules.findOne({code: modcode}).studentID;
 
 		if (acttype === "individual") {
 			console.log("send");
 			//sendPageToStudents: function(code, notebook_id, pageObject, sectionName)
-			//sendQuestionIndividualStudents : function(code, notebook_id, questionSet, sectionName, pageName, cUser)
-			Meteor.call('sendQuestionIndividualStudents', code, notebook_F_KEY, studentarray, pageObject, 'assignments', Session.get('aID'), teacher_cUser, function(error, result) {
+			//sendQuestionIndividualStudents : function(code, notebook_id, studentlist, pageObject, sectionName, pageName, cUser)
+			//Meteor.call('sendPageToStudents', code, notebook_F_KEY, pageObject, 'assignments', function(error, result) {
+			Meteor.call('sendQuestionIndividualStudents', code, notebook_F_KEY, studentlist, pageObject, 'assignments', pageName, teacher, function(error, result) {
 				console.log(result);
 				if (deployedSet.length == 0) {
 			
@@ -820,6 +824,7 @@ Template.teachersession.events({
 	    	questionSet.push(new QuestionObject(qid,currentq));
 
 		    Meteor.call('pushQuestionToCollabFull', code, notebook_F_KEY, Session.get('aID'), questionSet, teacher, function(err, result){
+		      console.log("entered");
 		      console.log(result);
 
 		      if (deployedSet.length == 0) {
@@ -1091,9 +1096,9 @@ Template.teachersession.events({
 	});
 		
 	//getCollabAnswers 
-		var sections = SectionsDB.find({notebook_id: notebookDB_Id, name :Session.get('aID')}).fetch();
+		var sections = SectionsDB.findOne({name :Session.get('aID')});
 		console.log(sections);
-		var sectionDB_id = sections[0]._id;
+		var sectionDB_id = sections._id;
 		
 		Meteor.call('getStudentsCollabAnswers', code, teacherID, sectionDB_id, function(err, result){
 		    	console.log('entered collab answers');
@@ -1272,8 +1277,12 @@ function loginIVLE() {
 	var APIKey = Session.get('APIKey');
 	var APIDomain = Session.get('APIDomain');
 	var APIUrl = Session.get('APIUrl');
+
+	/* --- Change while deploying --- */
 	var returnURL = 'http://localhost:3000/dashboard';
 	//var returnURL = 'http://classnote.meteorapp.com/dashboard';
+	/* ---------------- */
+
 	var LoginURL = APIDomain + "api/login/?apikey=6YIDjroMfeBjiTP49ms99&url=" + returnURL;
 	var url = LoginURL;
 	
