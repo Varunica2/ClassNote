@@ -389,8 +389,6 @@
 
 			return returnObject;
 		},
-
-		//paramter pageObject was questionSet
 		sendQuestionIndividualStudents : function(code, notebook_id, studentlist, pageObject, sectionName, pageName, cUser){
 			console.log("entered into sendQuestionIndividualStudents");
 			var returnObject = new ResultObject();
@@ -412,7 +410,7 @@
 			
 
 			secGrp.forEach(function(item){
-				//console.log(item);
+				
 				var secGrpName = item.name;
 				var sectionNames = ["_Collaboration Space", "_Teacher Only", "_Content Library"];
 
@@ -426,7 +424,7 @@
 				if (!found){
 
 						var section = SectionsDB.find({sectionGrp_id : item._id, notebook_id : notebook_id, name : sectionName}).fetch();
-						//console.log("section:"+section);
+						
 						
 							if(section.length == 0){
 								//no section found, create section
@@ -471,15 +469,12 @@
 		      </body> \
 		      </html>";
 			
-			//console.log("sectionToCheckForPage: "+sectionToCheckForPage);
-
 
 			var pagesSet = [];
 			//create page for each section if not found
 			for(var i = 0; i <sectionToCheckForPage.length; i++){
 
 				var sectionItem = SectionsDB.findOne({ _id : sectionToCheckForPage[i] });
-				//console.log("sectionItem: "+sectionItem);
 
 				Meteor.call('getNotebookSectionPages', code, sectionItem._id, cUser);
 				var pages = PagesDB.find({section_id: sectionItem._id, title : pageName, notebook_id : notebook_id}).fetch();
@@ -515,10 +510,6 @@
 
 					
 					pages.forEach(function(page){
-						console.log("this page is: "+page._id);
-						console.log("page.rawId: "+ page["rawId"]);
-						//Meteor.call('getPageContent', code, page._id); //wtf is pageDB_id 
-						//Meteor.call('patchPageContent', code, page._id, pageContent);
 						var content = [
 							{
 								'target': 'body',
@@ -535,106 +526,9 @@
 					})
 
 				}
-
-				/*else{
-					pagesSet.push(pages);
-					Meteor.call('API_updateScoreAndComments', code, pages[pCount]['rawId'], JSON.stringify(content), function(err, result) {
-						if (result["statusCode"] == 200) {}
-					});
-				}*/
 			}
 			
 		},
-
-		/* 
-		//original code for this method
-		sendQuestionIndividualStudents : function(code, notebook_id, questionSet, sectionName, pageName, cUser){
-			console.log("send to individual students");
-			var returnObject = new ResultObject();
-
-			//check all students in notebook has a page in the section
-			var students = StudentsDB.find({notebook_id : notebook_id}).fetch();
-			if(students.length == 0){
-				returnObject.setStatus(-1);
-				returnObject.setData("no students found in notebook");
-				return returnObject;
-			}
-
-			var sectionToCheckForPage = [];
-			//get the student sectionGrp to find section
-			for(var i = 0; i < students.length; i++){
-				var secGrp = SectionsGrpDB.find({name : students[i].name, notebook_id : notebook_id, owner : cUser});
-				if(secGrp.length == 0){
-					returnObject.setStatus(-1);
-					returnObject.setData("Error while processing student section grps");
-					return returnObject;
-				}else{
-					var section = SectionsDB.find({sectionGrp_id : secGrp[0]._id, notebook_id : notebook_id, name : sectionName});
-					if(section.length == 0){
-						//no section found, create section
-						var contentIn = {
-							'name': sectionName
-						};
-						var response = Meteor.call('API_createSectionInStudent', code, secGrp[0].self, JSON.stringify(contentIn));
-						if(response["statusCode"] === undefined){
-							returnObject.setStatus(-1);
-							returnObject.setData("Error while processing student section grps");
-							return returnObject;
-						}else{
-							if (response["statusCode"] == 201 || response["statusCode"] == 200) {
-			 					var id = response["data"]["id"];
-			 					var name = response["data"]["name"];
-			 					var self = response["data"]["self"];
-			 					var insertedSectionId = SectionsDB.insert({rawId: id, name: name, self: self, notebook_id: notebook_id, sectionGrp_id: secGrp[0]._id});
-								sectionToCheckForPage.push(insertedSectionId);
-							}
-						}
-					}else{
-						sectionToCheckForPage.push(section[0]._id);
-					}
-				}
-			}
-
-			var pageContent = "<html> \
-				<head> \
-					<title>" + pageObject.name + "</title> \
-				</head> \
-				<body>";
-			pageContent += "\
-			</body> \
-			</html>";
-
-			var pagesSet = [];
-			//create page for each section if not found
-			for(var i = 0; i <sectionToCheckForPage.length; i++){
-
-					var sectionItem = SectionsDB.find({ _id : sectionToCheckForPage[i] });
-					Meteor.call('getNotebookSectionPages', code, sectionItem[0]._id, cUser);
-					var pages = PagesDB.find({section_id: sectionItem[0]._id, title : pageName, notebook_id : notebook_id}).fetch();
-					if(pages.length == 0){
-						var r1 = Meteor.call('API_sendPageToSection', code, sectionItem[0].self, pageContent);
-						if(r1["statusCode"] === undefined){
-
-						}else{
-							Meteor.call('getNotebookSectionPages', code, sectionItem[0]._id, cUser);
-							var pages = PagesDB.find({section_id: sectionItem[0]._id, title : pageName, notebook_id : notebook_id}).fetch();
-							pagesSet.push(pages);
-						}
-					}else{
-						pagesSet.push(pages);
-					}
-			}
-
-			//pass question into the page
-			for (var j=0; j<pagesSet.length; j++){
-						console.log("made sense");
-						console.log("pagesSet[j]._id: "+pagesSet[j]._id);
-						Meteor.call('patchPageContent', code, pagesSet[j]._id, pageContent);
-					}
-			
-		},
-		*/
-
 		createSectionInStudents: function(code, notebook_id, sectionName) {
 			var notebook = NotebooksDB.find({_id: notebook_id}).fetch();
 			if (notebook.length == 1) {
