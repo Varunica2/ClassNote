@@ -456,7 +456,8 @@
 					//break; 
 				}
 			});
-		
+
+			
 			var pageContent = "<html> \
 	        <head> \
 	          <title>" + pageObject.name + "</title> \
@@ -471,6 +472,7 @@
 		      </html>";
 			
 			//console.log("sectionToCheckForPage: "+sectionToCheckForPage);
+
 
 			var pagesSet = [];
 			//create page for each section if not found
@@ -502,13 +504,32 @@
 					}
 				} else {
 
+					var pageContent = "";
+					var isAllGood = true;
+					for (i = 0; i < pageObject.questions.length; i++) {
+						pageContent += addQuestion(pageObject.questions[i].index, pageObject.questions[i].text);
+						pageContent += "<br/>";
+					}
+
 					console.log("pages.length: "+pages.length);
+
+					
 					pages.forEach(function(page){
 						console.log("this page is: "+page._id);
 						console.log("page.rawId: "+ page["rawId"]);
 						//Meteor.call('getPageContent', code, page._id); //wtf is pageDB_id 
 						//Meteor.call('patchPageContent', code, page._id, pageContent);
-						Meteor.call('API_updateScoreAndComments', code, page["rawId"], pageContent, function(err, result) {
+						var content = [
+							{
+								'target': 'body',
+								'action': 'append',
+								'position': 'after',
+								'content': pageContent
+							}
+						];
+						console.log("content[]: "+ content);
+						
+						Meteor.call('API_updateScoreAndComments', code, page["rawId"], JSON.stringify(content), function(err, result) {
 						if (result["statusCode"] == 200) {}
 					});
 					})
