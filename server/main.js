@@ -794,7 +794,7 @@
 			}
 
 			var sectionDB_id = sections[0]._id;
-			console.log(sectionDB_id);
+			console.log("sectionDB_id: " + sectionDB_id);
 			PagesDB.remove({section_id: sectionDB_id});
 			var response = Meteor.call('getNotebookSectionPages', code, sectionDB_id, cUser);
 
@@ -818,6 +818,10 @@
 						'content': contentIn
 					}
 				];
+
+				console.log("pCount: "+ pCount);
+				console.log("pages[pCount]['rawId']: "+ pages[pCount]['rawId']);
+				console.log("json content: "+ JSON.stringify(content));
 				var response = Meteor.call('API_updateScoreAndComments', code, pages[pCount]['rawId'], JSON.stringify(content));
 				if(response["statusCode"] === undefined){
 					isAllGood = false;
