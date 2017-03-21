@@ -603,7 +603,7 @@ Template.editmodule.events({
 					module: modulecode
 				}, {
 				$set: {
-					name: newname
+					name: newModName
 				}
 			});
 				
