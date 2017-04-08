@@ -585,8 +585,8 @@
 				}
 			}
 		},
+		
 		getStudentsQuestions: function(code, notebook_id, sectionName, pageName, cUser) {
-			console.log(notebook_id + " " + sectionName);
 			var sections = SectionsDB.find({notebook_id: notebook_id, name: sectionName}).fetch();
 			var tempStud = [];
 			sections.forEach(function(section) {
@@ -623,7 +623,6 @@
 
 			//process the links returned
 			for (i = 0; i < tempStud.length; i++) {
-				console.log(tempStud[i].pageId);
 				var page = PagesDB.find({_id: tempStud[i].pageId}).fetch();
 				if (page.length > 0) {
 					Meteor.call('API_getNoteBookSectionPageContent', code, page[0]["self"], function(err, result) {
@@ -631,6 +630,9 @@
 							var contentIn = result["content"];
 							var questions = parseContent(contentIn);
 							tempStud[i].questions = questions;
+						}
+						else{
+							console.log("error");
 						}
 					});
 				}
@@ -641,9 +643,8 @@
 			var studList = [];
 			var numOfQuestions = 0;
 			var questionSet = [];
-
 			if (tempStud.length > 0) {
-				numOfQuestions = tempStud[0].questions.length - 1;
+				numOfQuestions = tempStud[0].questions.length;
 			}
 
 			for (i = 0; i < tempStud.length; i++) {
@@ -653,7 +654,7 @@
 				}
 			}
 
-			for (q = 1; q < numOfQuestions + 1; q++) {
+			for (q = 0; q < numOfQuestions; q++) {
 				var questionHolder = [];
 				for (i = 0; i < tempStud.length; i++) {
 					questionHolder.push(tempStud[i].questions[q]);
@@ -668,6 +669,7 @@
 			console.log(masterQuestion);
 			return masterQuestion;
 		},
+		
 		initGroupActivity: function(code, sectionDB_id, cUser) {
 			console.log("init grp");
 			var sections = SectionsDB.find({_id: sectionDB_id}).fetch();
@@ -810,7 +812,7 @@
 			}
 			return returnObject;
 		},
-		/**/
+		/*
 		getStudentsQuestions: function(code, notebook_id, sectionName, pageName, cUser) {
 			console.log(notebook_id + " " + sectionName);
 			var sections = SectionsDB.find({notebook_id: notebook_id, name: sectionName}).fetch();
@@ -894,7 +896,7 @@
 			console.log(masterQuestion);
 			return masterQuestion;
 		},
-		/**/
+		*/
 		getStudentsCollabAnswers(code, cUser, sectionDB_id){
 			console.log("hi");
 
@@ -971,7 +973,7 @@
 			masterQuestion.studentList = studList;
 			masterQuestion.questionSet = questionSet;
 
-			console.log(masterQuestion);
+			//console.log(masterQuestion);
 
 			returnObject.setData(masterQuestion);
 			return returnObject;
@@ -1006,8 +1008,8 @@
 	}
 
 	function parseContent(contentIn) {
-		console.log(contentIn);
-		var counter = 1;
+		//console.log(contentIn);
+		var counter = 0;
 		var threshold = 5;
 		var isProcessing = true;
 		var front = contentIn;
@@ -1039,6 +1041,7 @@
 			}
 
 		}
+		console.log("question in parseContent: "+ question);
 		return question;
 	}
 
