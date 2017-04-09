@@ -712,9 +712,24 @@
     <div class = "col-md-12" style="text-align: left; font-size: 28px; color: #000">
         
         {{#if isIndividual}}
-          {{#each totalQuestions}}
-            <h3>Q: {{questionTitle totalQuestions}} </h3> 
-            {{responsetable}}
+          {{#each qn in totalQuestions}}
+            <h3>Q: {{questionTitle qn}} </h3> 
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><h3>Student</h3></th>
+                  <th><h3>Answer</h3></th>
+                </tr>
+              </thead> 
+              <tbody> 
+                {{#each getResponses qn}}
+                  <tr>
+                      <td><h4>{{this.student}}</h4></td>
+                      <td><h4>{{this.answer}}</h4></td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
           {{/each}}
         {{/if}}
 

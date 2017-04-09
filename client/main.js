@@ -34,7 +34,7 @@ Session.setDefaultPersistent('APIDomain',"http://ivle.nus.edu.sg/");
 Session.setDefaultPersistent('APIUrl', Session.get('APIDomain') + "api/lapi.svc/");
 
 /* --- Uncomment for localhost, comment for deploy --- */
-Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSIsImtpZCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0OTE3NTY2NzMsIm5iZiI6MTQ5MTc1NjY3MywiZXhwIjoxNDkxNzYwNTczLCJhY3IiOiIxIiwiYWlvIjoiWTJaZ1lLalcyZXpyNTJKbm1KVG01YnRpK2VxUEpYMGx6OStJOEFha3oxV1NQc0kxMHhnQSIsImFtciI6WyJwd2QiXSwiYXBwaWQiOiIyYTE5YzI3Ni01NTkzLTQ0YjktOTUwOC05OWE2OGJiMmI3MWQiLCJhcHBpZGFjciI6IjAiLCJnaXZlbl9uYW1lIjoiVmFydW5pY2EiLCJpcGFkZHIiOiI0Mi42MC4xNjUuMjMxIiwibmFtZSI6IlZhcnVuaWNhIiwib2lkIjoiYmUzZGI2M2ItMTVhOC00ZjI4LTk5YjAtNGNiYWYyMWNkMzc0Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtNTIyMjgiLCJwbGF0ZiI6IjUiLCJwdWlkIjoiMTAwM0JGRkQ4RUI0MTA2NiIsInNjcCI6Ik5vdGVzLkNyZWF0ZSBOb3Rlcy5SZWFkIE5vdGVzLlJlYWQuQWxsIE5vdGVzLlJlYWRXcml0ZSBOb3Rlcy5SZWFkV3JpdGUuQWxsIE5vdGVzLlJlYWRXcml0ZS5DcmVhdGVkQnlBcHAiLCJzdWIiOiJFbFlZMThtNGVUcUNpZjBoZ2hOT2g1el9sbUhWWWtRVG5ieHhBWjVFR2FVIiwidGlkIjoiNWJhNWVmNWUtMzEwOS00ZTc3LTg1YmQtY2ZlYjBkMzQ3ZTgyIiwidW5pcXVlX25hbWUiOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ1cG4iOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ2ZXIiOiIxLjAifQ.lpz6WSYFe3Ze_1nM2V9GpeoutGY9Rsyg-3VD-0hPY1UVB5L5mdMicEjrMqlSJg8GLyl4gH3czmSqPGYGGjj2vSYFH8gJheeNueG7KdTVf1Bd558Ej6p9kibUycsdq2kHWO_e8gha3d1FN3jHHgsINAtAjKKw-N7LnE0zgBtDn0sLcrsp-CodOq_gIy0HHikMK1v7ELDfR-9iiNTm3hfJzDOvTyHI9IHCZYGnALKHtLW5J7coQtnaS4NzOVKhSLNwn0fxosW4vbYrmT5bBIAkIxhp3sYZaN85CWy_3EHMdMtd254LzDid1xL8uDkXw3-lUmUh3mTzYd_gWvGCAW_6Ig');
+Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSIsImtpZCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0OTE3NjcwNDYsIm5iZiI6MTQ5MTc2NzA0NiwiZXhwIjoxNDkxNzcwOTQ2LCJhY3IiOiIxIiwiYWlvIjoiQVNRQTIvOERBQUFBcU90eEZEbzZUYldjb2syUXQvWXVwM01vVVNkL3lMWlNMdGFGRmhhNjBwTT0iLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiMmExOWMyNzYtNTU5My00NGI5LTk1MDgtOTlhNjhiYjJiNzFkIiwiYXBwaWRhY3IiOiIwIiwiZ2l2ZW5fbmFtZSI6IlZhcnVuaWNhIiwiaXBhZGRyIjoiNDIuNjAuMTY1LjIzMSIsIm5hbWUiOiJWYXJ1bmljYSIsIm9pZCI6ImJlM2RiNjNiLTE1YTgtNGYyOC05OWIwLTRjYmFmMjFjZDM3NCIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS03NjkzMjMyMzItMTU1ODcwMTg3My0xMzE3MDU5NDk1LTUyMjI4IiwicGxhdGYiOiI1IiwicHVpZCI6IjEwMDNCRkZEOEVCNDEwNjYiLCJzY3AiOiJOb3Rlcy5DcmVhdGUgTm90ZXMuUmVhZCBOb3Rlcy5SZWFkLkFsbCBOb3Rlcy5SZWFkV3JpdGUgTm90ZXMuUmVhZFdyaXRlLkFsbCBOb3Rlcy5SZWFkV3JpdGUuQ3JlYXRlZEJ5QXBwIiwic3ViIjoiRWxZWTE4bTRlVHFDaWYwaGdoTk9oNXpfbG1IVllrUVRuYnh4QVo1RUdhVSIsInRpZCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsInVuaXF1ZV9uYW1lIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidXBuIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidmVyIjoiMS4wIn0.leyNgcyQcP1VsPxxP8MDhHBrHFr50rywez5DXVURXHhqu3h51HVzfhym6-UcpnQ49Xqk0GKDZ278r9XqebafE8FOUs5eh6yir_vv81tMY5Gd_821tRTe09OELOhuYnyN4RxVGyZ5vsaldz2rQm68sVDefUKsVbw2JIz0u5F-HCEENCB2MrbgWm0EUqOluox9O62QflkRxktLtLB9qmTrAyjyzQ3Dt5RAtT4Dgp3e1xSdZb-0YdGEHyIhXBDQXy30V6sUieHbVy5KTgor8vlbWmnYm1S2QH9VV7lJmVwvRps_ST-nOZaPKpRoOwpVZpGXRrK9F18_8q-lQT8iCVesYg');
 
 
 
@@ -1081,9 +1081,10 @@ Template.teachersession.events({
 		});
 		
 		//getCollabAnswers
-		var sectionDB_id = SectionsDB.findOne({name :Session.get('aID')})._id;
+		var sectionDB_exists = SectionsDB.find({name :Session.get('aID')}).count();
 
-		if(sectionDB_id.length>0){
+		if(sectionDB_exists){
+			sectionDB_id = SectionsDB.findOne({name :Session.get('aID')})._id;
 		
 			Meteor.call('getStudentsCollabAnswers', code, teacherID, sectionDB_id, function(err, result){
 				var answerSet = result;
@@ -1163,33 +1164,23 @@ Template.responses.helpers({
 		return questions[index];
 	},
 
-	getResponses : function() {
-		
-		var answerSet = responses.find({aID: Session.get('aID')});
-		var responseObject;
-		var totalQns = answerSet.numberOfQuestion;
-		console.log(answerSet.numberOfQuestion);
+	getResponses : function(qnumber) {
 		console.log('entered');
-		var noOfStudents = answerSet.students.length;
-		var answers;
-		console.log('entered');
-		
-		console.log(totalQns);
-		console.log(noOfStudents);
+		var answerSet = responses.findOne({aID: Session.get('aID')});
+		var totalQns = answerSet.numberOfQuestions;
+		var students = answerSet.student;
+		var noOfStudents = answerSet.student.length;
+		var answers = answerSet.answers;
+		var allAnswers = [];
 
-
-		for (i=0; i<totalQns; i++){
-			for (j=0; j<noOfStudents; j++){
-				responseObject.question = i;
-				responseObject.student = answerSet.students[j];
-				responseObject.answer = answerSet.answers[i][j];
-				console.log('entered for loop');
-			}
-
-			answers.push(responseObject);
+		for(i=0; i<noOfStudents; i++){
+			var responseObject = {};
+			responseObject.student = students[i];
+			responseObject.answer = answers[qnumber][i];
+			allAnswers.push(responseObject);
 		}
-		console.log(answers);
-		return answers;
+
+		return allAnswers;
 	},
 
 
