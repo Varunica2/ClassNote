@@ -523,17 +523,13 @@
                {{/each}}
           </div>
 
-
           </div>
          <div class = "col-md-4" id="response">
           <h4> Activity Admin </h4>
           <div class = "list-group" id = "actadmin">
-
             <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
             <p class = "list-group-item admin">  Activity Name : {{getmodcode}} - {{getactcode}} </p>
-
             <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
-
             <!--<p class = "list-group-item admin"> Start Time - </p> -->
             <p class = "list-group-item admin"> No. of Questions - {{getactqnum}} </p>
             <p class = "list-group-item admin"> Questions Responded- </p>
@@ -606,18 +602,16 @@
           <div class = "col-md-6" id = "sessionfourth">
           <h4> Activity Admin </h4>
             <div class = "list-group" id = "actadmin">
-
-            <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
-            <p class = "list-group-item admin">  Activity Name : {{getmodcode}}{{getactcode}} </p>
-
-            <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
-          <!--  <p class = "list-group-item admin"> Active Students -  </p> -->
-
-          <!--  <p class = "list-group-item admin"> Start Time - </p> -->
-            <p class = "list-group-item admin"> Total Questions - {{getactqnum}} </p>
-            <p class = "list-group-item admin"> Questions Deployed - {{getdeployedq}}</p>
+              <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
+              <p class = "list-group-item admin">  Activity Name : {{getmodcode}}{{getactcode}} </p>
+              <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
+            <!--  <p class = "list-group-item admin"> Active Students -  </p> -->
+            <!--  <p class = "list-group-item admin"> Start Time - </p> -->
+              <p class = "list-group-item admin"> Total Questions - {{getactqnum}} </p>
+              <p class = "list-group-item admin"> Questions Deployed - {{getdeployedq}}</p>
           </div>
 
+          <button type="submit" id="deleteact" class="btn btn-danger" style="float: center">Delete Activity</button>
 
          </div>
        </div>

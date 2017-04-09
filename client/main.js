@@ -396,7 +396,7 @@ Template.actcreate.events({
 			var val = target[uid].value;
 			append.push(val);
 		}
-		
+
 		activityList.insert({
 			aID: modcode + activity,
 			activity: activity,
@@ -965,6 +965,12 @@ Template.teachersession.events({
 	},
 	'click #collab': function() {
 		Session.setPersistent('acttype', 'collab');
+	},
+	'click #deleteact': function() {
+		var remove_id = activityList.findOne({aID: Session.get('aID')})._id;
+		activityList.remove({_id: remove_id});
+		alert("Activity has been deleted!");
+		Router.go('/dashboard');
 	},
 	'submit #addqform': function(e) {
 		e.preventDefault();
