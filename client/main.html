@@ -697,18 +697,89 @@
 
 </template>
 
-<template name = "questionlist" >
+<template name="responses">
+  {{>navigation}}
 
+  <div class="col-md-offset-2">
+    <div class = "row" id = "sessionfirst">
+      <div class = "col-md-12" style="text-align: center; font-size: 28px; color: #3E1254">
+        <h1>{{getAID}} Responses</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-offset-2">
+    <div class = "col-md-12" style="text-align: left; font-size: 28px; color: #000">
+        
+        {{#if isIndividual}}
+          {{#each totalQuestions}}
+            <h3>Q: {{questionTitle totalQuestions}} </h3> 
+            {{responsetable}}
+          {{/each}}
+        {{/if}}
+
+        {{#if isCollab}}
+          {{#each qn in totalCollabQuestions}}
+            <h3>Q: {{questionTitle qn}} </h3> 
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><h3>Group</h3></th>
+                  <th><h3>Answer</h3></th>
+                </tr>
+              </thead> 
+              <tbody> 
+                {{#each getCollabResponses qn}}
+                  <tr>
+                      <td><h4>{{this.group}}</h4></td>
+                      <td><h4>{{this.answer}}</h4></td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          {{/each}}
+        {{/if}}
+
+      </div>
+  </div>
+
+<!--   <h1 style="top:50%;" >{{getAID}}</h1>
+
+  <div class="container col-md-offset-2"></div> -->
+    
+   <!--  
+   <h2>Individual Answers</h2>
+    <h2 style="text-align:center;">{{title}}</h2>
+
+      <tr> 
+     
+        <td>1</td>
+        <td>Zheng Yao</td>
+        <td>functions are a type of procedure or routine</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Nirmala</td>
+        <td>functions are a set of instructions written in a sequence</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Suki</td>
+        <td>functions help to carry out an operation</td>
+      </tr>
+    </tbody>
+  </table>
+
+-->
 </template>
 
-<template name="responses">
-  <!--{{>navigation}} -->
 
-  <h1>{{getAID}}</h1>
-  <div class="container col-md-offset-2">
-    <h2>Individual Answers</h2>
-    <h2 style="text-align:center;">{{title}}</h2>
-    <table class="table">
+<template name = "reponsetable">
+
+<table class="table">
+
+    <!-- have a table title aka question here as well -->
+
       <thead>
         <tr>
           <th>Qn</th>
@@ -746,27 +817,7 @@
         </tr>
       </tbody>
     </table>
-        
-   <!--  
-      <tr> 
-     
-        <td>1</td>
-        <td>Zheng Yao</td>
-        <td>functions are a type of procedure or routine</td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>Nirmala</td>
-        <td>functions are a set of instructions written in a sequence</td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>Suki</td>
-        <td>functions help to carry out an operation</td>
-      </tr>
-    </tbody>
-  </table>
 
--->
-  </div>
+
 </template>
+

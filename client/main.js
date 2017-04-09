@@ -34,7 +34,7 @@ Session.setDefaultPersistent('APIDomain',"http://ivle.nus.edu.sg/");
 Session.setDefaultPersistent('APIUrl', Session.get('APIDomain') + "api/lapi.svc/");
 
 /* --- Uncomment for localhost, comment for deploy --- */
-Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSIsImtpZCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0OTE3MjkxODYsIm5iZiI6MTQ5MTcyOTE4NiwiZXhwIjoxNDkxNzMzMDg2LCJhY3IiOiIxIiwiYWlvIjoiQVNRQTIvOERBQUFBT0tOeWtQN0d6bkhBVVdlN0hhY1RPTEkwU3JFbVBPdUs5NnJGeUFLVjNhWT0iLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiMmExOWMyNzYtNTU5My00NGI5LTk1MDgtOTlhNjhiYjJiNzFkIiwiYXBwaWRhY3IiOiIwIiwiZ2l2ZW5fbmFtZSI6IlZhcnVuaWNhIiwiaXBhZGRyIjoiNDIuNjAuMTY1LjIzMSIsIm5hbWUiOiJWYXJ1bmljYSIsIm9pZCI6ImJlM2RiNjNiLTE1YTgtNGYyOC05OWIwLTRjYmFmMjFjZDM3NCIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS03NjkzMjMyMzItMTU1ODcwMTg3My0xMzE3MDU5NDk1LTUyMjI4IiwicGxhdGYiOiI1IiwicHVpZCI6IjEwMDNCRkZEOEVCNDEwNjYiLCJzY3AiOiJOb3Rlcy5DcmVhdGUgTm90ZXMuUmVhZCBOb3Rlcy5SZWFkLkFsbCBOb3Rlcy5SZWFkV3JpdGUgTm90ZXMuUmVhZFdyaXRlLkFsbCBOb3Rlcy5SZWFkV3JpdGUuQ3JlYXRlZEJ5QXBwIiwic3ViIjoiRWxZWTE4bTRlVHFDaWYwaGdoTk9oNXpfbG1IVllrUVRuYnh4QVo1RUdhVSIsInRpZCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsInVuaXF1ZV9uYW1lIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidXBuIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidmVyIjoiMS4wIn0.A1jhHFTt3ElM-rcyFvBf1vZ-q-I8ux6DxQH6smZuXTryUZoXiuMT5sM2HPeTbpFrb0Oyfz-spiLfXTOqCDbBGGUwKzLuWmTRMgKPJ5pK4d1zBJupT33WEHEg6M6tp9OBqVWebYiQys06sXqtIyfgnBJSPfTuW6gLQyBGgEAo_SMBaK3ZlJALgAol3zGxEVZsTJP7mdwSs6dGUUlBH2TAQMeG0rWaa8zxDmJ8fp_wo249DTdWrTUcG0m5aIO3K0ynTUQKVrdk15wKXQQAoRL9CzFUmid5ro7iZQW-7aWqkPrGwaiHUrX2r2TaRjASXZzZdjoi_UjW5X8aw2EapUiwNw');
+Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSIsImtpZCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0OTE3NTY2NzMsIm5iZiI6MTQ5MTc1NjY3MywiZXhwIjoxNDkxNzYwNTczLCJhY3IiOiIxIiwiYWlvIjoiWTJaZ1lLalcyZXpyNTJKbm1KVG01YnRpK2VxUEpYMGx6OStJOEFha3oxV1NQc0kxMHhnQSIsImFtciI6WyJwd2QiXSwiYXBwaWQiOiIyYTE5YzI3Ni01NTkzLTQ0YjktOTUwOC05OWE2OGJiMmI3MWQiLCJhcHBpZGFjciI6IjAiLCJnaXZlbl9uYW1lIjoiVmFydW5pY2EiLCJpcGFkZHIiOiI0Mi42MC4xNjUuMjMxIiwibmFtZSI6IlZhcnVuaWNhIiwib2lkIjoiYmUzZGI2M2ItMTVhOC00ZjI4LTk5YjAtNGNiYWYyMWNkMzc0Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTc2OTMyMzIzMi0xNTU4NzAxODczLTEzMTcwNTk0OTUtNTIyMjgiLCJwbGF0ZiI6IjUiLCJwdWlkIjoiMTAwM0JGRkQ4RUI0MTA2NiIsInNjcCI6Ik5vdGVzLkNyZWF0ZSBOb3Rlcy5SZWFkIE5vdGVzLlJlYWQuQWxsIE5vdGVzLlJlYWRXcml0ZSBOb3Rlcy5SZWFkV3JpdGUuQWxsIE5vdGVzLlJlYWRXcml0ZS5DcmVhdGVkQnlBcHAiLCJzdWIiOiJFbFlZMThtNGVUcUNpZjBoZ2hOT2g1el9sbUhWWWtRVG5ieHhBWjVFR2FVIiwidGlkIjoiNWJhNWVmNWUtMzEwOS00ZTc3LTg1YmQtY2ZlYjBkMzQ3ZTgyIiwidW5pcXVlX25hbWUiOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ1cG4iOiJhMDExNzA1N0B1Lm51cy5lZHUiLCJ2ZXIiOiIxLjAifQ.lpz6WSYFe3Ze_1nM2V9GpeoutGY9Rsyg-3VD-0hPY1UVB5L5mdMicEjrMqlSJg8GLyl4gH3czmSqPGYGGjj2vSYFH8gJheeNueG7KdTVf1Bd558Ej6p9kibUycsdq2kHWO_e8gha3d1FN3jHHgsINAtAjKKw-N7LnE0zgBtDn0sLcrsp-CodOq_gIy0HHikMK1v7ELDfR-9iiNTm3hfJzDOvTyHI9IHCZYGnALKHtLW5J7coQtnaS4NzOVKhSLNwn0fxosW4vbYrmT5bBIAkIxhp3sYZaN85CWy_3EHMdMtd254LzDid1xL8uDkXw3-lUmUh3mTzYd_gWvGCAW_6Ig');
 
 
 
@@ -370,7 +370,7 @@ Template.actcreate.helpers({
 		return Session.get('counter');
 	}
 });
-Template.questionlist.helpers({});
+//Template.questionlist.helpers({});
 
 Template.actcreate.events({
 	'click #addquestion': function() {
@@ -1122,6 +1122,47 @@ Template.responses.helpers({
 		return Session.get('aID');
 	},
 
+	isIndividual : function(){
+		var exists = responses.find({aID: Session.get('aID')}).count();
+		if(exists){
+			return true;
+		} else {
+			return false;
+		}
+	},
+
+	isCollab : function(){
+		var exists = groupresponses.find({aID: Session.get('aID')}).count();
+		if(exists){
+			return true;
+		} else {
+			return false;
+		}
+	},
+
+	totalQuestions : function(){
+		var counter = [];
+		var questions = responses.findOne({aID: Session.get('aID')}).numberOfQuestions;
+	    for (var i = 0; i < questions; i++) {
+	        counter[i] = i;
+	    }
+	    return counter;
+	},
+
+	totalCollabQuestions : function(){
+		var counter = [];
+		var questions = groupresponses.findOne({aID: Session.get('aID')}).numberOfQuestions;
+	    for (var i = 0; i < questions; i++) {
+	        counter[i] = i;
+	    }
+	    return counter;
+	},
+
+	questionTitle : function(index){
+		var questions = deployedquestions.findOne({aID: Session.get('aID')}).deployed;
+		return questions[index];
+	},
+
 	getResponses : function() {
 		
 		var answerSet = responses.find({aID: Session.get('aID')});
@@ -1151,42 +1192,25 @@ Template.responses.helpers({
 		return answers;
 	},
 
-	getGroupResponses : function() {
-		var answerSet = groupresponses.find({aID: Session.get('aID')});
-		var responseObject;
-		var totalQns = answerSet.numberOfQuestion;
-		var noOfStudents = answerSet.students.length;
-		var answers;
 
-		for (i=0; i<totalQns; i++){
-			for (j=0; j<noOfStudents; j++){
-				responseObject.question = i;
-				responseObject.student = answerSet.students[j];
-				responseObject.answer = answerSet.answers[i][j];
-			}
 
-			answers.push(responseObject);
+	getCollabResponses : function(qnumber) {
+		var answerSet = groupresponses.findOne({aID: Session.get('aID')});
+		var totalQns = answerSet.numberOfQuestions;
+		var groups = answerSet.student;
+		var noOfGroups = answerSet.student.length;
+		var answers = answerSet.answers;
+		var allAnswers = [];
+
+		for(i=0; i<noOfGroups; i++){
+			var responseObject = {};
+			responseObject.group = groups[i];
+			responseObject.answer = answers[qnumber][i];
+			allAnswers.push(responseObject);
 		}
 
-		return answers;
+		return allAnswers;
 	},
-	/*
-	isIndividual : function(){
-		if (this.type == "individual"){
-			return true;
-		} else { return false; }
-	},
-
-	isCollab : function(){
-		if (this.type == "collab"){
-			return true;
-		} else { return false; }
-	},
-
-	getStudentName : function(){
-		return this.name;
-	},
-	*/
 
 });
 
