@@ -384,30 +384,32 @@ Template.actcreate.events({
 		count = Session.get('counter');
 		event.preventDefault();
 		const target = event.target;
-		var module = target.modulename.value;
 		var activity = target.activityname.value;
-		var code = target.modulecode.value;
+		var modcode = target.modulecode.value;
+		var module = teacherModules.findOne({code: modcode}).module;
 		var append = [];
 		var x;
 		var deployed = false;
+
 		for (x = 0; x < count.length; x++) {
 			var uid = count[x].uniqid;
 			var val = target[uid].value;
 			append.push(val);
 		}
+		
 		activityList.insert({
-			aID: code + activity,
+			aID: modcode + activity,
 			activity: activity,
 			name: module,
-			module: code,
+			module: modcode,
 			status: "inactive",
 			time: new Date(),
 			userID: Session.get('userID')
-		});
+		}); 
 
 		for (var dexI = 0; dexI < append.length; dexI++){
 			questions.insert({
-				aID: code + activity,
+				aID: modcode + activity,
 				questIndex : dexI+1,
 				quest: append[dexI],
 				time: new Date(),
