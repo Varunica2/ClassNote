@@ -313,9 +313,14 @@ h1{
 }
 
 .qbtn2{
-  width : 60px;
   text-align: center;
-  margin-left: 10px;
+  background-color: black;
+  border:1px solid white;
+  color:white;
+}
+
+.qbtn3{
+  text-align: center;
   background-color: black;
   border:1px solid white;
   color:white;

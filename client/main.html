@@ -570,8 +570,9 @@
                 <p id ="qdisplay"> {{quest}}  </p>
                 <p>
 
-                 <button id = "v{{@index}}" class = "qbtn"> View Question </button>
-                <button id = "d{{@index}}" class = "qbtn2"> Deploy </button>
+                <button id = "v{{@index}}" class="btn btn-info" > View </button>
+                <button id = "d{{@index}}" class="btn btn-success"> Deploy </button>
+                <button id = "r{{@index}}" class="btn btn-danger"> Remove </button>
 
                 </p>
                 </div>
@@ -588,32 +589,26 @@
          <div class = "row" id="sessionadmin">
 
           <div class = "col-md-6" id= "sessionthird">
-          <h4> Question View </h4>
-
-         <div id ="qviewmain" style="background-color: white;">
-
-          <p> {{qviewmain}}
-           </p>
-         </div>
-
-
+            <h4> Question View </h4>
+            <div id ="qviewmain" style="background-color: white;">
+              <p> {{qviewmain}}</p>
+            </div>
          </div>
 
           <div class = "col-md-6" id = "sessionfourth">
-          <h4> Activity Admin </h4>
-            <div class = "list-group" id = "actadmin">
-              <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
-              <p class = "list-group-item admin">  Activity Name : {{getmodcode}}{{getactcode}} </p>
-              <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
-            <!--  <p class = "list-group-item admin"> Active Students -  </p> -->
-            <!--  <p class = "list-group-item admin"> Start Time - </p> -->
-              <p class = "list-group-item admin"> Total Questions - {{getactqnum}} </p>
-              <p class = "list-group-item admin"> Questions Deployed - {{getdeployedq}}</p>
-          </div>
-
-          <button type="submit" id="deleteact" class="btn btn-danger" style="float: center">Delete Activity</button>
-
+            <h4> Activity Admin </h4>
+              <div class = "list-group" id = "actadmin">
+                <p class = "list-group-item admin"> Module Name  : {{getactmod}} </p>
+                <p class = "list-group-item admin">  Activity Name : {{getmodcode}}{{getactcode}} </p>
+                <p class = "list-group-item admin"> Enrolled Students - {{getactnum}} </p>
+                <!--  <p class = "list-group-item admin"> Active Students -  </p> -->
+                <!--  <p class = "list-group-item admin"> Start Time - </p> -->
+                <p class = "list-group-item admin"> Total Questions - {{getactqnum}} </p>
+                <p class = "list-group-item admin"> Questions Deployed - {{getdeployedq}}</p>
+              </div>
+            <button type="submit" id="deleteact" class="btn btn-danger" style="float: center">Delete Activity</button>
          </div>
+
        </div>
 
          <div class = "row" id ="sessionresponse">

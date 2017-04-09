@@ -870,6 +870,14 @@ Template.teachersession.events({
 		}
 		
 	},
+	'click .qbtn3': function(event) {
+		event.preventDefault();
+		const target = event.target;
+		var qid = target.id;
+		qid = parseInt(qid.slice(1))+1;
+		var removeid = questions.findOne({aID: Session.get('aID'), questIndex: qid})._id;
+		questions.remove({_id: removeid});
+	},
 	'click .deployall': function(event) {
 
 		event.preventDefault();
@@ -996,7 +1004,6 @@ Template.teachersession.events({
 		});
 	},
 	'click #togglestatus': function() {
-		console.log("yo");
 		var id = activityList.findOne({aID: Session.get('aID')})._id;
 		var status = activityList.findOne({aID: Session.get('aID')}).status;
 
