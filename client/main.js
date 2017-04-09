@@ -34,7 +34,7 @@ Session.setDefaultPersistent('APIDomain',"http://ivle.nus.edu.sg/");
 Session.setDefaultPersistent('APIUrl', Session.get('APIDomain') + "api/lapi.svc/");
 
 /* --- Uncomment for localhost, comment for deploy --- */
-Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSIsImtpZCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0OTE2NTU4NDksIm5iZiI6MTQ5MTY1NTg0OSwiZXhwIjoxNDkxNjU5NzQ5LCJhY3IiOiIxIiwiYWlvIjoiQVNRQTIvOERBQUFBejRZZmRqQjBKMjJZbFlxNDEraDhNc3g0SXJtaFA5M2Y0eDBERk9FQjVOOD0iLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiMmExOWMyNzYtNTU5My00NGI5LTk1MDgtOTlhNjhiYjJiNzFkIiwiYXBwaWRhY3IiOiIwIiwiZ2l2ZW5fbmFtZSI6IlZhcnVuaWNhIiwiaXBhZGRyIjoiMTE2Ljg2LjIxOS4yMTgiLCJuYW1lIjoiVmFydW5pY2EiLCJvaWQiOiJiZTNkYjYzYi0xNWE4LTRmMjgtOTliMC00Y2JhZjIxY2QzNzQiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtNzY5MzIzMjMyLTE1NTg3MDE4NzMtMTMxNzA1OTQ5NS01MjIyOCIsInBsYXRmIjoiNSIsInB1aWQiOiIxMDAzQkZGRDhFQjQxMDY2Iiwic2NwIjoiTm90ZXMuQ3JlYXRlIE5vdGVzLlJlYWQgTm90ZXMuUmVhZC5BbGwgTm90ZXMuUmVhZFdyaXRlIE5vdGVzLlJlYWRXcml0ZS5BbGwgTm90ZXMuUmVhZFdyaXRlLkNyZWF0ZWRCeUFwcCIsInN1YiI6IkVsWVkxOG00ZVRxQ2lmMGhnaE5PaDV6X2xtSFZZa1FUbmJ4eEFaNUVHYVUiLCJ0aWQiOiI1YmE1ZWY1ZS0zMTA5LTRlNzctODViZC1jZmViMGQzNDdlODIiLCJ1bmlxdWVfbmFtZSI6ImEwMTE3MDU3QHUubnVzLmVkdSIsInVwbiI6ImEwMTE3MDU3QHUubnVzLmVkdSIsInZlciI6IjEuMCJ9.Ux3aQiCgamU5EMFehF-j3zk2J7F2ne0FxoGTZaVoAZxqA3YZd7DlO4j3-GMLTFTTx7dGKLkZbeZ7uYGmz322Lj05Gg_rROKEWDWC2XheXCct_HSNafVcIkOcdm9RIJPHfnM20RdZxj_mUadwzWGQvCLWJtjAwD5cAQUbLjPLwvCKGkN5w7aSvHfRW0opKehctEfmk5DoUIBoM8CGo74uNw9ZklLoAllo2VyPFnI7991qqGtvoXHxM8s8wbxH7kG8lV3uh1jGm-s6OiRc8zTErDKgoBL7BP5UWVmZENTLlQlb1NIAGbAOwsguDS-xephwuVsIAZU1z43L7KKK3oJrbw');
+Session.setDefaultPersistent('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSIsImtpZCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSJ9.eyJhdWQiOiJodHRwczovL29uZW5vdGUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4Mi8iLCJpYXQiOjE0OTE3MjkxODYsIm5iZiI6MTQ5MTcyOTE4NiwiZXhwIjoxNDkxNzMzMDg2LCJhY3IiOiIxIiwiYWlvIjoiQVNRQTIvOERBQUFBT0tOeWtQN0d6bkhBVVdlN0hhY1RPTEkwU3JFbVBPdUs5NnJGeUFLVjNhWT0iLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiMmExOWMyNzYtNTU5My00NGI5LTk1MDgtOTlhNjhiYjJiNzFkIiwiYXBwaWRhY3IiOiIwIiwiZ2l2ZW5fbmFtZSI6IlZhcnVuaWNhIiwiaXBhZGRyIjoiNDIuNjAuMTY1LjIzMSIsIm5hbWUiOiJWYXJ1bmljYSIsIm9pZCI6ImJlM2RiNjNiLTE1YTgtNGYyOC05OWIwLTRjYmFmMjFjZDM3NCIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS03NjkzMjMyMzItMTU1ODcwMTg3My0xMzE3MDU5NDk1LTUyMjI4IiwicGxhdGYiOiI1IiwicHVpZCI6IjEwMDNCRkZEOEVCNDEwNjYiLCJzY3AiOiJOb3Rlcy5DcmVhdGUgTm90ZXMuUmVhZCBOb3Rlcy5SZWFkLkFsbCBOb3Rlcy5SZWFkV3JpdGUgTm90ZXMuUmVhZFdyaXRlLkFsbCBOb3Rlcy5SZWFkV3JpdGUuQ3JlYXRlZEJ5QXBwIiwic3ViIjoiRWxZWTE4bTRlVHFDaWYwaGdoTk9oNXpfbG1IVllrUVRuYnh4QVo1RUdhVSIsInRpZCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsInVuaXF1ZV9uYW1lIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidXBuIjoiYTAxMTcwNTdAdS5udXMuZWR1IiwidmVyIjoiMS4wIn0.A1jhHFTt3ElM-rcyFvBf1vZ-q-I8ux6DxQH6smZuXTryUZoXiuMT5sM2HPeTbpFrb0Oyfz-spiLfXTOqCDbBGGUwKzLuWmTRMgKPJ5pK4d1zBJupT33WEHEg6M6tp9OBqVWebYiQys06sXqtIyfgnBJSPfTuW6gLQyBGgEAo_SMBaK3ZlJALgAol3zGxEVZsTJP7mdwSs6dGUUlBH2TAQMeG0rWaa8zxDmJ8fp_wo249DTdWrTUcG0m5aIO3K0ynTUQKVrdk15wKXQQAoRL9CzFUmid5ro7iZQW-7aWqkPrGwaiHUrX2r2TaRjASXZzZdjoi_UjW5X8aw2EapUiwNw');
 
 
 
@@ -1052,102 +1052,66 @@ Template.teachersession.events({
 		var teacherID = Session.get("userID") + "@u.nus.edu";
 
 		Meteor.call('getStudentsQuestions', code, notebookDB_Id, "assignments", Session.get('aID'), teacherID, function(err, result){
-			console.log("entered into getStudentsQuestions");
-			console.log(result);
-			/*	
-			result = {};
-			result.numberOfQuestion = 3;
-			result.students = ["student1", "student2", "student3"];
-			result.answers = 
-			[ 
-				["student 1 answer1", "student 2 answer1", "student 3 answer1"], 
-				["student 1 answer2", "student 2 answer2", "student 3 answer2"], 
-				["student 1 answer3", "student 2 answer3", "student 3 answer3"]
-			]
 
-		 	var answerSet = result;
-		 	console.log(answerSet);
-		 	var activityExists = responses.find({aID: "xxx"}).count();
-		 	//var activityExists = teacherModules.find({code : moduleCode}).count();
-		 	console.log(activityExists);
-			/*
-		 	if (activityExists > 0){
-		 		console.log('true');
-		 	} else { console.log('false');}
-		 	*/
+		 	if(result.numberOfQuestions>0){ 
+		 		var activityExists = responses.find({code : moduleCode}).count();
+			 	var answerSet = result;
+			 	console.log(activityExists);
 
-		 	var activityExists = responses.find({code : moduleCode}).count();
-		 	var answerSet = result;
-		 	console.log(activityExists);
-
-		 	if(activityExists>0) {
-		 		responses.update({
-			    	aID : aId,
-			    },{
-			    	$set: {
+			 	if(activityExists>0) {
+			 		responses.update({
+				    	aID : aId,
+				    },{
+				    	$set: {
+					    	numberOfQuestions: answerSet.numberOfQuestions,
+				    		student: answerSet.studentList, 
+					      	answers: answerSet.questionSet
+				      	}
+			    	});
+			 	} else {
+			 		responses.insert({
+				    	aID : aId,
 				    	numberOfQuestions: answerSet.numberOfQuestions,
-			    		student: answerSet.studentList, 
-				      	answers: answerSet.questionSet
-			      	}
-		    	});
-		 	} else {
-		 		responses.insert({
-			    	aID : aId,
-			    	numberOfQuestions: answerSet.numberOfQuestions,
-			    	student: answerSet.studentList, 
-				    answers: answerSet.questionSet
-		    	});
-			}
-	//	});
-		
-	//getCollabAnswers 
-			var sectionsFind = SectionsDB.findOne({name :Session.get('aID')}, function (err, sections){ 
-				if(err){
-					console.log("error found");
-				} else {
-					console.log(sections);
-
-			
-					console.log("cleared sections.length");
-					var sectionDB_id = sections._id;
-					
-					Meteor.call('getStudentsCollabAnswers', code, teacherID, sectionDB_id, function(err, result){
-					    	console.log('entered collab answers');
-						 	var answerSet = result;
-						 	var activityExists = groupresponses.find({aID: aId}).count();
-						 	var this_id = groupresponses.findOne({aID: aId})._id
-						 	console.log(result);
-						 	console.log(answerSet);
-						 	console.log(answerSet.data.numberOfQuestions);
-						 	console.log(answerSet.data.studentList);
-						 	console.log(answerSet.data.questionSet);
-
-						 	if(activityExists>0) {
-						 		groupresponses.update({
-							    	_id : this_id,
-							    },{
-							    	$set: {
-								    	numberOfQuestions: answerSet.data.numberOfQuestions,
-							    		student: answerSet.data.studentList, 
-								      	answers: answerSet.data.questionSet
-							      	}
-						    	});
-
-						 	} else {
-						 		groupresponses.insert({
-							    	aID : aId,
-							    	numberOfQuestions: answerSet.data.numberOfQuestions,
-						    		student: answerSet.data.studentList, 
-							      	answers: answerSet.data.questionSet
-						    	});
-							}
-			    
-					});	
+				    	student: answerSet.studentList, 
+					    answers: answerSet.questionSet
+			    	});
 				}
-			});
-
-			Router.go('/responses');
+		 	}
+		 	
 		});
+		
+		//getCollabAnswers
+		var sectionDB_id = SectionsDB.findOne({name :Session.get('aID')})._id;
+
+		if(sectionDB_id.length>0){
+		
+			Meteor.call('getStudentsCollabAnswers', code, teacherID, sectionDB_id, function(err, result){
+				var answerSet = result;
+				var activityExists = groupresponses.find({aID: aId}).count();
+
+				if(activityExists>0) {
+					var this_id = groupresponses.findOne({aID: aId})._id
+					groupresponses.update({
+				    	_id : this_id,
+					},{
+						$set: {
+							numberOfQuestions: answerSet.numberOfQuestions,
+							student: answerSet.studentList, 
+						   	answers: answerSet.questionSet
+					   	}
+					});
+				} else {
+					groupresponses.insert({
+				    	aID : aId,
+						numberOfQuestions: answerSet.numberOfQuestions,
+			    		student: answerSet.studentList, 
+						answers: answerSet.questionSet
+			    	});
+			    }
+			});
+		}	
+
+		Router.go('/responses');
 	},
 
 });

@@ -812,91 +812,6 @@
 			}
 			return returnObject;
 		},
-		/*
-		getStudentsQuestions: function(code, notebook_id, sectionName, pageName, cUser) {
-			console.log(notebook_id + " " + sectionName);
-			var sections = SectionsDB.find({notebook_id: notebook_id, name: sectionName}).fetch();
-			var tempStud = [];
-			sections.forEach(function(section) {
-				Meteor.call('API_getNoteBookSectionPages', code, section.self, pageName, function(err, result) {
-					if (result["statusCode"] == 200) {
-						var values = EJSON.parse(result["content"])["value"];
-						for (i = 0; i < values.length; i++) {
-							var id = values[i]["id"];
-							var title = values[i]["title"];
-							var self = values[i]["self"];
-							var page = PagesDB.find({rawId: id}).fetch();
-
-							var stud = {};
-
-							if (page.length == 0) {
-								stud.pageId = PagesDB.insert({
-									rawId: id,
-									title: title,
-									self: self,
-									notebook_id: section.notebook_id,
-									sectionGrp_id: section.sectionGrp_id,
-									section_id: section.rawId
-								});
-							} else {
-								stud.pageId = page[0]._id;
-							}
-							stud.parentId = section.sectionGrp_id;
-							tempStud.push(stud);
-						}
-					}
-				});
-
-			});
-
-			//process the links returned
-			for (i = 0; i < tempStud.length; i++) {
-				console.log(tempStud[i].pageId);
-				var page = PagesDB.find({_id: tempStud[i].pageId}).fetch();
-				if (page.length > 0) {
-					Meteor.call('API_getNoteBookSectionPageContent', code, page[0]["self"], function(err, result) {
-						if (result["statusCode"] == 200) {
-							var contentIn = result["content"];
-							var questions = parseContent(contentIn);
-							tempStud[i].questions = questions;
-						}
-					});
-				}
-			}
-
-			//process the tempStud
-			var masterQuestion = {};
-			var studList = [];
-			var numOfQuestions = 0;
-			var questionSet = [];
-
-			if (tempStud.length > 0) {
-				numOfQuestions = tempStud[0].questions.length - 1;
-			}
-
-			for (i = 0; i < tempStud.length; i++) {
-				var s = SectionsGrpDB.find({_id: tempStud[i].parentId}).fetch();
-				if (s.length > 0) {
-					studList.push(s[0].name);
-				}
-			}
-
-			for (q = 1; q < numOfQuestions + 1; q++) {
-				var questionHolder = [];
-				for (i = 0; i < tempStud.length; i++) {
-					questionHolder.push(tempStud[i].questions[q]);
-				}
-				questionSet.push(questionHolder);
-			}
-
-			masterQuestion.numberOfQuestions = numOfQuestions;
-			masterQuestion.studentList = studList;
-			masterQuestion.questionSet = questionSet;
-
-			console.log(masterQuestion);
-			return masterQuestion;
-		},
-		*/
 		getStudentsCollabAnswers(code, cUser, sectionDB_id){
 			console.log("hi");
 
@@ -973,10 +888,11 @@
 			masterQuestion.studentList = studList;
 			masterQuestion.questionSet = questionSet;
 
-			//console.log(masterQuestion);
-
+			/*
 			returnObject.setData(masterQuestion);
 			return returnObject;
+			*/
+			return masterQuestion;
 
 		}
 	});
